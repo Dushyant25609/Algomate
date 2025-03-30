@@ -10,6 +10,9 @@ export const copyToClipboard = (text: string) => {
 };
 
 export const Question2PieChartValues = (questions: Questions) => {
+  if (!questions) {
+    return [];
+  }
   return [
     { label: 'Easy', value: questions.easy, color: questionColorsEnum.easy },
     { label: 'Medium', value: questions.medium, color: questionColorsEnum.medium },
@@ -44,6 +47,9 @@ export const Question2LineChartValues = (contest?: contestRating[]) => {
 };
 
 export const PlatformContestData = (code: Code) => {
+  if (!code.leetcode?.contest || !code.leetcode.contest.userContestRanking) {
+    return [];
+  }
   const leetcode = code.leetcode?.contest?.userContestRanking || {};
   return [
     {

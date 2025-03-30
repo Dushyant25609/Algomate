@@ -64,42 +64,39 @@ const Dashboard: FC = () => {
           publicAvatar={profile?.avatar}
           country={profile?.code?.leetcode?.profile?.profile?.countryName}
         />
-        {profile?.code?.questions && (
-          <div className="w-full flex flex-col gap-2 items-center h-full">
-            <div className="flex gap-3 w-full flex-col justify-center lg:flex-row-reverse">
-              <PlatformContest platform={profile.code ? PlatformContestData(profile?.code) : []} />
-              <div className="flex flex-col justify-stretch gap-3 w-full h-full">
-                <Line
-                  className=""
-                  ChartValues={Question2LineChartValues(
-                    profile?.code?.leetcode?.contest?.userContestRankingHistory
-                  )}
-                  globalRanking={
-                    profile?.code?.leetcode?.contest?.userContestRanking?.globalRanking || 0
-                  }
-                  totalParticipants={
-                    profile?.code?.leetcode?.contest?.userContestRanking?.totalParticipants || 0
-                  }
-                  rating={
-                    Math.round(profile?.code?.leetcode?.contest?.userContestRanking?.rating || 0) ||
-                    0
-                  }
-                  attended={
-                    profile?.code?.leetcode?.contest?.userContestRanking?.attendedContestsCount || 0
-                  }
-                />
-              </div>
+        <div className="w-full flex flex-col gap-2 items-center h-full">
+          <div className="flex gap-3 w-full flex-col justify-center lg:flex-row-reverse">
+            <PlatformContest platform={profile.code ? PlatformContestData(profile?.code) : []} />
+            <div className="flex flex-col justify-stretch gap-3 w-full h-full">
+              <Line
+                className=""
+                ChartValues={Question2LineChartValues(
+                  profile?.code?.leetcode?.contest?.userContestRankingHistory
+                )}
+                globalRanking={
+                  profile?.code?.leetcode?.contest?.userContestRanking?.globalRanking || 0
+                }
+                totalParticipants={
+                  profile?.code?.leetcode?.contest?.userContestRanking?.totalParticipants || 0
+                }
+                rating={
+                  Math.round(profile?.code?.leetcode?.contest?.userContestRanking?.rating || 0) || 0
+                }
+                attended={
+                  profile?.code?.leetcode?.contest?.userContestRanking?.attendedContestsCount || 0
+                }
+              />
             </div>
-            <QuestionPieChart
-              QuestionsChartValues={
-                profile?.code ? Question2PieChartValues(profile?.code.questions) : []
-              }
-              PlatformChartValues={Platform2PieChartValues(profile?.code)}
-              COLORS={questionColors}
-              className="w-full"
-            />
           </div>
-        )}
+          <QuestionPieChart
+            QuestionsChartValues={
+              profile?.code ? Question2PieChartValues(profile?.code.questions) : []
+            }
+            PlatformChartValues={profile?.code ? Platform2PieChartValues(profile?.code) : []}
+            COLORS={questionColors}
+            className="w-full"
+          />
+        </div>
       </div>
       <div className="flex flex-col-reverse md:flex-row gap-3">
         <SubmissionHeatmap

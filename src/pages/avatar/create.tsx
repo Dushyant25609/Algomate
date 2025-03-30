@@ -9,6 +9,7 @@ import { AccessoryType, FaceType, FacialHairType, HairType } from 'react-peeps';
 import { useAppDispatch } from '@/store';
 import { AvatarAction } from '@/store/slices/avatarSlice';
 import { Shuffle } from 'lucide-react';
+import { toast } from 'sonner';
 
 const CreateAvatar: React.FC = () => {
   const navigate = useNavigate();
@@ -29,9 +30,10 @@ const CreateAvatar: React.FC = () => {
   const handleSave = async () => {
     try {
       dispatch(AvatarAction(avatarConfig));
-      navigate('/profile');
-    } catch (error) {
-      console.error('Failed to save avatar:', error);
+      navigate('/');
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    } catch (_error) {
+      toast.error('Failed to save avatar');
     }
   };
 

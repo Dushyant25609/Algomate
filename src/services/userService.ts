@@ -68,7 +68,7 @@ const userService = {
   // Accept a friend request
   acceptFriendRequest: async (username: string): Promise<void> => {
     try {
-      await api.post('/pvt/friends/handle-request', { username, action: 'accept' });
+      await api.post('/pvt/friend/handle-request', { username, action: 'accept' });
     } catch (error) {
       throw error as UserServiceError;
     }
@@ -76,7 +76,7 @@ const userService = {
   // Reject a friend request
   rejectFriendRequest: async (username: string): Promise<void> => {
     try {
-      await api.post('/pvt/friends/reject', { username, action: 'reject' });
+      await api.post('/pvt/friend/handle-request', { username, action: 'reject' });
     } catch (error) {
       throw error as UserServiceError;
     }
@@ -84,7 +84,7 @@ const userService = {
   // Remove a friend
   removeFriend: async (username: string): Promise<void> => {
     try {
-      await api.post(`/pvt/friends/remove`, { username });
+      await api.post(`/pvt/friend/remove`, { username });
     } catch (error) {
       throw error as UserServiceError;
     }

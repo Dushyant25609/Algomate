@@ -23,7 +23,6 @@ function* createAvatarSaga(action: PayloadAction<AvatarConfig>): Generator {
     yield put(createAvatarRequest());
     const response = yield call(avatarService.createAvatar, action.payload);
     yield put(createAvatarSuccess(response));
-    window.location.href = '/';
   } catch (error) {
     yield put(
       createAvatarFailure(error instanceof Error ? error.message : 'Failed to create avatar')
@@ -59,5 +58,5 @@ function* updateAvatarSaga(action: PayloadAction<AvatarConfig>): Generator {
 export function* avatarSaga() {
   yield takeLatest(AvatarAction().type, createAvatarSaga);
   yield takeLatest(getAvatarRequest.type, getAvatarSaga);
-  yield takeLatest(updateAvatarRequest.type, updateAvatarSaga);
+  yield takeLatest(updateAvatarRequest().type, updateAvatarSaga);
 }

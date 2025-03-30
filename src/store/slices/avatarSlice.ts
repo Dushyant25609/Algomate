@@ -59,12 +59,6 @@ export const avatarSlice = createSlice({
       state.loading = false;
       state.error = action.payload;
     },
-
-    // Action to update avatar
-    updateAvatarRequest: state => {
-      state.loading = true;
-      state.error = null;
-    },
     updateAvatarSuccess: (state, action: PayloadAction<AvatarConfig>) => {
       state.avatarConfig = action.payload;
       state.loading = false;
@@ -91,7 +85,6 @@ export const {
   getAvatarRequest,
   getAvatarSuccess,
   getAvatarFailure,
-  updateAvatarRequest,
   updateAvatarSuccess,
   updateAvatarFailure,
   clearAvatar,
@@ -99,6 +92,11 @@ export const {
 
 export const AvatarAction = (avatar?: AvatarConfig) => ({
   type: 'avatar_loading',
+  payload: avatar,
+});
+
+export const updateAvatarRequest = (avatar?: AvatarConfig) => ({
+  type: 'updateAvatarRequest',
   payload: avatar,
 });
 

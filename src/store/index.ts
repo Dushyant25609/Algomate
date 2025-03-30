@@ -6,6 +6,8 @@ import rootSaga from './sagas';
 import avatarReducer from './slices/avatarSlice';
 import profileReducer from './slices/profileSlices';
 import platformReducer from './slices/platformSlice';
+import countryReducer from './slices/countrySlice';
+import leaderboardReducer from './slices/leaderboardSlice';
 // Create the saga middleware
 const sagaMiddleware = createSagaMiddleware();
 
@@ -16,6 +18,8 @@ export const store = configureStore({
     avatar: avatarReducer,
     profile: profileReducer,
     platform: platformReducer,
+    country: countryReducer,
+    leaderboard: leaderboardReducer,
   },
   middleware: getDefaultMiddleware => getDefaultMiddleware().concat(sagaMiddleware),
 });

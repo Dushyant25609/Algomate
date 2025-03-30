@@ -6,7 +6,6 @@ import { logout as profileLogout } from '../slices/profileSlices';
 
 export function* GoogleSaga(): Generator<CallEffect<void> | PutEffect, void, void> {
   try {
-    yield put(setLoading());
     yield call(authService.googleAuth);
     localStorage.setItem('cookie', 'true');
   } catch (error) {
@@ -17,7 +16,6 @@ export function* GoogleSaga(): Generator<CallEffect<void> | PutEffect, void, voi
 
 export function* GithubSaga(): Generator<CallEffect<void> | PutEffect, void, void> {
   try {
-    yield put(setLoading());
     yield call(authService.githubAuth);
     localStorage.setItem('cookie', 'true');
   } catch (error) {

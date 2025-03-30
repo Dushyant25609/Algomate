@@ -86,7 +86,7 @@ const NotificationDropdown: FC<NotificationDropdownProps> = ({ pendingRequests, 
                         className="h-7 px-2"
                         onClick={() => handleAcceptRequest(request.username)}
                       >
-                        <Check className="h-3 w-3 mr-1" /> Accept
+                        <Check className="h-3 w-3 mr-1" />
                       </Button>
                       <Button
                         variant="destructive"
@@ -94,7 +94,7 @@ const NotificationDropdown: FC<NotificationDropdownProps> = ({ pendingRequests, 
                         className="h-7 px-2"
                         onClick={() => handleRejectRequest(request.username)}
                       >
-                        <X className="h-3 w-3 mr-1" /> Reject
+                        <X className="h-3 w-3 mr-1" />
                       </Button>
                     </div>
                   </div>

@@ -11,7 +11,7 @@ import {
   PlatformVerifyAction,
   clearVerification,
 } from '@/store/slices/platformSlice';
-import { Edit, CheckCircle, Trash2, X, PlusCircle } from 'lucide-react';
+import { Edit, CheckCircle, Trash2, X, PlusCircle, Github } from 'lucide-react';
 import { Loader } from '@/components/ui/loader';
 import { toast } from 'sonner';
 import VerificationDialog from '@/components/ui/verification-dialog';
@@ -120,6 +120,10 @@ export const PlatformTab: FC<PlatformTabProps> = ({ user }) => {
     // This is handled in the useEffect below
   };
 
+  const handleGithubAuth = () => {
+    dispatch({ type: 'auth/github' });
+  };
+
   // Listen for changes in the verification state
   useEffect(() => {
     // When loading becomes false after a verification attempt and there's no error
@@ -175,6 +179,15 @@ export const PlatformTab: FC<PlatformTabProps> = ({ user }) => {
           />
 
           <div className="space-y-5">
+            <Button
+              variant="outline"
+              size="lg"
+              onClick={handleGithubAuth}
+              className="w-full md:w-fit flex items-center justify-center gap-3 hover:bg-accent/30 hover:border-primary/30 transition-all duration-200"
+            >
+              <Github className="w-5 h-5" />
+              GitHub
+            </Button>
             {/* LeetCode Platform */}
             <div className="space-y-2">
               <label className="text-sm font-medium flex items-center gap-2">

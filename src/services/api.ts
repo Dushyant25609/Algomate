@@ -8,7 +8,7 @@ export interface ApiErrorResponse {
 }
 
 // Base API configuration
-const API_BASE_URL = 'https://lbp-ligv.onrender.com/api/v1';
+const API_BASE_URL = 'https://algomate-2vxa.onrender.com/api/v1';
 
 // Create axios instance with default config
 const api: AxiosInstance = axios.create({
