@@ -3,7 +3,6 @@ import { useAppSelector } from '@/store';
 import { FC, lazy, memo, Suspense, useMemo } from 'react';
 import { Loader } from '@/components/ui/loader';
 import { AvatarConfig, AvatarConfig2 } from '@/interface/avatar';
-import { useNavigate } from 'react-router-dom';
 import { cn } from '@/lib/utils';
 
 // Lazy load the Peep component to improve initial load time
@@ -13,24 +12,16 @@ interface UserAvatarProps {
   classname?: string;
   roundness?: string;
   onClick?: () => void;
-  route?: string;
   publicAvatar?: AvatarConfig | AvatarConfig2;
 }
 
-const UserAvatar: FC<UserAvatarProps> = ({
-  classname,
-  roundness,
-  onClick,
-  route,
-  publicAvatar,
-}) => {
+const UserAvatar: FC<UserAvatarProps> = ({ classname, roundness, onClick, publicAvatar }) => {
   // Memoize the selector to prevent unnecessary re-renders
   let avatar = useAppSelector(state => state.avatar?.avatarConfig) as AvatarConfig2;
   if (publicAvatar) {
     avatar = publicAvatar as AvatarConfig2;
   }
   const loading = useAppSelector(state => state.avatar?.loading);
-  const navigate = useNavigate();
   roundness = roundness || 'rounded-full';
   // Memoize the background style calculation to prevent recalculation on each render
   const backgroundStyle = useMemo(() => {
@@ -45,7 +36,6 @@ const UserAvatar: FC<UserAvatarProps> = ({
       className={cn('overflow-visible', classname)}
       onClick={() => {
         onClick?.();
-        navigate(`/dashboard/${route}`);
       }}
     >
       <div className="relative w-full h-full flex justify-center items-center">

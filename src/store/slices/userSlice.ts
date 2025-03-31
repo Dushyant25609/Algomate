@@ -40,6 +40,12 @@ const initialState: UserState = {
     user: [],
     avatar: [],
   },
+  college: '',
+  country: '',
+  branch: '',
+  degree: '',
+  graduation: '',
+  bio: '',
   searchError: null,
 };
 

@@ -4,7 +4,7 @@ import {
   fetchLeaderboardRequest,
   fetchFilteredLeaderboardRequest,
 } from '@/store/slices/leaderboardSlice';
-import { Card, CardContent } from '@/components/ui/card';
+import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import {
   Select,
@@ -105,25 +105,21 @@ const LeaderboardPage: FC = () => {
       </div>
 
       {/* Filters and Search */}
-      <Card className="shadow-md">
-        <CardContent className="p-4 sm:p-6">
-          <div className="flex gap-2 w-full sm:w-auto">
-            <div className="flex-1 sm:flex-initial">
-              <Select value={sortBy} onValueChange={handleSortByChange}>
-                <SelectTrigger className="w-full">
-                  <Filter className="mr-2 h-4 w-4" />
-                  <SelectValue placeholder="Filter by" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="questions">Questions</SelectItem>
-                  <SelectItem value="rating">Rating</SelectItem>
-                  <SelectItem value="ranking">Ranking</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
+      <div className="flex gap-2 w-full sm:w-auto">
+        <div className="flex-1 sm:flex-initial">
+          <Select value={sortBy} onValueChange={handleSortByChange}>
+            <SelectTrigger className="w-full">
+              <Filter className="mr-2 h-4 w-4" />
+              <SelectValue placeholder="Filter by" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="questions">Questions</SelectItem>
+              <SelectItem value="rating">Rating</SelectItem>
+              <SelectItem value="ranking">Ranking</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+      </div>
 
       {/* Leaderboard Table */}
       <Card className="shadow-md overflow-hidden">
@@ -158,10 +154,10 @@ const LeaderboardPage: FC = () => {
                   <th className="px-4 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">
                     User
                   </th>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">
+                  <th className="px-4 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider hidden lg:table-cell">
                     Rating
                   </th>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider hidden md:table-cell">
+                  <th className="px-4 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider hidden lg:table-cell">
                     Problems Solved
                   </th>
                   <th className="px-4 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider hidden lg:table-cell">
@@ -199,7 +195,7 @@ const LeaderboardPage: FC = () => {
                       </div>
                     </td>
                     <td className="px-4 py-4 whitespace-nowrap">
-                      <div className="flex items-center">
+                      <div className="flex items-center flex-wrap">
                         <div className="flex-shrink-0 h-10 w-10">
                           <UserAvatar classname="h-10 w-10" />
                         </div>
@@ -208,12 +204,12 @@ const LeaderboardPage: FC = () => {
                         </div>
                       </div>
                     </td>
-                    <td className="px-4 py-4 whitespace-nowrap">
+                    <td className="px-4 py-4 whitespace-nowrap hidden lg:table-cell">
                       <div className="text-sm font-bold text-primary">
                         {entry.leetcode?.contest.userContestRanking.rating}
                       </div>
                     </td>
-                    <td className="px-4 py-4 whitespace-nowrap hidden md:table-cell">
+                    <td className="px-4 py-4 whitespace-nowrap hidden lg:table-cell">
                       <div className="text-sm">{entry.questions?.total || 'N/A'}</div>
                     </td>
                     <td className="px-4 py-4 whitespace-nowrap hidden lg:table-cell">

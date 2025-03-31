@@ -13,6 +13,12 @@ export interface User {
   platforms: Platform;
   social: Social;
   friends: Friend;
+  college?: string;
+  country?: string;
+  branch?: string;
+  degree?: string;
+  graduation?: string;
+  bio?: string;
 }
 
 export interface UserUpdate {
@@ -20,6 +26,12 @@ export interface UserUpdate {
   email?: string;
   platforms?: Platform;
   social?: Social;
+  college?: string;
+  country?: string;
+  branch?: string;
+  degree?: string;
+  graduation?: string;
+  bio?: string;
 }
 
 export interface SearchUserResponse {

@@ -3,8 +3,8 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Code, User as UserIcon, Settings as SettingsIcon, Image } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { PlatformTab } from '@/components/layout/settings/platform';
-import { BasicInfoTab } from '@/components/layout/settings/basic-info';
-import { SocialsTab } from '@/components/layout/settings/social';
+import BasicInfoTab from '@/components/layout/settings/basic-info';
+import SocialsTab from '@/components/layout/settings/social';
 import { AvatarTab } from '@/components/layout/settings/avatar';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
@@ -17,6 +17,7 @@ import {
 import { useAppDispatch, useAppSelector } from '@/store';
 import { fetchCountriesRequest } from '@/store/slices/countrySlice';
 import { User } from '@/interface/user';
+import { UpdateUserAction } from '@/store/slices/userSlice';
 
 type SettingsTab = 'basic' | 'socials' | 'platform' | 'avatar';
 
@@ -25,6 +26,9 @@ const SettingsPage: FC = () => {
   const dispatch = useAppDispatch();
   const user = useAppSelector(state => state.user) as User;
   const country = useAppSelector(state => state.country.countries);
+  const handleSubmit = (values: Partial<User>) => {
+    dispatch(UpdateUserAction(values));
+  };
 
   useEffect(() => {
     if (!country.length) {
@@ -141,7 +145,7 @@ const SettingsPage: FC = () => {
               variants={tabContentVariants}
               className="p-1"
             >
-              <BasicInfoTab country={country} user={user} />
+              <BasicInfoTab onSubmit={handleSubmit} country={country} user={user} />
             </motion.div>
           )}
           {activeTab === 'socials' && (
@@ -153,7 +157,7 @@ const SettingsPage: FC = () => {
               variants={tabContentVariants}
               className="p-1"
             >
-              <SocialsTab user={user} />
+              <SocialsTab onSubmit={handleSubmit} user={user} />
             </motion.div>
           )}
           {activeTab === 'platform' && (
