@@ -6,7 +6,6 @@ import {
 } from '@/store/slices/leaderboardSlice';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import {
   Select,
   SelectContent,
@@ -14,10 +13,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { Trophy, Medal, Search, Filter, ArrowUpDown, Loader2 } from 'lucide-react';
+import { Trophy, Medal, Filter, Loader2 } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
 import UserAvatar from '@/components/ui/avatar/user-avatar';
+import { LeaderboardSortBy } from '@/interface/leaderboard';
 
 const LeaderboardPage: FC = () => {
   const dispatch = useAppDispatch();
@@ -28,9 +28,7 @@ const LeaderboardPage: FC = () => {
     error,
   } = useAppSelector(state => state.leaderboard);
   const currentUser = useAppSelector(state => state.user);
-  const [searchQuery, setSearchQuery] = useState('');
-  const [platform, setPlatform] = useState<string>('all');
-  const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc');
+  const [sortBy, setSortBy] = useState<LeaderboardSortBy>('questions');
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
 
@@ -59,63 +57,22 @@ const LeaderboardPage: FC = () => {
   }, [dispatch]);
 
   // Handle platform filter change
-  const handlePlatformChange = (value: string) => {
-    setPlatform(value);
+  const handleSortByChange = (value: LeaderboardSortBy) => {
+    setSortBy(value);
     setCurrentPage(1);
-    if (value === 'all') {
+    if (value === 'questions') {
       dispatch(fetchLeaderboardRequest());
     } else {
-      dispatch(fetchFilteredLeaderboardRequest());
+      dispatch(
+        fetchFilteredLeaderboardRequest({
+          sortBy: value,
+        })
+      );
     }
   };
-
-  // Handle search
-  const handleSearch = () => {
-    // In a real implementation, you might want to add search functionality to the API
-    // For now, we'll just filter the data client-side
-    dispatch(fetchLeaderboardRequest());
-  };
-
-  // Handle sort order change
-  const toggleSortOrder = () => {
-    const newOrder = sortOrder === 'asc' ? 'desc' : 'asc';
-    setSortOrder(newOrder);
-  };
-
-  // Add rank and name properties to entries if they don't exist
-  const processedData = leaderboardData.map((entry, index) => ({
-    ...entry,
-    rank: index + 1, // Always use index+1 as the rank
-    name: entry.username,
-    score: entry.leetcode?.contest?.userContestRanking?.rating || 0,
-    problemsSolved: entry.questions?.total || 0,
-    contestsParticipated: entry.leetcode?.contest?.userContestRanking?.attendedContestsCount || 0,
-  }));
-
-  // Sort the data based on the current sort order
-  const sortedData = [...processedData].sort((a, b) => {
-    if (sortOrder === 'asc') {
-      return a.score - b.score;
-    } else {
-      return b.score - a.score;
-    }
-  });
-
-  // Re-assign ranks after sorting
-  sortedData.forEach((entry, index) => {
-    entry.rank = index + 1;
-  });
-
-  // Filter data based on search query (client-side filtering)
-  const filteredData = sortedData.filter(
-    entry =>
-      entry.username.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      (entry.name && entry.name.toLowerCase().includes(searchQuery.toLowerCase()))
-  );
 
   // Pagination - using the pagination data from the API response
   const totalPages = pagination.totalPages;
-  const paginatedData = filteredData; // Data is already paginated from the API
 
   // Handle page change
   const handlePageChange = (page: number) => {
@@ -150,50 +107,19 @@ const LeaderboardPage: FC = () => {
       {/* Filters and Search */}
       <Card className="shadow-md">
         <CardContent className="p-4 sm:p-6">
-          <div className="flex flex-col sm:flex-row gap-4 items-center justify-between">
-            <div className="flex flex-1 w-full sm:w-auto gap-2">
-              <div className="relative flex-1">
-                <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-                <Input
-                  type="text"
-                  placeholder="Search by username or name"
-                  className="pl-8"
-                  value={searchQuery}
-                  onChange={e => setSearchQuery(e.target.value)}
-                  onKeyDown={e => e.key === 'Enter' && handleSearch()}
-                />
-              </div>
-              <Button variant="default" onClick={handleSearch}>
-                Search
-              </Button>
-            </div>
-
-            <div className="flex gap-2 w-full sm:w-auto">
-              <div className="flex-1 sm:flex-initial">
-                <Select value={platform} onValueChange={handlePlatformChange}>
-                  <SelectTrigger className="w-full sm:w-[180px]">
-                    <Filter className="mr-2 h-4 w-4" />
-                    <SelectValue placeholder="Filter by platform" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="all">All Platforms</SelectItem>
-                    <SelectItem value="leetcode">LeetCode</SelectItem>
-                    <SelectItem value="codeforces">CodeForces</SelectItem>
-                    <SelectItem value="codechef">CodeChef</SelectItem>
-                    <SelectItem value="gfg">GeeksForGeeks</SelectItem>
-                    <SelectItem value="codeStudio">CodeStudio</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-
-              <Button
-                variant="outline"
-                onClick={toggleSortOrder}
-                className="flex-1 sm:flex-initial"
-              >
-                <ArrowUpDown className="mr-2 h-4 w-4" />
-                {sortOrder === 'desc' ? 'Highest First' : 'Lowest First'}
-              </Button>
+          <div className="flex gap-2 w-full sm:w-auto">
+            <div className="flex-1 sm:flex-initial">
+              <Select value={sortBy} onValueChange={handleSortByChange}>
+                <SelectTrigger className="w-full">
+                  <Filter className="mr-2 h-4 w-4" />
+                  <SelectValue placeholder="Filter by" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="questions">Questions</SelectItem>
+                  <SelectItem value="rating">Rating</SelectItem>
+                  <SelectItem value="ranking">Ranking</SelectItem>
+                </SelectContent>
+              </Select>
             </div>
           </div>
         </CardContent>
@@ -218,7 +144,7 @@ const LeaderboardPage: FC = () => {
                 Try Again
               </Button>
             </div>
-          ) : paginatedData.length === 0 ? (
+          ) : leaderboardData.length === 0 ? (
             <div className="p-8 text-center text-muted-foreground">
               <p>No results found. Try adjusting your filters.</p>
             </div>
@@ -233,18 +159,18 @@ const LeaderboardPage: FC = () => {
                     User
                   </th>
                   <th className="px-4 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">
-                    Score
+                    Rating
                   </th>
                   <th className="px-4 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider hidden md:table-cell">
                     Problems Solved
                   </th>
                   <th className="px-4 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider hidden lg:table-cell">
-                    Contests
+                    Ranking
                   </th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-border">
-                {paginatedData.map(entry => (
+                {leaderboardData.map((entry, index) => (
                   <tr
                     key={entry.username}
                     className={cn(
@@ -254,20 +180,20 @@ const LeaderboardPage: FC = () => {
                   >
                     <td className="px-4 py-4 whitespace-nowrap">
                       <div className="flex items-center">
-                        {entry.rank <= 3 ? (
+                        {index + 1 <= 3 ? (
                           <Medal
                             className={cn(
                               'h-5 w-5 mr-1',
-                              entry.rank === 1
+                              index + 1 === 1
                                 ? 'text-yellow-500'
-                                : entry.rank === 2
+                                : index + 1 === 2
                                   ? 'text-gray-400'
                                   : 'text-amber-600'
                             )}
                           />
                         ) : (
                           <span className="text-sm font-medium w-5 mr-1 text-center">
-                            {entry.rank}
+                            {index + 1}
                           </span>
                         )}
                       </div>
@@ -278,19 +204,22 @@ const LeaderboardPage: FC = () => {
                           <UserAvatar classname="h-10 w-10" />
                         </div>
                         <div className="ml-4">
-                          <div className="text-sm font-medium">{entry.name}</div>
-                          <div className="text-sm text-muted-foreground">@{entry.username}</div>
+                          <div className="text-sm font-medium">{entry.username}</div>
                         </div>
                       </div>
                     </td>
                     <td className="px-4 py-4 whitespace-nowrap">
-                      <div className="text-sm font-bold text-primary">{entry.score}</div>
+                      <div className="text-sm font-bold text-primary">
+                        {entry.leetcode?.contest.userContestRanking.rating}
+                      </div>
                     </td>
                     <td className="px-4 py-4 whitespace-nowrap hidden md:table-cell">
-                      <div className="text-sm">{entry.problemsSolved || 'N/A'}</div>
+                      <div className="text-sm">{entry.questions?.total || 'N/A'}</div>
                     </td>
                     <td className="px-4 py-4 whitespace-nowrap hidden lg:table-cell">
-                      <div className="text-sm">{entry.contestsParticipated || 'N/A'}</div>
+                      <div className="text-sm">
+                        {entry.leetcode?.profile.profile.ranking || 'N/A'}
+                      </div>
                     </td>
                   </tr>
                 ))}
@@ -324,9 +253,9 @@ const LeaderboardPage: FC = () => {
                   Showing{' '}
                   <span className="font-medium">{(currentPage - 1) * itemsPerPage + 1}</span> to{' '}
                   <span className="font-medium">
-                    {Math.min(currentPage * itemsPerPage, filteredData.length)}
+                    {Math.min(currentPage * itemsPerPage, leaderboardData.length)}
                   </span>{' '}
-                  of <span className="font-medium">{filteredData.length}</span> results
+                  of <span className="font-medium">{leaderboardData.length}</span> results
                 </p>
               </div>
               <div>

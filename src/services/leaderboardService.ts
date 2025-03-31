@@ -9,17 +9,10 @@ export interface LeaderboardServiceError {
 }
 
 const leaderboardService = {
-  // Get leaderboard data with default parameters
+  // Get leaderboard data
   getLeaderboard: async (): Promise<LeaderboardResponse> => {
     try {
-      // Use default parameters
-      const defaultParams: LeaderboardRequest = {
-        sortBy: 'questions',
-        page: 1,
-        limit: 10,
-      };
-
-      const response = await api.post<LeaderboardResponse>('/pvt/leaderboard', defaultParams);
+      const response = await api.post<LeaderboardResponse>('/pvt/leaderboard');
       return response.data;
     } catch (error) {
       // The API interceptor will format this error with status and message
@@ -27,19 +20,27 @@ const leaderboardService = {
     }
   },
 
-  // Get filtered leaderboard data with custom parameters
-  getFilteredLeaderboard: async (
-    params: Partial<LeaderboardRequest>
-  ): Promise<LeaderboardResponse> => {
+  // Get filtered leaderboard data (optional parameters for future expansion)
+  getFilteredLeaderboard: async (params?: LeaderboardRequest): Promise<LeaderboardResponse> => {
     try {
-      // Set default values if not provided
-      const requestBody: LeaderboardRequest = {
-        sortBy: params.sortBy || 'questions',
-        page: params.page || 1,
-        limit: params.limit || 10,
-      };
+      const queryParams = new URLSearchParams();
 
-      const response = await api.post<LeaderboardResponse>('/leaderboard', requestBody);
+      if (params?.limit) {
+        queryParams.append('limit', params.limit.toString());
+      }
+
+      if (params?.page) {
+        queryParams.append('page', params.page.toString());
+      }
+
+      if (params?.sortBy) {
+        queryParams.append('sortBy', params.sortBy);
+      }
+
+      const queryString = queryParams.toString();
+      const url = `/pvt/leaderboard${queryString ? `?${queryString}` : ''}`;
+
+      const response = await api.post<LeaderboardResponse>(url);
       return response.data;
     } catch (error) {
       // The API interceptor will format this error with status and message

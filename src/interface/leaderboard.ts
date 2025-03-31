@@ -26,8 +26,10 @@ export interface LeaderboardResponse {
 /**
  * Interface for the leaderboard request parameters
  */
+export type LeaderboardSortBy = 'questions' | 'rating' | 'ranking';
+
 export interface LeaderboardRequest {
-  sortBy?: 'questions' | 'rating' | 'ranking';
+  sortBy?: LeaderboardSortBy;
   page?: number;
   limit?: number;
 }

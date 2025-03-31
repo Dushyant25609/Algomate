@@ -1,4 +1,4 @@
-import { LeaderboardPagination, LeaderboardResponse } from '@/interface/leaderboard';
+import { LeaderboardRequest, LeaderboardResponse } from '@/interface/leaderboard';
 import { call, CallEffect, put, PutEffect, takeLatest } from 'redux-saga/effects';
 import { PayloadAction } from '@reduxjs/toolkit';
 import {
@@ -32,7 +32,7 @@ function* fetchLeaderboardSaga(): Generator<
 
 // Saga for fetching filtered leaderboard data
 function* fetchFilteredLeaderboardSaga(
-  action: PayloadAction<LeaderboardPagination>
+  action: PayloadAction<LeaderboardRequest>
 ): Generator<LeaderboardSagaEffect, void, LeaderboardResponse> {
   try {
     const response: LeaderboardResponse = yield call(
@@ -50,5 +50,5 @@ function* fetchFilteredLeaderboardSaga(
 // Watch for leaderboard actions
 export function* leaderboardSaga() {
   yield takeLatest(fetchLeaderboardRequest.type, fetchLeaderboardSaga);
-  yield takeLatest(fetchFilteredLeaderboardRequest.type, fetchFilteredLeaderboardSaga);
+  yield takeLatest(fetchFilteredLeaderboardRequest().type, fetchFilteredLeaderboardSaga);
 }

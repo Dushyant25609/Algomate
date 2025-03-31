@@ -1,4 +1,8 @@
-import { LeaderboardResponse } from '@/interface/leaderboard';
+import {
+  LeaderboardRequest,
+  LeaderboardResponse,
+  LeaderboardUserProfile,
+} from '@/interface/leaderboard';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 // Define the state interface with additional UI properties
@@ -30,32 +34,34 @@ export const leaderboardSlice = createSlice({
       state.loading = true;
       state.error = null;
     },
-    fetchFilteredLeaderboardRequest: state => {
-      state.loading = true;
-      state.error = null;
-    },
-
     // Success actions
     fetchLeaderboardSuccess: (state, action: PayloadAction<LeaderboardResponse>) => {
       state.loading = false;
       state.data = action.payload.data;
       state.pagination = action.payload.pagination;
     },
-
     // Failure actions
     fetchLeaderboardFailure: (state, action: PayloadAction<string>) => {
       state.loading = false;
       state.error = action.payload;
     },
+    setLeaderboard: (state, action: PayloadAction<LeaderboardUserProfile[]>) => {
+      state.data = action.payload;
+    },
   },
+});
+
+export const fetchFilteredLeaderboardRequest = (params?: LeaderboardRequest) => ({
+  type: 'leaderboard/fetchFilteredLeaderboardRequest',
+  payload: params,
 });
 
 // Export actions
 export const {
   fetchLeaderboardRequest,
-  fetchFilteredLeaderboardRequest,
   fetchLeaderboardSuccess,
   fetchLeaderboardFailure,
+  setLeaderboard,
 } = leaderboardSlice.actions;
 
 // Export reducer
