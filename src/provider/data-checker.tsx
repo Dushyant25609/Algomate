@@ -3,6 +3,7 @@ import { useAppDispatch, useAppSelector } from '@/store';
 import { loginRequest } from '@/store/slices/userSlice';
 import { getAvatarRequest } from '@/store/slices/avatarSlice';
 import { useNavigate } from 'react-router-dom';
+import { AppRoutes } from '@/lib/routes';
 
 interface DataProviderProps {
   children: ReactNode;
@@ -39,7 +40,7 @@ const DataProvider = ({ children }: DataProviderProps) => {
       return;
     }
     if (avatar.create) {
-      navigate('/avatar/create');
+      navigate(AppRoutes.AVATAR_CREATE);
       return;
     }
     dispatch(getAvatarRequest());

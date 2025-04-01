@@ -12,7 +12,7 @@ const leaderboardService = {
   // Get leaderboard data
   getLeaderboard: async (): Promise<LeaderboardResponse> => {
     try {
-      const response = await api.post<LeaderboardResponse>('/pvt/leaderboard');
+      const response = await api.get<LeaderboardResponse>('/pvt/leaderboard');
       return response.data;
     } catch (error) {
       // The API interceptor will format this error with status and message
@@ -40,7 +40,7 @@ const leaderboardService = {
       const queryString = queryParams.toString();
       const url = `/pvt/leaderboard${queryString ? `?${queryString}` : ''}`;
 
-      const response = await api.post<LeaderboardResponse>(url);
+      const response = await api.get<LeaderboardResponse>(url);
       return response.data;
     } catch (error) {
       // The API interceptor will format this error with status and message

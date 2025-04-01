@@ -65,7 +65,7 @@ export function* getProfileSaga(): Generator<AuthSagaEffect, void, Profile> {
     if (error instanceof AxiosError) {
       errorMessage = error.response?.data?.message || error.message || errorMessage;
     }
-    yield put(loginFailure(errorMessage));
+    yield put(profileFailure(errorMessage));
   }
 }
 

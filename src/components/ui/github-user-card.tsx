@@ -29,7 +29,7 @@ const GithubUserCard: FC<GithubUserCardProps> = ({ github }) => {
       <motion.div variants={itemVariants} className="flex items-center gap-2">
         <div>
           <div>
-            <img src={github.avatar_url} alt="" />
+            {github.avatar_url && <img src={github.avatar_url} alt="" />}
             <h1>{github.name}</h1>
           </div>
           <p className="text-muted-foreground text-sm">{github.bio}</p>

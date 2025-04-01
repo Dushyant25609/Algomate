@@ -1,5 +1,4 @@
 import { FC, useState, useEffect } from 'react';
-import { UserProvider, useUserContext } from '@/provider/data-provider';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Search, UserPlus, Check, X, User } from 'lucide-react';
@@ -124,7 +123,7 @@ const UserSearchCard: FC<UserCardProps> = ({
 
 const FriendSearch: FC = () => {
   const [searchQuery, setSearchQuery] = useState('');
-  const user = useUserContext();
+  const user = useAppSelector(state => state.user);
   const dispatch = useAppDispatch();
   const { searchResults, searchError } = useAppSelector(state => state.user);
 
@@ -240,7 +239,7 @@ const FriendSearch: FC = () => {
                         key={result.username}
                         user={result}
                         avatar={searchResults.avatar[index]}
-                        currentUsername={user.username}
+                        currentUsername={user.username || ''}
                         pendingFriends={user?.friends?.pending || []}
                         acceptedFriends={user?.friends?.accepted || []}
                         onSendRequest={handleSendRequest}
@@ -285,7 +284,7 @@ const FriendSearch: FC = () => {
                         user.friends.pending.map((request, index) => (
                           <div
                             key={request.username}
-                            className={`flex items-center justify-between p-4 ${index % 2 === 0 ? 'bg-secondary/10' : 'bg-secondary/30'} hover:bg-secondary/50 transition-colors duration-200 ${index !== user.friends.pending.filter(req => req.type === 'received').length - 1 ? 'border-b border-border/30' : ''}`}
+                            className={`flex items-center justify-between p-4 ${index % 2 === 0 ? 'bg-secondary/10' : 'bg-secondary/30'} hover:bg-secondary/50 transition-colors duration-200 ${index !== (user?.friends?.pending || []).filter(req => req.type === 'received').length - 1 ? 'border-b border-border/30' : ''}`}
                           >
                             <div className="flex items-center gap-3">
                               <div className="bg-primary/20 p-2 rounded-full">
@@ -294,7 +293,7 @@ const FriendSearch: FC = () => {
                               <span className="font-medium">{request.username}</span>
                             </div>
                             <div className="flex gap-2">
-                              {user.friends.pending[index].type == 'received' ? (
+                              {user?.friends?.pending[index].type == 'received' ? (
                                 <>
                                   <Button
                                     variant="outline"
@@ -387,12 +386,4 @@ const FriendSearch: FC = () => {
   );
 };
 
-const FriendSearchPage = () => {
-  return (
-    <UserProvider>
-      <FriendSearch />
-    </UserProvider>
-  );
-};
-
-export default FriendSearchPage;
+export default FriendSearch;

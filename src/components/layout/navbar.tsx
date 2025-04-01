@@ -10,7 +10,6 @@ import { FC, memo, useState } from 'react';
 import { Menu, X, User, Settings, LogOut, Bell } from 'lucide-react';
 import UserAvatar from '../ui/avatar/user-avatar';
 import { useAppSelector, useAppDispatch } from '@/store';
-import { UserProvider, useUserContext } from '@/provider/data-provider';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -20,6 +19,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { logout } from '@/store/slices/userSlice';
 import { useNavigate } from 'react-router-dom';
+import { AppRoutes, generatePath } from '@/lib/routes';
 import NotificationDropdown from '../ui/notification-dropdown';
 
 interface NavbarProps {
@@ -31,8 +31,7 @@ const Navbar: FC<NavbarProps> = ({ items = defaultNavItems }) => {
   const isAuthenticated = useAppSelector(state => state.user.isAuthenticated);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
-  const user = useUserContext();
-  const username = user.username;
+  const user = useAppSelector(state => state.user);
   const pendingRequests = user?.friends?.pending?.filter(req => req.type === 'received') || [];
   const pendingCount = pendingRequests.length;
   const dispatch = useAppDispatch();
@@ -40,7 +39,7 @@ const Navbar: FC<NavbarProps> = ({ items = defaultNavItems }) => {
 
   const handleLogout = () => {
     dispatch(logout());
-    navigate('/');
+    navigate(AppRoutes.HOME);
   };
 
   // Mobile menu animation variants
@@ -58,7 +57,7 @@ const Navbar: FC<NavbarProps> = ({ items = defaultNavItems }) => {
         <div className="h-full flex gap-6 items-center justify-between md:gap-10 px-4">
           <div className="h-full flex gap-6 items-center md:gap-10">
             <NavLink
-              to="/"
+              to={AppRoutes.HOME}
               className={({ isActive }) =>
                 `font-medium text-lg hover:text-primary transition-colors ${isActive ? 'text-foreground' : 'text-foreground/60'}`
               }
@@ -90,7 +89,7 @@ const Navbar: FC<NavbarProps> = ({ items = defaultNavItems }) => {
                 </NavLink>
               ))}
               <div className="flex items-center gap-2">
-                <Button onClick={() => navigate('/friends')} variant="ghost" size="sm">
+                <Button onClick={() => navigate(AppRoutes.FRIENDS)} variant="ghost" size="sm">
                   Add Friend +
                 </Button>
               </div>
@@ -104,15 +103,23 @@ const Navbar: FC<NavbarProps> = ({ items = defaultNavItems }) => {
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
                     <div className="cursor-pointer">
-                      <UserAvatar route={username} />
+                      <UserAvatar />
                     </div>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align="end">
-                    <DropdownMenuItem onClick={() => navigate(`/dashboard/${username}`)}>
+                    <DropdownMenuItem
+                      onClick={() =>
+                        navigate(
+                          generatePath(AppRoutes.DASHBOARD_WITH_PARAM, {
+                            user: user?.username || '',
+                          })
+                        )
+                      }
+                    >
                       <User className="mr-2 h-4 w-4" />
                       Profile
                     </DropdownMenuItem>
-                    <DropdownMenuItem onClick={() => navigate('/settings')}>
+                    <DropdownMenuItem onClick={() => navigate(AppRoutes.SETTINGS)}>
                       <Settings className="mr-2 h-4 w-4" />
                       Settings
                     </DropdownMenuItem>
@@ -162,7 +169,9 @@ const Navbar: FC<NavbarProps> = ({ items = defaultNavItems }) => {
                 </div>
                 <div className="flex flex-col space-y-4">
                   <NavLink
-                    to={'/dashboard/' + username}
+                    to={generatePath(AppRoutes.DASHBOARD_WITH_PARAM, {
+                      user: user?.username || '',
+                    })}
                     className={({ isActive }) =>
                       `text-sm font-medium transition-colors hover:text-primary ${isActive ? 'text-foreground' : 'text-foreground/60'}`
                     }
@@ -183,7 +192,15 @@ const Navbar: FC<NavbarProps> = ({ items = defaultNavItems }) => {
                     </NavLink>
                   ))}
                   <div className="flex items-center gap-2">
-                    <Button variant="ghost" size="sm" className="justify-start px-0">
+                    <Button
+                      onClick={() => {
+                        navigate(AppRoutes.FRIENDS);
+                        toggleMenu();
+                      }}
+                      variant="ghost"
+                      size="sm"
+                      className="justify-start px-0"
+                    >
                       Add Friend +
                     </Button>
                     {isAuthenticated && pendingCount > 0 && (
@@ -197,7 +214,7 @@ const Navbar: FC<NavbarProps> = ({ items = defaultNavItems }) => {
                   </div>
                 </div>
                 <NavLink
-                  to={'/settings/'}
+                  to={AppRoutes.SETTINGS_DETAIL}
                   className={({ isActive }) =>
                     `text-sm flex items-center font-medium transition-colors hover:text-primary ${isActive ? 'text-foreground' : 'text-foreground/60'}`
                   }
@@ -216,12 +233,4 @@ const Navbar: FC<NavbarProps> = ({ items = defaultNavItems }) => {
   );
 };
 
-const dataNavbar = () => {
-  return (
-    <UserProvider>
-      <Navbar />
-    </UserProvider>
-  );
-};
-
-export default memo(dataNavbar);
+export default memo(Navbar);

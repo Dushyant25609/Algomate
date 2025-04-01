@@ -19,6 +19,7 @@ The Redux store is configured in `src/store/index.ts`. It exports:
 Manages user authentication state with the following:
 
 **State Properties:**
+
 - `isAuthenticated`: Boolean indicating if user is logged in
 - `username`: User's name when authenticated
 - `email`: User's email when authenticated
@@ -26,6 +27,7 @@ Manages user authentication state with the following:
 - `error`: Error message if authentication fails
 
 **Actions:**
+
 - `setLoading`: Set the loading state
 - `loginSuccess`: Set user as authenticated with user data
 - `loginFailure`: Handle failed authentication
@@ -42,15 +44,15 @@ import { someAction } from '@/store/slices/someSlice';
 function MyComponent() {
   // Get data from store
   const data = useAppSelector((state) => state.someSlice.someData);
-  
+
   // Get dispatch function
   const dispatch = useAppDispatch();
-  
+
   // Dispatch an action
   const handleSomething = () => {
     dispatch(someAction(payload));
   };
-  
+
   return (
     // Your component JSX
   );
@@ -88,7 +90,9 @@ export const newSlice = createSlice({
   },
 });
 
-export const { /* your actions */ } = newSlice.actions;
+export const {
+  /* your actions */
+} = newSlice.actions;
 export default newSlice.reducer;
 
 // 2. In src/store/index.ts

@@ -6,24 +6,28 @@ import { AuthRoutes } from './Routes/authRoutes';
 import { PublicRoutes } from './Routes/publicRoutes';
 import { Toaster } from './components/ui/sonner';
 import LoopingIndex from './components/ui/loop';
+import { useAppSelector } from './store';
+import { AppRoutes } from './lib/routes';
 
 function App() {
+  const isAuthenticated = useAppSelector(state => state.user.isAuthenticated);
   return (
     <LoadingProvider>
       <Navbar />
       <div className="flex justify-center items-center w-svw">
-        <AuthRoutes />
+        {isAuthenticated && <AuthRoutes />}
         <PublicRoutes />
         <Routes>
           <Route
-            path="/"
+            path={AppRoutes.HOME}
             element={
               <>
                 <LoopingIndex />
               </>
             }
           />
-          <Route path="/auth/connect" element={<AuthPage />} />
+          <Route path={AppRoutes.AUTH_CONNECT} element={<AuthPage />} />
+          {!isAuthenticated && <Route path={AppRoutes.WILDCARD} element={<AuthPage />} />}
         </Routes>
       </div>
       <Toaster />

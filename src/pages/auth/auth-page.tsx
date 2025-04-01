@@ -1,14 +1,27 @@
-import { FC, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Github, Mail } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { Card, CardContent, CardHeader, CardDescription } from '@/components/ui/card';
-import { useAppDispatch } from '@/store';
-import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
+import { useAppDispatch, useAppSelector } from '@/store';
+import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 export const AuthPage: FC = () => {
   const dispatch = useAppDispatch();
   const [isOpen, setIsOpen] = useState(true);
+  const isAuthenticated = useAppSelector(state => state.user.isAuthenticated);
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  // Get the previous location from state or default to home
+  const from = location.state?.from?.pathname || '/';
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate(from, { replace: true });
+    }
+  }, [isAuthenticated, navigate, from]);
 
   const handleGoogleAuth = () => {
     dispatch({ type: 'auth/google' });
@@ -20,12 +33,8 @@ export const AuthPage: FC = () => {
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
-      <DialogTrigger asChild>
-        <Button variant="outline" className="hidden">
-          Open Auth
-        </Button>
-      </DialogTrigger>
-      <DialogContent className="sm:max-w-md">
+      <DialogContent onCloseNavigate={'/'} className="sm:max-w-md">
+        <DialogTitle className="sr-only">Authentication</DialogTitle>
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -34,7 +43,9 @@ export const AuthPage: FC = () => {
         >
           <Card className="gap-12 border-none shadow-none">
             <CardHeader>
-              <h1 className="text-2xl font-bold tracking-tight text-center mt-4">Welcome to LBP</h1>
+              <h1 className="text-2xl font-bold tracking-tight text-center mt-4">
+                Welcome to Algomate
+              </h1>
               <CardDescription className="text-center">
                 Sign in to continue your journey
               </CardDescription>

@@ -49,21 +49,33 @@ const BadgeDialog: FC<BadgeDialogProps> = ({ badges }) => {
                     {badge.medal.config.iconGifBackground && (
                       <img
                         className="absolute top-0 left-0 w-full h-full object-contain opacity-50"
-                        src={badge.medal.config.iconGifBackground}
+                        src={
+                          badge.medal.config.iconGifBackground?.includes('leetcode.com')
+                            ? badge.medal.config.iconGifBackground
+                            : `https://leetcode.com${badge.medal.config.iconGifBackground}`
+                        }
                         alt=""
                       />
                     )}
                     {/* Foreground Icon */}
                     <img
                       className="relative z-10 h-20 transition-all duration-500 object-contain"
-                      src={badge.medal.config.iconGif}
+                      src={
+                        badge.medal.config.iconGif?.includes('leetcode.com')
+                          ? badge.medal.config.iconGif
+                          : `https://leetcode.com${badge.medal.config.iconGif}`
+                      }
                       alt={badge.displayName}
                     />
                   </div>
                 ) : (
                   <img
                     className="h-20 brightness-75 transition-all duration-500 object-contain"
-                    src={badge.icon}
+                    src={
+                      badge.icon?.includes('leetcode.com')
+                        ? badge.icon
+                        : `https://leetcode.com${badge.icon}`
+                    }
                     alt={badge.displayName}
                   />
                 )}

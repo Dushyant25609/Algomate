@@ -37,9 +37,15 @@ const Badges: FC<BadgesProps> = ({ badges, className }) => {
               items={badges.map(badge => {
                 return {
                   name: badge.displayName,
-                  img: badge.icon,
-                  hoverImg: badge.medal.config.iconGif,
-                  hoverBg: badge.medal.config.iconGifBackground,
+                  img: badge.icon?.includes('leetcode.com')
+                    ? badge.icon
+                    : `https://leetcode.com${badge.icon}`,
+                  hoverImg: badge.medal.config.iconGif?.includes('leetcode.com')
+                    ? badge.medal.config.iconGif
+                    : `https://leetcode.com${badge.medal.config.iconGif}`,
+                  hoverBg: badge.medal.config.iconGifBackground?.includes('leetcode.com')
+                    ? badge.medal.config.iconGifBackground
+                    : `https://leetcode.com${badge.medal.config.iconGifBackground}`,
                 };
               })}
             />

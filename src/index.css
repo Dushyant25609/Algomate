@@ -9,59 +9,58 @@
   --card-foreground: #0a0a0a;
   --popover: #f5f5f5;
   --popover-foreground: #0a0a0a;
-  --primary: #00CCBB;
+  --primary: #00ccbb;
   --primary-foreground: #14ffec;
   --secondary: #f5f5f5;
-  --secondary-foreground: #00CCBB;
+  --secondary-foreground: #00ccbb;
   --muted: #e0e0e0;
-  --muted-foreground: #00CCBB;
+  --muted-foreground: #00ccbb;
   --accent: #14ffec;
-  --accent-foreground: #00CCBB;
+  --accent-foreground: #00ccbb;
   --destructive: #ff5252;
   --destructive-foreground: #ffffff;
   --border: #e0e0e0;
   --input: #e0e0e0;
-  --ring: #00CCBB;
+  --ring: #00ccbb;
   --chart-1: #ff8c42;
   --chart-2: #14ffec;
-  --chart-3: #00CCBB;
+  --chart-3: #00ccbb;
   --chart-4: #ffcc29;
   --chart-5: #f72585;
   --radius: 0.625rem;
   --sidebar: #e0e0e0;
   --sidebar-foreground: #0a0a0a;
-  --sidebar-primary: #00CCBB;
+  --sidebar-primary: #00ccbb;
   --sidebar-primary-foreground: #14ffec;
   --sidebar-accent: #e0e0e0;
-  --sidebar-accent-foreground: #00CCBB;
+  --sidebar-accent-foreground: #00ccbb;
   --sidebar-border: #e0e0e0;
-  --sidebar-ring: #00CCBB;
+  --sidebar-ring: #00ccbb;
   --heatmap-base: #4b4b4b62;
   --heatmap-1: #0d7d74;
   --heatmap-2: #1cc5b7;
   --heatmap-3: #16d7c7;
   --heatmap-4: #00ffea;
-  
+
   /* Question difficulty colors */
   --question-easy: #08d1b9;
-  --question-easy-start: #04D4BC;
+  --question-easy-start: #04d4bc;
   --question-easy-end: #047b6d;
-  --question-easy-gradient: #04D4BC;
-  --question-medium: #FDBF1E;
-  --question-medium-start: #FFD700;
+  --question-easy-gradient: #04d4bc;
+  --question-medium: #fdbf1e;
+  --question-medium-start: #ffd700;
   --question-medium-end: #bf7a01;
-  --question-medium-gradient: #FFD700;
-  --question-hard: #FF375F;
-  --question-hard-start: #FF375F;
+  --question-medium-gradient: #ffd700;
+  --question-hard: #ff375f;
+  --question-hard-start: #ff375f;
   --question-hard-end: #8c001c;
-  --question-hard-gradient: #FF6B8B;
-  --question-cp: #C05AF2;
+  --question-hard-gradient: #ff6b8b;
+  --question-cp: #c05af2;
   --question-cp-start: #bc3dfc;
   --question-cp-end: #5a0e80;
-  --question-cp-gradient: #D47FF9;
+  --question-cp-gradient: #d47ff9;
 
-
-  --leetcode-primary: #FFA217;
+  --leetcode-primary: #ffa217;
 }
 
 .dark {
@@ -72,12 +71,12 @@
   --popover: #212121;
   --popover-foreground: #eeeeee;
   --primary: #14ffec;
-  --primary-foreground: #00CCBB;
+  --primary-foreground: #00ccbb;
   --secondary: #323232;
   --secondary-foreground: #14ffec;
   --muted: #323232;
   --muted-foreground: #14ffec;
-  --accent: #00CCBB;
+  --accent: #00ccbb;
   --accent-foreground: #14ffec;
   --destructive: #ff1744;
   --destructive-foreground: #ffffff;
@@ -86,13 +85,13 @@
   --ring: #14ffec;
   --chart-1: #ff8c42;
   --chart-2: #14ffec;
-  --chart-3: #00CCBB;
+  --chart-3: #00ccbb;
   --chart-4: #ffcc29;
   --chart-5: #f72585;
-  --sidebar: #00CCBB;
+  --sidebar: #00ccbb;
   --sidebar-foreground: #14ffec;
   --sidebar-primary: #14ffec;
-  --sidebar-primary-foreground: #00CCBB;
+  --sidebar-primary-foreground: #00ccbb;
   --sidebar-accent: #323232;
   --sidebar-accent-foreground: #14ffec;
   --sidebar-border: #323232;
@@ -137,7 +136,8 @@
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
 
-  --animate-scroll: scroll var(--animation-duration, 40s) var(--animation-direction, forwards) linear infinite;
+  --animate-scroll: scroll var(--animation-duration, 40s) var(--animation-direction, forwards)
+    linear infinite;
 
   @keyframes scroll {
     to {
@@ -153,16 +153,15 @@
   body {
     @apply bg-background text-foreground;
   }
-  
+
   /* Hide scrollbar for Chrome, Safari and Opera */
   ::-webkit-scrollbar {
     display: none;
   }
-  
+
   /* Hide scrollbar for IE, Edge and Firefox */
   * {
-    -ms-overflow-style: none;  /* IE and Edge */
-    scrollbar-width: none;  /* Firefox */
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
   }
 }
-

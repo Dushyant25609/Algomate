@@ -21,7 +21,10 @@ import { Button } from '@/components/ui/button';
 // Define your validation schema
 const validationSchema = yup.object({
   email: yup.string().email('Invalid email').required('Email is required'),
-  password: yup.string().min(8, 'Password must be at least 8 characters').required('Password is required'),
+  password: yup
+    .string()
+    .min(8, 'Password must be at least 8 characters')
+    .required('Password is required'),
 });
 
 // Define your initial values
@@ -32,7 +35,7 @@ const initialValues = {
 
 // Create your form
 const MyForm = () => {
-  const handleSubmit = (values) => {
+  const handleSubmit = values => {
     console.log(values);
     // Handle form submission
   };
@@ -98,9 +101,7 @@ A wrapper around FormField that connects to Formik's state management.
 
 ```tsx
 <FormikField name="fieldName">
-  <FormItem>
-    {/* Form controls */}
-  </FormItem>
+  <FormItem>{/* Form controls */}</FormItem>
 </FormikField>
 ```
 
@@ -114,7 +115,7 @@ import { loginSchema, registerSchema, profileSchema } from '@/lib/validation';
 // Use in your form
 <FormikForm validationSchema={loginSchema} {...otherProps}>
   {/* Form fields */}
-</FormikForm>
+</FormikForm>;
 ```
 
 ## Example
