@@ -14,10 +14,12 @@ interface Props {
 const PieChart: FC<Props> = ({ QuestionsChartValues, PlatformChartValues, COLORS, className }) => {
   return (
     <Card className={cn('lg:max-w-full items-center justify-center', className)}>
+      <span className="grow" />
       <div className="flex items-center gap-2 self-start px-2 text-2xl font-medium text-card-foreground">
         <LightbulbIcon className="h-7 w-7 text-accent" />
         <h2>Problems Solved </h2>
       </div>
+      <span className="grow" />
       <div className="flex flex-col gap-3 md:gap-0 lg:flex-row lg:gap-4 lg:justify-around w-full">
         <Pie
           width={200}
@@ -39,6 +41,7 @@ const PieChart: FC<Props> = ({ QuestionsChartValues, PlatformChartValues, COLORS
           className=" md:flex-row-reverse"
         />
       </div>
+      <span className="grow" />
     </Card>
   );
 };

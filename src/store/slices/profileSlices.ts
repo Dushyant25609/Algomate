@@ -1,7 +1,8 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { Profile, PublicProfile } from '@/interface/profile';
+import { Profile, PublicProfile, updateProfile } from '@/interface/profile';
 import { AvatarConfig, AvatarConfig2 } from '@/interface/avatar';
 import { User } from '@/interface/user';
+import { toast } from 'sonner';
 
 // Define the interface for the user state
 interface ProfileState extends Partial<Profile> {
@@ -62,8 +63,8 @@ const initialState: ProfileState = {
     name: '',
     profileUrl: '',
     bio: '',
-    followers: 0,
-    following: 0,
+    followers: '0',
+    following: '0',
     avatar_url: '',
     repos: [],
   },
@@ -105,11 +106,22 @@ export const profileSlice = createSlice({
       state.loading = false;
       state.error = action.payload;
     },
-    // Action to logout
-    logout: () => {
-      return {
-        ...initialState,
-      };
+    updateProfileRequest: state => {
+      state.loading = false;
+      toast.info('Updating profile...');
+    },
+    updateProfileSuccess: (state, action: PayloadAction<updateProfile>) => {
+      if (state.code && action.payload.leetcode) {
+        state.code.leetcode = action.payload.leetcode;
+        toast.success('Profile updated successfully');
+      }
+    },
+    updateProfileFailure: (state, action: PayloadAction<string>) => {
+      state.error = action.payload;
+      toast.error('Error updating profile');
+    },
+    clearProfile: () => {
+      return initialState;
     },
   },
 });
@@ -125,8 +137,11 @@ export const {
   profileRequest,
   profileSuccess,
   profileFailure,
-  logout,
   publicProfileSuccess,
+  updateProfileRequest,
+  updateProfileSuccess,
+  updateProfileFailure,
+  clearProfile,
 } = profileSlice.actions;
 
 // Export reducer

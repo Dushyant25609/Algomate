@@ -11,11 +11,11 @@ interface UserInfoProps {
 
 const UserInfo: FC<UserInfoProps> = ({ bio, country, city, company, college }) => {
   return (
-    <div className="flex flex-col space-y-3">
+    <div className="flex flex-col space-y-2 overflow-hidden">
       {bio && (
-        <div className="flex items-start gap-2">
+        <div className="flex items-start gap-2  ">
           <FileText className="h-4 w-4 text-muted-foreground mt-0.5 flex-shrink-0" />
-          <p className="text-sm">{bio}</p>
+          <p className="text-sm break-words">{bio}</p>
         </div>
       )}
 
@@ -23,9 +23,9 @@ const UserInfo: FC<UserInfoProps> = ({ bio, country, city, company, college }) =
         <div className="flex items-center gap-2">
           <MapPin className="h-4 w-4 text-blue-500 flex-shrink-0" />
           <p className="text-sm">
-            {country}
+            {city ? city : <></>}
             {country && city && ', '}
-            {city}
+            {country ? country : <></>}
           </p>
         </div>
       )}

@@ -1,6 +1,9 @@
 import { Social } from '@/interface/social';
 import { copyToClipboard } from '@/lib/hook';
-import { Mail, Github, Linkedin, Globe } from 'lucide-react';
+import { HoverCard, HoverCardTrigger, HoverCardContent } from '@radix-ui/react-hover-card';
+import { Github, Globe, X } from 'lucide-react';
+import linkedIn from '@/assets/linkedin.svg';
+import mail from '@/assets/mail.svg';
 import { FC, memo } from 'react';
 
 interface SocialCardProps {
@@ -10,50 +13,76 @@ interface SocialCardProps {
 const SocialCard: FC<SocialCardProps> = ({ socials }) => {
   return (
     <div>
-      <div className="grid grid-cols-1 gap-2">
+      <div className="flex justify-center items-center gap-4">
         {socials.email && (
-          <div
-            className="flex items-center gap-2 cursor-copy"
-            onClick={() => {
-              copyToClipboard(socials.email || '');
-            }}
-          >
-            <Mail className="h-4 w-4 text-blue-500" />
-            <span className="text-sm">{socials.email}</span>
-          </div>
+          <HoverCard>
+            <HoverCardTrigger>
+              <div className="relative">
+                <img
+                  src={mail}
+                  alt="mail"
+                  onClick={() => copyToClipboard(socials.email || '')}
+                  className="h-6 cursor-pointer transition-transform"
+                />
+              </div>
+            </HoverCardTrigger>
+            <HoverCardContent className="flex items-center justify-between gap-1 w-fit">
+              {socials.email}
+            </HoverCardContent>
+          </HoverCard>
         )}
         {socials.gitHub && (
-          <div
-            className="flex items-center gap-2 cursor-copy"
-            onClick={() => {
-              copyToClipboard(socials.gitHub || '');
-            }}
-          >
-            <Github className="h-4 w-4 text-gray-700 dark:text-gray-300" />
-            <span className="text-sm">{socials.gitHub}</span>
-          </div>
+          <HoverCard>
+            <HoverCardTrigger>
+              <div className="relative">
+                <Github
+                  onClick={() => window.open(socials.gitHub || '', '_blank')}
+                  className="h-6 w-6 cursor-pointer transition-transform"
+                />
+              </div>
+            </HoverCardTrigger>
+            <HoverCardContent className="flex items-center justify-between gap-1 w-fit">
+              {socials.gitHub}
+            </HoverCardContent>
+          </HoverCard>
         )}
         {socials.linkedIn && (
-          <div
-            className="flex items-center gap-2 cursor-copy"
-            onClick={() => {
-              copyToClipboard(socials.linkedIn || '');
-            }}
-          >
-            <Linkedin className="h-4 w-4 text-blue-600" />
-            <span className="text-sm">{socials.linkedIn}</span>
-          </div>
+          <HoverCard>
+            <HoverCardTrigger>
+              <div className="relative">
+                <img
+                  onClick={() => window.open(socials.linkedIn || '', '_blank')}
+                  alt="linkedIn"
+                  src={linkedIn}
+                  className="w-8 cursor-pointer transition-transform"
+                />
+              </div>
+            </HoverCardTrigger>
+          </HoverCard>
         )}
         {socials.portfolio && (
-          <div
-            className="flex items-center gap-2 cursor-copy"
-            onClick={() => {
-              copyToClipboard(socials.portfolio || '');
-            }}
-          >
-            <Globe className="h-4 w-4 text-green-500" />
-            <span className="text-sm">{socials.portfolio}</span>
-          </div>
+          <HoverCard>
+            <HoverCardTrigger>
+              <div className="relative">
+                <Globe
+                  onClick={() => window.open(socials.portfolio || '', '_blank')}
+                  className="h-6 w-6 cursor-pointer transition-transform"
+                />
+              </div>
+            </HoverCardTrigger>
+          </HoverCard>
+        )}
+        {socials.x && (
+          <HoverCard>
+            <HoverCardTrigger>
+              <div className="relative">
+                <X
+                  onClick={() => window.open(socials.x || '', '_blank')}
+                  className="h-6 w-6 cursor-pointer transition-transform"
+                />
+              </div>
+            </HoverCardTrigger>
+          </HoverCard>
         )}
       </div>
     </div>

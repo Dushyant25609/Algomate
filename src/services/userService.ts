@@ -1,6 +1,7 @@
-import { PublicProfile } from '@/interface/profile';
+import { PublicProfile, updateProfile } from '@/interface/profile';
 import { SearchResponse, User, UserUpdate } from '../interface/user';
 import api from './api';
+import { PendingRequests, UserFriends } from '@/interface/friend';
 
 // Define interface for user service errors
 export interface UserServiceError {
@@ -93,6 +94,30 @@ const userService = {
   unsendFriendRequest: async (username: string): Promise<void> => {
     try {
       await api.post(`/pvt/friend/unsend-request/`, { username });
+    } catch (error) {
+      throw error as UserServiceError;
+    }
+  },
+  getPendingFriendRequests: async (): Promise<PendingRequests> => {
+    try {
+      const response = await api.get<PendingRequests>('/pvt/friend/pending');
+      return response.data;
+    } catch (error) {
+      throw error as UserServiceError;
+    }
+  },
+  getUserFriendRequests: async (): Promise<UserFriends> => {
+    try {
+      const response = await api.get<UserFriends>('/pvt/friend/all');
+      return response.data;
+    } catch (error) {
+      throw error as UserServiceError;
+    }
+  },
+  updateProfile: async (): Promise<updateProfile> => {
+    try {
+      const response = await api.post<updateProfile>('/pvt/profile/update');
+      return response.data;
     } catch (error) {
       throw error as UserServiceError;
     }

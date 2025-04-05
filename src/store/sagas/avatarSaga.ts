@@ -1,6 +1,6 @@
 import { PayloadAction } from '@reduxjs/toolkit';
-import { call, put, takeLatest } from 'redux-saga/effects';
-import { AvatarConfig } from '@/interface/avatar';
+import { call, CallEffect, put, PutEffect, takeLatest } from 'redux-saga/effects';
+import { AvatarConfig, AvatarConfig2 } from '@/interface/avatar';
 import { avatarService } from '@/services/avatarService';
 import {
   createAvatarRequest,
@@ -13,14 +13,17 @@ import {
   updateAvatarSuccess,
   updateAvatarFailure,
   AvatarAction,
-  setLoading,
 } from '../slices/avatarSlice';
 
+type AvatarSagaEffect =
+  | CallEffect<AvatarConfig | AvatarConfig2 | void>
+  | PutEffect<{ type: string; payload: AvatarConfig | AvatarConfig2 | string | void }>;
+
 // Worker Sagas
-function* createAvatarSaga(action: PayloadAction<AvatarConfig>): Generator {
+function* createAvatarSaga(
+  action: PayloadAction<AvatarConfig | AvatarConfig2>
+): Generator<AvatarSagaEffect, void, AvatarConfig | AvatarConfig2> {
   try {
-    yield setLoading();
-    yield put(createAvatarRequest());
     const response = yield call(avatarService.createAvatar, action.payload);
     yield put(createAvatarSuccess(response));
   } catch (error) {

@@ -32,7 +32,6 @@ export const generatePath = (route: string, params: Record<string, string>): str
   Object.entries(params).forEach(([key, value]) => {
     path = path.concat(`${value}`);
   });
-  console.log(params);
   return path;
 };
 

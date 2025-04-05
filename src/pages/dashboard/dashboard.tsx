@@ -1,7 +1,7 @@
 import UserCard from '@/components/layout/user-card';
 import { FC, memo, useEffect, useMemo } from 'react';
 import { useAppDispatch, useAppSelector } from '@/store';
-import { GetPublicProfile, profileRequest } from '@/store/slices/profileSlices';
+import { GetPublicProfile } from '@/store/slices/profileSlices';
 import QuestionPieChart from '@/components/layout/Pie';
 import { questionColors } from '@/constants/colors';
 import {
@@ -19,7 +19,7 @@ import { useParams } from 'react-router-dom';
 
 const getUserLevel = (rating: number, questionSolved: number): string => {
   if (questionSolved < 100 || rating < 1200) return 'Beginner';
-  if ((questionSolved < 200 || rating < 1400) && questionSolved) return 'Intermediate';
+  if ((questionSolved < 300 || rating < 1400) && questionSolved) return 'Intermediate';
   if (questionSolved < 400 || rating < 1600) return 'Advanced';
   if (questionSolved < 600 || rating < 1800) return 'Expert';
   if (questionSolved < 1000 || rating < 2000) return 'Master';
@@ -33,19 +33,14 @@ const Dashboard: FC = () => {
   const dispatch = useAppDispatch();
   // We use the username from props instead of trying to modify the URL params
   useEffect(() => {
-    if (user.isAuthenticated && user.username === username) {
-      dispatch(profileRequest());
-    } else {
-      dispatch(GetPublicProfile(username));
-    }
-  }, [dispatch, user.isAuthenticated, user.username, username]);
+    dispatch(GetPublicProfile(username));
+  }, [dispatch, username]);
   return (
     <div className="max-w-11/12 md:max-w-full  xl:max-w-11/12 py-8 flex flex-col gap-3">
       <div className="flex flex-col justify-center md:flex-row gap-3">
         <UserCard
           name={user.name || profile?.user?.name || ''}
           username={user.username || profile?.user?.username || ''}
-          rank={profile?.code?.leetcode?.profile?.profile?.ranking || 0}
           platforms={profile?.user?.platforms || user.platforms || {}}
           socials={profile?.user?.social || user.social || {}}
           github={profile?.github}
@@ -60,9 +55,12 @@ const Dashboard: FC = () => {
               profile?.code?.questions?.total,
             ]
           )}
-          isPublic={!(user.username === username)}
           publicAvatar={profile?.avatar}
-          country={profile?.code?.leetcode?.profile?.profile?.countryName}
+          country={profile?.user?.country || user?.country}
+          bio={profile?.user?.bio || user?.bio}
+          city={profile?.user?.city || user?.city}
+          company={profile?.user?.company || user?.company}
+          college={profile?.user?.college || user?.college}
         />
         <div className="w-full flex flex-col gap-2 items-center h-full">
           <div className="flex gap-3 w-full flex-col justify-center lg:flex-row-reverse">
@@ -113,7 +111,7 @@ const Dashboard: FC = () => {
           }
         />
       </div>
-      <GitHubRepoCards repositories={profile?.github?.repos || []} />
+      {profile.github?.name && <GitHubRepoCards repositories={profile?.github?.repos || []} />}
     </div>
   );
 };

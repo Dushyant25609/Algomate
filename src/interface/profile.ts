@@ -21,3 +21,9 @@ export interface PublicProfile {
   avatar: AvatarConfig | AvatarConfig2;
   public: boolean;
 }
+
+export interface updateProfile {
+  message: string;
+  questions: Questions;
+  leetcode: LeetCodeUserData;
+}

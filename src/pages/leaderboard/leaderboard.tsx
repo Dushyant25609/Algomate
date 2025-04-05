@@ -18,16 +18,27 @@ import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
 import UserAvatar from '@/components/ui/avatar/user-avatar';
 import { LeaderboardSortBy } from '@/interface/leaderboard';
+import { useNavigate } from 'react-router-dom';
+import { AppRoutes } from '@/lib/routes';
+import { toast } from 'sonner';
 
 const LeaderboardPage: FC = () => {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const {
     data: leaderboardData,
+    avatars,
     pagination,
     loading,
     error,
   } = useAppSelector(state => state.leaderboard);
   const currentUser = useAppSelector(state => state.user);
+  useEffect(() => {
+    if (currentUser && !currentUser.platforms?.leetcode) {
+      toast.info('Please connect your LeetCode account to view the leaderboard.');
+      navigate(AppRoutes.SETTINGS);
+    }
+  }, [currentUser, navigate]);
   const [sortBy, setSortBy] = useState<LeaderboardSortBy>('questions');
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
@@ -84,7 +95,12 @@ const LeaderboardPage: FC = () => {
       className="container max-w-4xl mx-auto px-4 py-8 flex flex-col gap-6"
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.4 }}
+      transition={{
+        duration: 0.4,
+        ease: [0.16, 1, 0.3, 1],
+        when: 'beforeChildren',
+        staggerChildren: 0.1,
+      }}
     >
       {/* Page Header */}
       <div className="w-full mb-6">
@@ -197,7 +213,7 @@ const LeaderboardPage: FC = () => {
                     <td className="px-4 py-4 whitespace-nowrap">
                       <div className="flex items-center flex-wrap">
                         <div className="flex-shrink-0 h-10 w-10">
-                          <UserAvatar classname="h-10 w-10" />
+                          <UserAvatar publicAvatar={avatars[index]} classname="h-10 w-10" />
                         </div>
                         <div className="ml-4">
                           <div className="text-sm font-medium">{entry.username}</div>
@@ -206,7 +222,7 @@ const LeaderboardPage: FC = () => {
                     </td>
                     <td className="px-4 py-4 whitespace-nowrap hidden lg:table-cell">
                       <div className="text-sm font-bold text-primary">
-                        {entry.leetcode?.contest.userContestRanking.rating}
+                        {Math.round(entry.leetcode?.contest.userContestRanking.rating || 0)}
                       </div>
                     </td>
                     <td className="px-4 py-4 whitespace-nowrap hidden lg:table-cell">

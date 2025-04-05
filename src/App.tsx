@@ -6,11 +6,19 @@ import { AuthRoutes } from './Routes/authRoutes';
 import { PublicRoutes } from './Routes/publicRoutes';
 import { Toaster } from './components/ui/sonner';
 import LoopingIndex from './components/ui/loop';
-import { useAppSelector } from './store';
+import { useAppDispatch, useAppSelector } from './store';
 import { AppRoutes } from './lib/routes';
+import { useEffect } from 'react';
+import { updateProfileRequest } from './store/slices/profileSlices';
 
 function App() {
   const isAuthenticated = useAppSelector(state => state.user.isAuthenticated);
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    if (isAuthenticated) {
+      dispatch(updateProfileRequest());
+    }
+  }, [dispatch, isAuthenticated]);
   return (
     <LoadingProvider>
       <Navbar />

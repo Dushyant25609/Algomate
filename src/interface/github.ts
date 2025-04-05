@@ -2,8 +2,8 @@ export interface GithubUserData {
   name: string;
   profileUrl: string;
   bio: string;
-  followers: number;
-  following: number;
+  followers: string;
+  following: string;
   avatar_url: string;
   repos: GitHubRepo[];
 }

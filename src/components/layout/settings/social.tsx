@@ -139,9 +139,10 @@ const SocialsTab: FC<SocialTabProps & FormikProps<Social>> = ({
 
 const FormikSocial = withFormik<SocialTabProps, Social>({
   mapPropsToValues: props => ({
-    linkedIn: props.user.social?.linkedIn || '',
-    x: props.user.social?.x || '',
-    portfolio: props.user.social?.portfolio || '',
+    linkedIn: props.user.social.linkedIn || '',
+    github: props.user.social.gitHub || '',
+    x: props.user.social.x || '',
+    portfolio: props.user.social.portfolio || '',
   }),
   validate: values => {
     const errors: Partial<Record<keyof Social, string>> = {};

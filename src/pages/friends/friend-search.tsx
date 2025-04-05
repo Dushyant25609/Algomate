@@ -6,7 +6,7 @@ import userService from '@/services/userService';
 import UserAvatar from '@/components/ui/avatar/user-avatar';
 import { toast } from 'sonner';
 import { useAppDispatch, useAppSelector } from '@/store';
-import { loginRequest, SearchAction } from '@/store/slices/userSlice';
+import { SearchAction } from '@/store/slices/userSlice';
 import { Input } from '@/components/ui/input';
 import { SearchUserResponse } from '@/interface/user';
 import { AvatarConfig, AvatarConfig2 } from '@/interface/avatar';
@@ -21,6 +21,7 @@ import {
   sectionAnimationProps,
 } from '@/motion/search-results-animations';
 import { motion, AnimatePresence } from 'framer-motion';
+import { fetchUserFriendRequest, fetchUserPendingRequest } from '@/store/slices/friendSlices';
 
 interface UserCardProps {
   user: SearchUserResponse;
@@ -124,6 +125,8 @@ const UserSearchCard: FC<UserCardProps> = ({
 const FriendSearch: FC = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const user = useAppSelector(state => state.user);
+  const requests = useAppSelector(state => state.friend.requests);
+  const friends = useAppSelector(state => state.friend.friends);
   const dispatch = useAppDispatch();
   const { searchResults, searchError } = useAppSelector(state => state.user);
 
@@ -145,12 +148,18 @@ const FriendSearch: FC = () => {
     }
   }, [searchError]);
 
+  useEffect(() => {
+    dispatch(fetchUserPendingRequest());
+    dispatch(fetchUserFriendRequest());
+  }, [dispatch]);
+
   const handleSendRequest = async (username: string) => {
     try {
       await userService.sendFriendRequest(username);
       toast.success(`Friend request sent to ${username}`);
       // Then refresh from server
-      dispatch(loginRequest());
+      dispatch(fetchUserPendingRequest());
+      dispatch(fetchUserFriendRequest());
     } catch (error) {
       console.error('Error sending friend request:', error);
       toast.error('Failed to send friend request');
@@ -162,7 +171,8 @@ const FriendSearch: FC = () => {
       await userService.acceptFriendRequest(username);
       toast.success(`Friend request from ${username} accepted`);
       // Then refresh from server
-      dispatch(loginRequest());
+      dispatch(fetchUserPendingRequest());
+      dispatch(fetchUserFriendRequest());
     } catch (error) {
       console.error('Error accepting friend request:', error);
       toast.error('Failed to accept friend request');
@@ -174,7 +184,8 @@ const FriendSearch: FC = () => {
       await userService.rejectFriendRequest(username);
       toast.success(`Friend request from ${username} rejected`);
       // Then refresh from server
-      dispatch(loginRequest());
+      dispatch(fetchUserPendingRequest());
+      dispatch(fetchUserFriendRequest());
     } catch (error) {
       console.error('Error rejecting friend request:', error);
       toast.error('Failed to reject friend request');
@@ -185,7 +196,8 @@ const FriendSearch: FC = () => {
     try {
       await userService.removeFriend(username);
       toast.success(`${username} removed from friends`);
-      dispatch(loginRequest());
+      dispatch(fetchUserPendingRequest());
+      dispatch(fetchUserFriendRequest());
     } catch (error) {
       console.error('Error removing friend:', error);
       toast.error('Failed to remove friend');
@@ -197,7 +209,8 @@ const FriendSearch: FC = () => {
       await userService.unsendFriendRequest(username);
       toast.success(`Friend request to ${username} unsent`);
       // Then refresh from server
-      dispatch(loginRequest());
+      dispatch(fetchUserPendingRequest());
+      dispatch(fetchUserFriendRequest());
     } catch (error) {
       console.error('Error unsending friend request:', error);
       toast.error('Failed to unsend friend request');
@@ -240,8 +253,8 @@ const FriendSearch: FC = () => {
                         user={result}
                         avatar={searchResults.avatar[index]}
                         currentUsername={user.username || ''}
-                        pendingFriends={user?.friends?.pending || []}
-                        acceptedFriends={user?.friends?.accepted || []}
+                        pendingFriends={requests.requests || []}
+                        acceptedFriends={friends.friends || []}
                         onSendRequest={handleSendRequest}
                         onAcceptRequest={handleAcceptRequest}
                         onRejectRequest={handleRejectRequest}
@@ -265,35 +278,32 @@ const FriendSearch: FC = () => {
 
       <motion.div {...sectionAnimationProps}>
         <Card className="md:flex-row px-8 gap-3 w-full justify-around">
-          {user && user.friends && user.friends.pending && (
+          {requests && (
             <motion.div variants={itemVariants} className="flex flex-col gap-3 w-full">
               <h2 className="text-xl font-semibold flex items-center gap-2">
                 Friend Requests
-                {user && user.friends && user.friends.pending.length > 0 && (
+                {requests && requests.requests.length > 0 && (
                   <span className="bg-primary/20 text-primary text-xs px-2 py-0.5 rounded-full">
-                    {user && user.friends && user.friends.pending.length}
+                    {requests && requests.requests.length}
                   </span>
                 )}
               </h2>
               <Card className="shadow-md w-full">
                 <CardContent className="p-0">
-                  {user && user.friends && user.friends.pending.length > 0 ? (
+                  {requests && requests.requests.length > 0 ? (
                     <div className="max-h-60 overflow-y-auto">
-                      {user &&
-                        user.friends &&
-                        user.friends.pending.map((request, index) => (
+                      {requests &&
+                        requests.requests.map((request, index) => (
                           <div
                             key={request.username}
-                            className={`flex items-center justify-between p-4 ${index % 2 === 0 ? 'bg-secondary/10' : 'bg-secondary/30'} hover:bg-secondary/50 transition-colors duration-200 ${index !== (user?.friends?.pending || []).filter(req => req.type === 'received').length - 1 ? 'border-b border-border/30' : ''}`}
+                            className={`flex items-center justify-between p-4 ${index % 2 === 0 ? 'bg-secondary/10' : 'bg-secondary/30'} hover:bg-secondary/50 transition-colors duration-200 ${index !== requests.requests.filter(req => req.type === 'received').length - 1 ? 'border-b border-border/30' : ''}`}
                           >
                             <div className="flex items-center gap-3">
-                              <div className="bg-primary/20 p-2 rounded-full">
-                                <User className="h-4 w-4 text-primary" />
-                              </div>
+                              <UserAvatar publicAvatar={requests.avatars[index]} />
                               <span className="font-medium">{request.username}</span>
                             </div>
                             <div className="flex gap-2">
-                              {user?.friends?.pending[index].type == 'received' ? (
+                              {requests.requests[index].type == 'received' ? (
                                 <>
                                   <Button
                                     variant="outline"
@@ -332,32 +342,31 @@ const FriendSearch: FC = () => {
               </Card>
             </motion.div>
           )}{' '}
-          {user && user.friends && user.friends.accepted && (
+          {friends && friends.friends && (
             <motion.div variants={itemVariants} className="flex flex-col gap-3 w-full">
               <h2 className="text-xl font-semibold flex items-center gap-2">
                 Your Friends
-                {user && user.friends && user.friends.accepted.length > 0 && (
+                {friends && friends.friends.length > 0 && (
                   <span className="bg-primary/20 text-primary text-xs px-2 py-0.5 rounded-full">
-                    {user && user.friends && user.friends.accepted.length}
+                    {friends && friends.friends.length}
                   </span>
                 )}
               </h2>
               <Card className="shadow-md w-full">
                 <CardContent className="p-0 w-full">
-                  {user && user.friends && user.friends.accepted.length > 0 ? (
+                  {friends && friends.friends.length > 0 ? (
                     <div className="max-h-80 overflow-y-auto w-full">
                       <div className="flex flex-col divide-y divide-border/30 w-full">
-                        {user &&
-                          user.friends &&
-                          user.friends.accepted.map((friendUsername, index) => (
+                        {friends &&
+                          friends.friends.map((friendUsername, index) => (
                             <div
                               key={friendUsername}
                               className={`flex items-center justify-between p-4 ${index % 2 === 0 ? 'bg-secondary/10' : 'bg-secondary/30'} hover:bg-secondary/50 transition-colors duration-200`}
                             >
                               <div className="flex items-center gap-3">
-                                <div className="bg-primary/20 p-2 rounded-full">
-                                  <User className="h-4 w-4 text-primary" />
-                                </div>
+                                {friends.avatars && (
+                                  <UserAvatar publicAvatar={friends.avatars[index]} />
+                                )}
                                 <span className="font-medium">{friendUsername}</span>
                               </div>
                               <Button

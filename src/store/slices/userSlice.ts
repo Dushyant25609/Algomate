@@ -25,9 +25,9 @@ const initialState: UserState = {
   },
   social: {
     email: '',
-    linkedIn: null,
-    gitHub: null,
-    x: null,
+    linkedIn: '',
+    gitHub: '',
+    x: '',
     portfolio: '',
   },
   friends: {
@@ -42,9 +42,8 @@ const initialState: UserState = {
   },
   college: '',
   country: '',
-  branch: '',
-  degree: '',
-  graduation: '',
+  city: '',
+  company: '',
   bio: '',
   searchError: null,
 };

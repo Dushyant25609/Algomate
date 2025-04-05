@@ -34,7 +34,7 @@ export const avatarSlice = createSlice({
       state.error = null;
       state.create = true;
     },
-    createAvatarSuccess: (state, action: PayloadAction<AvatarConfig>) => {
+    createAvatarSuccess: (state, action: PayloadAction<AvatarConfig | AvatarConfig2>) => {
       state.avatarConfig = action.payload;
       state.loading = false;
       state.error = null;
@@ -50,7 +50,7 @@ export const avatarSlice = createSlice({
       state.loading = true;
       state.error = null;
     },
-    getAvatarSuccess: (state, action: PayloadAction<AvatarConfig>) => {
+    getAvatarSuccess: (state, action: PayloadAction<AvatarConfig | AvatarConfig>) => {
       state.avatarConfig = action.payload;
       state.loading = false;
       state.error = null;
@@ -59,7 +59,7 @@ export const avatarSlice = createSlice({
       state.loading = false;
       state.error = action.payload;
     },
-    updateAvatarSuccess: (state, action: PayloadAction<AvatarConfig>) => {
+    updateAvatarSuccess: (state, action: PayloadAction<AvatarConfig | AvatarConfig>) => {
       state.avatarConfig = action.payload;
       state.loading = false;
       state.error = null;

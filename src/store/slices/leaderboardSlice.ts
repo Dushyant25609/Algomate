@@ -14,6 +14,7 @@ interface LeaderboardState extends LeaderboardResponse {
 // Define the initial state
 const initialState: LeaderboardState = {
   data: [],
+  avatars: [],
   pagination: {
     page: 1,
     limit: 10,
@@ -38,6 +39,7 @@ export const leaderboardSlice = createSlice({
     fetchLeaderboardSuccess: (state, action: PayloadAction<LeaderboardResponse>) => {
       state.loading = false;
       state.data = action.payload.data;
+      state.avatars = action.payload.avatars;
       state.pagination = action.payload.pagination;
     },
     // Failure actions
@@ -47,6 +49,9 @@ export const leaderboardSlice = createSlice({
     },
     setLeaderboard: (state, action: PayloadAction<LeaderboardUserProfile[]>) => {
       state.data = action.payload;
+    },
+    clearLeaderboard: () => {
+      return initialState;
     },
   },
 });
@@ -62,6 +67,7 @@ export const {
   fetchLeaderboardSuccess,
   fetchLeaderboardFailure,
   setLeaderboard,
+  clearLeaderboard,
 } = leaderboardSlice.actions;
 
 // Export reducer

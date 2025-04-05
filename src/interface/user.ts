@@ -9,15 +9,14 @@ export interface User {
   refreshToken?: string; // For OAuth users
   name: string;
   username: string;
+  college?: string;
+  country?: string;
+  city?: string;
+  company?: string;
   email: string;
   platforms: Platform;
   social: Social;
   friends: Friend;
-  college?: string;
-  country?: string;
-  branch?: string;
-  degree?: string;
-  graduation?: string;
   bio?: string;
 }
 
@@ -28,9 +27,8 @@ export interface UserUpdate {
   social?: Social;
   college?: string;
   country?: string;
-  branch?: string;
-  degree?: string;
-  graduation?: string;
+  city?: string;
+  company?: string;
   bio?: string;
 }
 

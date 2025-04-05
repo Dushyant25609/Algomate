@@ -6,6 +6,7 @@ import { userSaga } from './userSaga';
 import { platformSaga } from './platformSaga';
 import { countrySaga } from './countrySaga';
 import { leaderboardSaga } from './leaderboardSaga';
+import { friendSaga } from './friendSaga';
 
 export default function* rootSaga() {
   yield all([
@@ -15,5 +16,6 @@ export default function* rootSaga() {
     platformSaga(),
     countrySaga(),
     leaderboardSaga(),
+    friendSaga(),
   ]);
 }

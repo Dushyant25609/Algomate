@@ -53,8 +53,8 @@ const SettingsPage: FC = () => {
       </div>
 
       {/* Navigation - Horizontal on desktop, Vertical on mobile */}
-      <div className="w-full sticky top-4 z-10">
-        <Card className="shadow-md border-muted/30">
+      <div className="w-full sticky top-4 z-10 flex justify-center">
+        <Card className="shadow-md p-0 w-fit">
           <CardContent className="p-0">
             <motion.nav
               className="flex flex-col md:flex-row md:items-center md:justify-start divide-y md:divide-y-0 md:divide-x divide-border"

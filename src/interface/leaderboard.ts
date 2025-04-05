@@ -1,3 +1,4 @@
+import { AvatarConfig, AvatarConfig2 } from './avatar';
 import { LeetCodeUserData } from './leetcode';
 import { Questions } from './questions';
 
@@ -20,6 +21,7 @@ export interface LeaderboardPagination {
  */
 export interface LeaderboardResponse {
   data: LeaderboardUserProfile[];
+  avatars: AvatarConfig[] | AvatarConfig2[];
   pagination: LeaderboardPagination;
 }
 

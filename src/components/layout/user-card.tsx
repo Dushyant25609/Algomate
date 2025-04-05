@@ -4,7 +4,6 @@ import UserAvatar from '@/components/ui/avatar/user-avatar';
 import { Platform } from '@/interface/platform';
 import { Social } from '@/interface/social';
 import { User, Trophy } from 'lucide-react';
-import { Button } from '../ui/button';
 import SocialCard from '../ui/social-card';
 import PlatformCard from '../ui/platform-card';
 import { copyToClipboard } from '@/lib/hook';
@@ -18,11 +17,9 @@ import GithubUserCard from '../ui/github-user-card';
 interface UserCardProps {
   name: string;
   username: string;
-  rank: number;
   platforms: Platform;
   socials: Social;
   userLevel: string;
-  isPublic: boolean;
   github?: GithubUserData;
   publicAvatar?: AvatarConfig | AvatarConfig2;
   country?: string;
@@ -35,11 +32,9 @@ interface UserCardProps {
 const UserCard: FC<UserCardProps> = ({
   name,
   username,
-  rank,
   userLevel,
   platforms,
   socials,
-  isPublic,
   publicAvatar,
   country = '',
   bio = '',
@@ -49,8 +44,13 @@ const UserCard: FC<UserCardProps> = ({
   github,
 }) => {
   return (
-    <motion.div initial="hidden" animate="visible" variants={containerVariants}>
-      <Card className="md:max-w-fit h-full px-2 lg:px-4 shadow-lg hover:shadow-xl transition-all duration-300">
+    <motion.div
+      initial="hidden"
+      animate="visible"
+      className="md:max-w-fit"
+      variants={containerVariants}
+    >
+      <Card className="md:max-w-fit h-full px-2 lg:px-4 py-0 pt-6 shadow-lg hover:shadow-xl transition-all duration-300">
         <div className="flex flex-col divide-y">
           <div className="flex flex-col pb-3">
             <motion.div variants={itemVariants}>
@@ -72,12 +72,6 @@ const UserCard: FC<UserCardProps> = ({
                     </CardDescription>
                   </div>
                   <div className="flex flex-col gap-1">
-                    <div className="flex items-center gap-2 text-sm">
-                      <h2 className="text-sm md:text-base text-foreground/50">Rank:</h2>
-                      <p className="text-xs md:text-md bg-secondary/50 px-2 py-0.5 rounded">
-                        {rank}
-                      </p>
-                    </div>
                     <div className="flex items-center max-w-fit gap-1 text-xs text-muted-foreground bg-accent/30 px-2 py-0.5 md:px-4 md:py-1 rounded-full shadow-sm">
                       <Trophy className="w-3 h-3 md:h-4 md:w-4 text-amber-500" />
                       <span>{userLevel}</span>
@@ -85,17 +79,12 @@ const UserCard: FC<UserCardProps> = ({
                   </div>
                 </div>
               </CardHeader>
-              {!isPublic && (
-                <Button className="cursor-pointer w-full" variant={'completed'}>
-                  Edit Profile
-                </Button>
-              )}
             </motion.div>
           </div>
 
           {(bio || country || city || company || college) && (
             <motion.div variants={itemVariants}>
-              <CardContent className="grow p-4">
+              <CardContent className="grow p-4 max-w-md">
                 <UserInfo
                   country={country}
                   city={city}

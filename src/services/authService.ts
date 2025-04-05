@@ -40,8 +40,14 @@ const authService = {
 
   // Logout function
   logout: async () => {
-    await api.get('/auth/logout');
-    // The server will handle clearing the auth cookie
+    try {
+      await api.get('/auth/logout');
+      // The server will handle clearing the auth cookie
+    } catch (error) {
+      console.error('Logout API call failed:', error);
+      // Don't throw the error so the app can continue with local logout
+      // This prevents the UI from freezing if the server is unreachable
+    }
   },
 };
 

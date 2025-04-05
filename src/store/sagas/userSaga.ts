@@ -23,8 +23,11 @@ import {
   profileRequest,
   profileSuccess,
   publicProfileSuccess,
+  updateProfileFailure,
+  updateProfileRequest,
+  updateProfileSuccess,
 } from '../slices/profileSlices';
-import { Profile, PublicProfile } from '@/interface/profile';
+import { Profile, PublicProfile, updateProfile } from '@/interface/profile';
 import { PayloadAction } from '@reduxjs/toolkit';
 
 type AuthSagaEffect =
@@ -38,6 +41,14 @@ type SearchUserSagaEffect =
 type PublicProfileSagaEffect =
   | CallEffect<PublicProfile | UserServiceError>
   | PutEffect<{ type: string; payload: PublicProfile | string | UserServiceError }>;
+
+type UpdateProfileSagaEffect =
+  | CallEffect<updateProfile | UserServiceError | void>
+  | PutEffect<{ type: string; payload: updateProfile | string | UserServiceError }>;
+
+type UpdateUserSagaEffect =
+  | CallEffect<Partial<User> | UserServiceError | void>
+  | PutEffect<{ type: string; payload: void | string | UserServiceError }>;
 
 type UnsendRequestSagaEffect = CallEffect<void> | PutEffect<{ type: string; payload: string }>;
 
@@ -114,10 +125,13 @@ export function* unsendRequestSaga(
   }
 }
 
-function* updateUserSaga(action: PayloadAction<UserUpdate>) {
+function* updateUserSaga(
+  action: PayloadAction<UserUpdate>
+): Generator<UpdateUserSagaEffect, void, void> {
   try {
     yield call(userService.updateUser, action.payload);
     yield put(updateUserSuccess());
+    yield put(loginRequest());
   } catch (error) {
     let errorMessage = 'Failed to update user';
     if (error instanceof AxiosError) {
@@ -154,7 +168,21 @@ function* sendRequestSaga(action: PayloadAction<string>) {
   }
 }
 
+function* updateUserProfileSaga(): Generator<UpdateProfileSagaEffect, void, updateProfile> {
+  try {
+    const response = yield call(userService.updateProfile);
+    yield put(updateProfileSuccess(response));
+  } catch (error) {
+    let errorMessage = 'Failed to update user profile';
+    if (error instanceof AxiosError) {
+      errorMessage = error.response?.data?.message || error.message || errorMessage;
+    }
+    yield put(updateProfileFailure(errorMessage));
+  }
+}
+
 export function* userSaga() {
+  yield takeLatest(loginRequest.type, getUserDataSaga);
   yield takeLatest(loginRequest.type, getUserDataSaga);
   yield takeLatest(profileRequest.type, getProfileSaga);
   yield takeLatest(GetPublicProfile().type, PublicProfileSaga);
@@ -163,4 +191,5 @@ export function* userSaga() {
   yield takeLatest(UpdateUserAction().type, updateUserSaga);
   yield takeLatest(AcceptRequestAction().type, AcceptRequestSaga);
   yield takeLatest(SendRequestAction().type, sendRequestSaga);
+  yield takeLatest(updateProfileRequest.type, updateUserProfileSaga);
 }

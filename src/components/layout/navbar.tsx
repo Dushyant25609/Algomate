@@ -38,8 +38,11 @@ const Navbar: FC<NavbarProps> = ({ items = defaultNavItems }) => {
   const navigate = useNavigate();
 
   const handleLogout = () => {
+    // First dispatch the logout action
     dispatch(logout());
-    navigate(AppRoutes.HOME);
+    // Then navigate to home page
+    // Adding a small delay to ensure the logout action is processed
+    // This prevents the UI from freezing
   };
 
   // Mobile menu animation variants

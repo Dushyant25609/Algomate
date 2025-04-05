@@ -1,4 +1,4 @@
-import { AvatarConfig } from '@/interface/avatar';
+import { AvatarConfig, AvatarConfig2 } from '@/interface/avatar';
 import api from './api';
 
 const AVATAR_ENDPOINT = 'pvt/avatar';
@@ -11,7 +11,7 @@ export interface AvatarServiceError {
 }
 
 export const avatarService = {
-  createAvatar: async (avatarConfig: AvatarConfig) => {
+  createAvatar: async (avatarConfig: AvatarConfig | AvatarConfig2) => {
     try {
       const response = await api.post(AVATAR_ENDPOINT, avatarConfig);
       return response.data;
@@ -31,7 +31,7 @@ export const avatarService = {
     }
   },
 
-  updateAvatar: async (avatarConfig: AvatarConfig) => {
+  updateAvatar: async (avatarConfig: AvatarConfig | AvatarConfig2) => {
     try {
       const response = await api.put(AVATAR_ENDPOINT, avatarConfig);
       return response.data;
