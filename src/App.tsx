@@ -11,13 +11,14 @@ import { AppRoutes } from './lib/routes';
 import { useEffect } from 'react';
 import { updateProfileRequest } from './store/slices/profileSlices';
 import { SpeedInsights } from '@vercel/speed-insights/react';
+import { User } from './interface/user';
 
 function App() {
   const isAuthenticated = useAppSelector(state => state.user.isAuthenticated);
-  const user = useAppSelector(state => state.user);
+  const user = useAppSelector(state => state.user) as User;
   const dispatch = useAppDispatch();
   useEffect(() => {
-    if (isAuthenticated && user && user.platforms.leetcode) {
+    if (isAuthenticated && user && user.platforms && user.platforms.leetcode) {
       dispatch(updateProfileRequest());
     }
   }, [dispatch, isAuthenticated, user]);
