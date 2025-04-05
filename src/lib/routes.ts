@@ -29,7 +29,7 @@ export enum AppRoutes {
 export const generatePath = (route: string, params: Record<string, string>): string => {
   let path = route;
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  Object.entries(params).forEach(([key, value]) => {
+  Object.entries(params).forEach(([_key, value]) => {
     path = path.concat(`${value}`);
   });
   return path;
