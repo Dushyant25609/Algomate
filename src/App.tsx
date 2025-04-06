@@ -11,6 +11,7 @@ import { AppRoutes } from './lib/routes';
 import { useEffect } from 'react';
 import { updateProfileRequest } from './store/slices/profileSlices';
 import { SpeedInsights } from '@vercel/speed-insights/react';
+import { Analytics } from '@vercel/analytics/react';
 import { User } from './interface/user';
 
 function App() {
@@ -43,6 +44,7 @@ function App() {
       </div>
       <Toaster />
       <SpeedInsights />
+      <Analytics />
     </LoadingProvider>
   );
 }
