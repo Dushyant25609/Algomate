@@ -5,6 +5,7 @@ import {
   updateUserSuccess,
   UpdateUserAction,
   AcceptRequestAction,
+  updateUserFailure,
 } from '../slices/userSlice';
 import userService, { UserServiceError } from '@/services/userService';
 import { call, CallEffect, debounce, put, PutEffect, takeLatest } from 'redux-saga/effects';
@@ -23,7 +24,6 @@ import {
   profileRequest,
   profileSuccess,
   publicProfileSuccess,
-  updateProfileFailure,
   updateProfileRequest,
   updateProfileSuccess,
 } from '../slices/profileSlices';
@@ -177,7 +177,7 @@ function* updateUserProfileSaga(): Generator<UpdateProfileSagaEffect, void, upda
     if (error instanceof AxiosError) {
       errorMessage = error.response?.data?.message || error.message || errorMessage;
     }
-    yield put(updateProfileFailure(errorMessage));
+    yield put(updateUserFailure(errorMessage));
   }
 }
 

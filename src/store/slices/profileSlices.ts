@@ -63,8 +63,8 @@ const initialState: ProfileState = {
     name: '',
     profileUrl: '',
     bio: '',
-    followers: '0',
-    following: '0',
+    followers: 0,
+    following: 0,
     avatar_url: '',
     repos: [],
   },
@@ -113,15 +113,7 @@ export const profileSlice = createSlice({
     updateProfileSuccess: (state, action: PayloadAction<updateProfile>) => {
       if (state.code && action.payload.leetcode) {
         state.code.leetcode = action.payload.leetcode;
-        toast.success('Profile updated successfully');
       }
-    },
-    updateProfileFailure: (state, action: PayloadAction<string>) => {
-      state.error = action.payload;
-      toast.error('Error updating profile');
-    },
-    clearProfile: () => {
-      return initialState;
     },
   },
 });
@@ -140,8 +132,6 @@ export const {
   publicProfileSuccess,
   updateProfileRequest,
   updateProfileSuccess,
-  updateProfileFailure,
-  clearProfile,
 } = profileSlice.actions;
 
 // Export reducer

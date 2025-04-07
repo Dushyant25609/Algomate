@@ -2,10 +2,11 @@ import authService from '@/services/authService';
 import { call, CallEffect, put, PutEffect, takeLatest } from 'redux-saga/effects';
 import { loginFailure, logout, setLoading } from '../slices/userSlice';
 import { clearAvatar } from '../slices/avatarSlice';
-import { clearProfile } from '../slices/profileSlices';
-import { clearFriend } from '../slices/friendSlices';
-import { clearLeaderboard } from '../slices/leaderboardSlice';
-
+import { fetchCountriesFailure } from '../slices/countrySlice';
+import { fetchUserPendingsFailure } from '../slices/friendSlices';
+import { fetchLeaderboardFailure } from '../slices/leaderboardSlice';
+import { generateVerificationFailure } from '../slices/platformSlice';
+import { profileFailure } from '../slices/profileSlices';
 // Remove the redirect import as we'll use window.location.href instead
 
 export function* GoogleSaga(): Generator<CallEffect<void> | PutEffect, void, void> {
@@ -34,9 +35,11 @@ export function* LogoutSaga(): Generator<CallEffect<void> | PutEffect, void, voi
 
     // Reset all states in the store
     yield put(clearAvatar()); // Reset avatar state
-    yield put(clearProfile());
-    yield put(clearLeaderboard());
-    yield put(clearFriend());
+    yield put(fetchCountriesFailure('')); // Reset country state
+    yield put(fetchUserPendingsFailure('')); // Reset friend state
+    yield put(fetchLeaderboardFailure('')); // Reset leaderboard state
+    yield put(generateVerificationFailure('')); // Reset platform state
+    yield put(profileFailure('')); // Reset profile state
 
     // Remove cookie and call logout API
     localStorage.removeItem('cookie');
@@ -49,10 +52,12 @@ export function* LogoutSaga(): Generator<CallEffect<void> | PutEffect, void, voi
     yield put(loginFailure(errorMessage));
 
     // Reset all states in the store even if there's an error
-    yield put(clearAvatar()); // Reset avatar state
-    yield put(clearProfile());
-    yield put(clearLeaderboard());
-    yield put(clearFriend());
+    yield put(clearAvatar());
+    yield put(fetchCountriesFailure(''));
+    yield put(fetchUserPendingsFailure(''));
+    yield put(fetchLeaderboardFailure(''));
+    yield put(generateVerificationFailure(''));
+    yield put(profileFailure(''));
 
     // Ensure we still logout locally even if there's an error
     localStorage.removeItem('cookie');

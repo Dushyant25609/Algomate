@@ -160,7 +160,7 @@ const CreateAvatar: React.FC = () => {
                 </motion.div>
               </CardHeader>
               <CardContent>
-                <motion.div className="flex flex-col items-center" variants={itemVariants}>
+                <motion.div className="flex flex-col gap-4 items-center" variants={itemVariants}>
                   <motion.div
                     initial={{ scale: 0.9, opacity: 0 }}
                     animate={{ scale: 1, opacity: 1 }}
@@ -169,10 +169,6 @@ const CreateAvatar: React.FC = () => {
                       stiffness: 300,
                       damping: 20,
                       delay: 0.2,
-                    }}
-                    whileHover={{
-                      scale: 1.02,
-                      transition: { duration: 0.2 },
                     }}
                   >
                     <Showcase avatarConfig={avatarConfig} onAvatarChange={handleAvatarChange} />
