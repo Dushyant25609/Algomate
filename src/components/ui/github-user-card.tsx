@@ -69,7 +69,9 @@ const GithubUserCard: FC<GithubUserCardProps> = ({ github }) => {
           <div className="flex items-center gap-2 p-2 backdrop-blur-sm relative z-10 h-full border border-border-/50 rounded-lg shadow-sm group-hover:shadow-md transition-all duration-300?">
             <Github className="h-4 w-4 text-purple-500 shrink-0" />
             <div className="flex flex-col">
-              <span className="font-semibold text-sm md:text-base">{github.repos.length}</span>
+              <span className="font-semibold text-sm md:text-base">
+                {(github.repos || []).length}
+              </span>
               <span className="text-muted-foreground text-xs">repositories</span>
             </div>
           </div>
