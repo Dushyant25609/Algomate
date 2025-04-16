@@ -21,6 +21,7 @@ import { logout } from '@/store/slices/userSlice';
 import { useNavigate } from 'react-router-dom';
 import { AppRoutes, generatePath } from '@/lib/routes';
 import NotificationDropdown from '../ui/notification-dropdown';
+import DarkAlgomate from '@/assets/logoDark.svg';
 
 interface NavbarProps {
   items?: NavItem[];
@@ -54,18 +55,13 @@ const Navbar: FC<NavbarProps> = ({ items = defaultNavItems }) => {
   return (
     <>
       <motion.nav
-        className="h-12 w-full bg-secondary border-b-1 border-foreground/10"
+        className="h-12 w-full bg-secondary border-b border-foreground/10"
         {...navbarAnimationProps}
       >
         <div className="h-full flex gap-6 items-center justify-between md:gap-10 px-4">
           <div className="h-full flex gap-6 items-center md:gap-10">
-            <NavLink
-              to={AppRoutes.HOME}
-              className={({ isActive }) =>
-                `font-medium text-lg hover:text-primary transition-colors ${isActive ? 'text-foreground' : 'text-foreground/60'}`
-              }
-            >
-              LBP
+            <NavLink to={AppRoutes.HOME}>
+              <img className="w-8 h-8" src={DarkAlgomate} />
             </NavLink>
             {/* Desktop Navigation */}
             <div className="hidden md:flex h-full gap-6 items-center">

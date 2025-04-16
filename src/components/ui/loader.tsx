@@ -1,6 +1,7 @@
 import { FC, ReactNode } from 'react';
 import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
+import loaderGif from '@/assets/loader.gif';
 
 type LoaderSize = 'sm' | 'default' | 'lg';
 type LoaderVariant = 'default' | 'primary' | 'secondary';
@@ -19,15 +20,9 @@ interface LoaderProps {
 }
 
 const sizeClasses: Record<LoaderSize, string> = {
-  sm: 'size-4 border-2',
-  default: 'size-8 border-3',
-  lg: 'size-12 border-4',
-};
-
-const variantClasses: Record<LoaderVariant, string> = {
-  default: 'border-primary',
-  primary: 'border-primary',
-  secondary: 'border-secondary',
+  sm: 'size-4 ',
+  default: 'w-30 h-30 ',
+  lg: 'size-12 ',
 };
 
 // Skeleton component for content placeholders
@@ -55,7 +50,6 @@ export const Skeleton: FC<{
 // Main loader component that can render either spinner or skeleton
 export const Loader: FC<LoaderProps> = ({
   size = 'default',
-  variant = 'default',
   fullScreen = false,
   className,
   type = 'spinner',
@@ -70,7 +64,7 @@ export const Loader: FC<LoaderProps> = ({
     <Wrapper
       className={cn(
         'flex items-center justify-center',
-        fullScreen && 'fixed inset-0 bg-background/80 backdrop-blur-sm z-50',
+        fullScreen && 'fixed inset-0 z-50',
         className
       )}
       initial={{ opacity: 0 }}
@@ -79,18 +73,11 @@ export const Loader: FC<LoaderProps> = ({
       transition={{ duration: 0.2 }}
     >
       {type === 'spinner' ? (
-        <motion.div
-          className={cn(
-            'rounded-full border-t-transparent animate-spin',
-            sizeClasses[size],
-            variantClasses[variant]
-          )}
-          animate={{ rotate: 360 }}
-          transition={{
-            duration: 1,
-            repeat: Infinity,
-            ease: 'linear',
-          }}
+        <img
+          src={loaderGif}
+          alt="Loading..."
+          className={cn(sizeClasses[size])}
+          style={{ objectFit: 'contain' }}
         />
       ) : (
         children || (

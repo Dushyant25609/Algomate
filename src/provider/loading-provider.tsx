@@ -8,5 +8,5 @@ interface LoadingProviderProps {
 
 export const LoadingProvider: FC<LoadingProviderProps> = ({ children }) => {
   const isLoading = useAppSelector(state => state.user.loading);
-  return <>{isLoading ? <Loader type="skeleton" fullScreen /> : children}</>;
+  return <>{isLoading ? <Loader type="spinner" fullScreen /> : children}</>;
 };
