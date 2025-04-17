@@ -28,6 +28,7 @@ export function* LogoutSaga(): Generator<CallEffect<void> | PutEffect, void, voi
     yield put(setLoading());
     localStorage.removeItem('cookie');
     yield call(authService.logout);
+    window.location.href = '/';
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : 'Logout failed';
     yield put(loginFailure(errorMessage));
