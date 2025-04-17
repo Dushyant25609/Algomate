@@ -111,8 +111,12 @@ export const profileSlice = createSlice({
       toast.info('Updating profile...');
     },
     updateProfileSuccess: (state, action: PayloadAction<updateProfile>) => {
-      if (state.code && action.payload.leetcode) {
-        state.code.leetcode = action.payload.leetcode;
+      if (state.code) {
+        state.code.leetcode = action.payload.leetcode || state.code.leetcode;
+        state.code.questions = action.payload.questions || state.code.questions;
+      }
+      if (state.github) {
+        state.github = action.payload.github || state.github;
       }
     },
   },

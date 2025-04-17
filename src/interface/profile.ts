@@ -25,5 +25,6 @@ export interface PublicProfile {
 export interface updateProfile {
   message: string;
   questions: Questions;
-  leetcode: LeetCodeUserData;
+  leetcode?: LeetCodeUserData;
+  github?: GithubUserData;
 }
