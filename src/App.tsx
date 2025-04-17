@@ -26,7 +26,8 @@ function App() {
     ) {
       dispatch(updateProfileRequest());
     }
-  }, [dispatch, isAuthenticated, user]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isAuthenticated, user]);
   return (
     <LoadingProvider>
       <Navbar />
