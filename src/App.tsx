@@ -19,7 +19,11 @@ function App() {
   const user = useAppSelector(state => state.user) as User;
   const dispatch = useAppDispatch();
   useEffect(() => {
-    if (isAuthenticated && user && user.platforms && user.platforms.leetcode) {
+    if (
+      isAuthenticated &&
+      user &&
+      (user.githubToken || (user.platforms && user.platforms.leetcode))
+    ) {
       dispatch(updateProfileRequest());
     }
   }, [dispatch, isAuthenticated, user]);
