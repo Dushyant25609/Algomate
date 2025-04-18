@@ -105,7 +105,7 @@ export const InfiniteMovingCards = ({
               </div>
             ) : (
               <img
-                className="h-20 brightness-50 transition-all duration-500 object-contain"
+                className="h-20 brightness-90 dark:brightness-50 transition-all duration-500 object-contain"
                 src={badge.img}
                 alt={badge.name}
               />
