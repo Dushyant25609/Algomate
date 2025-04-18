@@ -62,11 +62,11 @@ function Legend({ data = [] }: { data: ChartData[] }) {
               fontWeight={hover === index ? 'bold' : 'normal'}
               className={cn(
                 'border w-full  rounded-sm transition-colors duration-500 md:px-3 py-2 flex items-center justify-center',
-                item.label === 'Easy' ? 'bg-[#08d1b9]/20 hover:bg-[#08d1b9]/40' : '', // Replace with a valid color
-                item.label === 'Medium' ? 'bg-[#FDBF1E]/20 hover:bg-[#FDBF1E]/40' : '',
-                item.label === 'Hard' ? 'bg-[#FF375F]/20 hover:bg-[#FF375F]/40' : '',
-                item.label === 'CP' ? 'bg-[#C05AF2]/20 hover:bg-[#C05AF2]/40' : '',
-                item.label === 'Leetcode' ? 'bg-[#FFA217]/20 hover:bg-[#FFA217]/40' : ''
+                item.label === 'Easy' ? 'bg-[#82CFFF]/20 hover:bg-[#82CFFF]/40' : '', // Replace with a valid color
+                item.label === 'Medium' ? 'bg-[#45B1FF]/20 hover:bg-[#45B1FF]/40' : '',
+                item.label === 'Hard' ? 'bg-[#0479FF]/20 hover:bg-[#0479FF]/40' : '',
+                item.label === 'CP' ? 'bg-[#205A9C]/20 hover:bg-[#205A9C]/40' : '',
+                item.label === 'Leetcode' ? 'bg-[#45b1ff]/20 hover:bg-[#45b1ff]/40' : ''
               )}
               variant="body2"
             >

@@ -45,27 +45,14 @@
   --heatmap-3: #82cfff;
   --heatmap-4: #e0e0e0;
 
-  --question-easy: #45b1ff;
-  --question-easy-start: #82cfff;
-  --question-easy-end: #205a9c;
-  --question-easy-gradient: #45b1ff;
-  --question-medium: #023c7e;
-  --question-medium-start: #205a9c;
-  --question-medium-end: #023c7e;
-  --question-medium-gradient: #205a9c;
-  --question-hard: #ff375f;
-  --question-hard-start: #ff375f;
-  --question-hard-end: #8c001c;
-  --question-hard-gradient: #ff6b8b;
-  --question-cp: #205a9c;
-  --question-cp-start: #45b1ff;
-  --question-cp-end: #023c7e;
-  --question-cp-gradient: #82cfff;
+  --question-easy: #82CFFF;
+  --question-medium: #45B1FF;
+  --question-hard: #0479FF;
+  --question-cp: #205A9C;
 
   --leetcode-primary: #45b1ff;
   --linkedIn: #023c7e;
 }
-
 
 @theme inline {
   --color-background: var(--background);
