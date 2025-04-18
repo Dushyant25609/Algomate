@@ -116,7 +116,7 @@ export default function PieChartWithCenterLabel({
               innerRadius: innerRadius,
               outerRadius: outerRadius,
               highlightScope: { fade: 'global', highlight: 'item' },
-              faded: { innerRadius: 55, additionalRadius: -10, color: 'gray' },
+              faded: { innerRadius: 55, additionalRadius: -5, color: 'gray' },
             },
           ]}
           {...size}
