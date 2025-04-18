@@ -4,106 +4,105 @@
 :root {
   --background: #e0e0e0;
   --foreground: #0a0a0a;
-  --card: #82CFFF;
-  --card-foreground: #0a0a0a;
-  --popover: #82CFFF;
-  --popover-foreground: #0a0a0a;
-  --primary: #023C7E;
+  --card: #1a1a1a; /* New light black shade for card */
+  --card-foreground: #e0e0e0; /* Light text to contrast on dark card */
+  --popover: #1a1a1a;
+  --popover-foreground: #e0e0e0;
+  --primary: #023c7e;
   --primary-foreground: #e0e0e0;
-  --secondary: #205A9C;
+  --secondary: #205a9c;
   --secondary-foreground: #e0e0e0;
   --muted: #e0e0e0;
-  --muted-foreground: #205A9C;
-  --accent: #45B1FF;
+  --muted-foreground: #205a9c;
+  --accent: #45b1ff;
   --accent-foreground: #0a0a0a;
   --destructive: #ff5252;
   --destructive-foreground: #ffffff;
-  --border: #82CFFF;
-  --input: #82CFFF;
-  --ring: #023C7E;
+  --border: #82cfff;
+  --input: #82cfff;
+  --ring: #023c7e;
 
-  --chart-1: #45B1FF;
-  --chart-2: #205A9C;
-  --chart-3: #023C7E;
-  --chart-4: #82CFFF;
+  --chart-1: #45b1ff;
+  --chart-2: #205a9c;
+  --chart-3: #023c7e;
+  --chart-4: #82cfff;
   --chart-5: #ff5252;
 
   --radius: 0.625rem;
 
-  --sidebar: #82CFFF;
+  --sidebar: #82cfff;
   --sidebar-foreground: #0a0a0a;
-  --sidebar-primary: #023C7E;
+  --sidebar-primary: #023c7e;
   --sidebar-primary-foreground: #e0e0e0;
-  --sidebar-accent: #205A9C;
+  --sidebar-accent: #205a9c;
   --sidebar-accent-foreground: #e0e0e0;
-  --sidebar-border: #82CFFF;
-  --sidebar-ring: #023C7E;
+  --sidebar-border: #82cfff;
+  --sidebar-ring: #023c7e;
 
-  --heatmap-base: #023C7E62;
-  --heatmap-1: #205A9C;
-  --heatmap-2: #45B1FF;
-  --heatmap-3: #82CFFF;
+  --heatmap-base: #023c7e62;
+  --heatmap-1: #205a9c;
+  --heatmap-2: #45b1ff;
+  --heatmap-3: #82cfff;
   --heatmap-4: #e0e0e0;
 
   /* Question difficulty colors - adjusted slightly for new palette */
-  --question-easy: #45B1FF;
-  --question-easy-start: #82CFFF;
-  --question-easy-end: #205A9C;
-  --question-easy-gradient: #45B1FF;
-  --question-medium: #023C7E;
-  --question-medium-start: #205A9C;
-  --question-medium-end: #023C7E;
-  --question-medium-gradient: #205A9C;
+  --question-easy: #45b1ff;
+  --question-easy-start: #82cfff;
+  --question-easy-end: #205a9c;
+  --question-easy-gradient: #45b1ff;
+  --question-medium: #023c7e;
+  --question-medium-start: #205a9c;
+  --question-medium-end: #023c7e;
+  --question-medium-gradient: #205a9c;
   --question-hard: #ff375f;
   --question-hard-start: #ff375f;
   --question-hard-end: #8c001c;
   --question-hard-gradient: #ff6b8b;
-  --question-cp: #205A9C;
-  --question-cp-start: #45B1FF;
-  --question-cp-end: #023C7E;
-  --question-cp-gradient: #82CFFF;
+  --question-cp: #205a9c;
+  --question-cp-start: #45b1ff;
+  --question-cp-end: #023c7e;
+  --question-cp-gradient: #82cfff;
 
-  --leetcode-primary: #45B1FF;
-  --linkedIn: #023C7E;
+  --leetcode-primary: #45b1ff;
+  --linkedIn: #023c7e;
 }
 
 .dark {
   --background: #0a0a0a;
   --foreground: #e0e0e0;
-  --card: #023C7E;
+  --card: #1a1a1a; /* Same for dark mode for consistency */
   --card-foreground: #e0e0e0;
-  --popover: #023C7E;
+  --popover: #1a1a1a;
   --popover-foreground: #e0e0e0;
-  --primary: #82CFFF;
+  --primary: #82cfff;
   --primary-foreground: #0a0a0a;
-  --secondary: #205A9C;
+  --secondary: #205a9c;
   --secondary-foreground: #e0e0e0;
   --muted: #0a0a0a;
-  --muted-foreground: #45B1FF;
-  --accent: #45B1FF;
+  --muted-foreground: #45b1ff;
+  --accent: #45b1ff;
   --accent-foreground: #0a0a0a;
   --destructive: #ff1744;
   --destructive-foreground: #ffffff;
-  --border: #205A9C;
-  --input: #205A9C;
-  --ring: #82CFFF;
+  --border: #205a9c;
+  --input: #205a9c;
+  --ring: #82cfff;
 
-  --chart-1: #45B1FF;
-  --chart-2: #205A9C;
-  --chart-3: #023C7E;
-  --chart-4: #82CFFF;
+  --chart-1: #45b1ff;
+  --chart-2: #205a9c;
+  --chart-3: #023c7e;
+  --chart-4: #82cfff;
   --chart-5: #ff5252;
 
-  --sidebar: #023C7E;
+  --sidebar: #023c7e;
   --sidebar-foreground: #e0e0e0;
-  --sidebar-primary: #82CFFF;
+  --sidebar-primary: #82cfff;
   --sidebar-primary-foreground: #0a0a0a;
-  --sidebar-accent: #205A9C;
+  --sidebar-accent: #205a9c;
   --sidebar-accent-foreground: #e0e0e0;
-  --sidebar-border: #205A9C;
-  --sidebar-ring: #82CFFF;
+  --sidebar-border: #205a9c;
+  --sidebar-ring: #82cfff;
 }
-
 
 @theme inline {
   --color-background: var(--background);
