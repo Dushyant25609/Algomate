@@ -30,7 +30,7 @@ const Badges: FC<BadgesProps> = ({ badges, className }) => {
       </div>
       {/* Badge List */}
       <div className="flex items-center justify-center h-full">
-        <div className="relative flex justify-center items-center w-32 overflow-hidden h-full">
+        <div className="relative flex justify-center items-center w-36 overflow-hidden h-full">
           {/* Badge Container */}
           <div className="flex gap-4 items-center justify-center overflow-x-hidden scroll-smooth hide-scrollbar w-full ">
             <InfiniteMovingCards
