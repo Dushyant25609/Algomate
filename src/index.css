@@ -3,11 +3,11 @@
 @custom-variant dark (&:is(.dark *));
 :root {
   --background: #e0e0e0;
-  --foreground: #0a0a0a;
+  --foreground: #2b2b2b;
   --card: #45b1ff;
-  --card-foreground: #0a0a0a; /* Dark text on light background */
+  --card-foreground: #2b2b2b;
   --popover: #45b1ff;
-  --popover-foreground: #0a0a0a;
+  --popover-foreground: #2b2b2b;
   --primary: #023c7e;
   --primary-foreground: #e0e0e0;
   --secondary: #205a9c;
@@ -15,7 +15,7 @@
   --muted: #e0e0e0;
   --muted-foreground: #205a9c;
   --accent: #45b1ff;
-  --accent-foreground: #0a0a0a;
+  --accent-foreground: #2b2b2b;
   --destructive: #ff5252;
   --destructive-foreground: #ffffff;
   --border: #82cfff;
@@ -31,7 +31,7 @@
   --radius: 0.625rem;
 
   --sidebar: #82cfff;
-  --sidebar-foreground: #0a0a0a;
+  --sidebar-foreground: #2b2b2b;
   --sidebar-primary: #023c7e;
   --sidebar-primary-foreground: #e0e0e0;
   --sidebar-accent: #205a9c;
@@ -45,7 +45,6 @@
   --heatmap-3: #82cfff;
   --heatmap-4: #e0e0e0;
 
-  /* Question difficulty colors - adjusted slightly for new palette */
   --question-easy: #45b1ff;
   --question-easy-start: #82cfff;
   --question-easy-end: #205a9c;
@@ -67,42 +66,6 @@
   --linkedIn: #023c7e;
 }
 
-.dark {
-  --background: #0a0a0a;
-  --foreground: #e0e0e0;
-  --card: #1a1a1a; /* Same for dark mode for consistency */
-  --card-foreground: #e0e0e0;
-  --popover: #1a1a1a;
-  --popover-foreground: #e0e0e0;
-  --primary: #82cfff;
-  --primary-foreground: #0a0a0a;
-  --secondary: #205a9c;
-  --secondary-foreground: #e0e0e0;
-  --muted: #0a0a0a;
-  --muted-foreground: #45b1ff;
-  --accent: #45b1ff;
-  --accent-foreground: #0a0a0a;
-  --destructive: #ff1744;
-  --destructive-foreground: #ffffff;
-  --border: #205a9c;
-  --input: #205a9c;
-  --ring: #82cfff;
-
-  --chart-1: #45b1ff;
-  --chart-2: #205a9c;
-  --chart-3: #023c7e;
-  --chart-4: #82cfff;
-  --chart-5: #ff5252;
-
-  --sidebar: #023c7e;
-  --sidebar-foreground: #e0e0e0;
-  --sidebar-primary: #82cfff;
-  --sidebar-primary-foreground: #0a0a0a;
-  --sidebar-accent: #205a9c;
-  --sidebar-accent-foreground: #e0e0e0;
-  --sidebar-border: #205a9c;
-  --sidebar-ring: #82cfff;
-}
 
 @theme inline {
   --color-background: var(--background);
