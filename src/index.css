@@ -4,9 +4,9 @@
 :root {
   --background: #e0e0e0;
   --foreground: #0a0a0a;
-  --card: #f0f0f0;
+  --card: #45b1ff;
   --card-foreground: #0a0a0a; /* Dark text on light background */
-  --popover: #f0f0f0;
+  --popover: #45b1ff;
   --popover-foreground: #0a0a0a;
   --primary: #023c7e;
   --primary-foreground: #e0e0e0;
