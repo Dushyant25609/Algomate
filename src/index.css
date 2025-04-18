@@ -4,10 +4,10 @@
 :root {
   --background: #e0e0e0;
   --foreground: #0a0a0a;
-  --card: #1a1a1a; /* New light black shade for card */
-  --card-foreground: #e0e0e0; /* Light text to contrast on dark card */
-  --popover: #1a1a1a;
-  --popover-foreground: #e0e0e0;
+  --card: #f0f0f0;
+  --card-foreground: #0a0a0a; /* Dark text on light background */
+  --popover: #f0f0f0;
+  --popover-foreground: #0a0a0a;
   --primary: #023c7e;
   --primary-foreground: #e0e0e0;
   --secondary: #205a9c;
