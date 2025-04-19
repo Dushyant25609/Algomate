@@ -39,8 +39,8 @@ const Dashboard: FC = () => {
     <div className="max-w-11/12 md:max-w-full  xl:max-w-11/12 py-8 flex flex-col gap-3">
       <div className="flex flex-col justify-center md:flex-row gap-3">
         <UserCard
-          name={user.name || profile?.user?.name || ''}
-          username={user.username || profile?.user?.username || ''}
+          name={profile?.user?.name || user.name || ''}
+          username={profile?.user?.username || user.username || ''}
           platforms={profile?.user?.platforms || user.platforms || {}}
           socials={profile?.user?.social || user.social || {}}
           github={profile?.github}
