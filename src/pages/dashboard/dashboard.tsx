@@ -38,7 +38,7 @@ const Dashboard: FC = () => {
       user &&
       (user.githubToken || (user.platforms && user.platforms.leetcode))
     ) {
-      dispatch(updateProfileRequest());
+      dispatch(updateProfileRequest(username));
     }
   });
 
