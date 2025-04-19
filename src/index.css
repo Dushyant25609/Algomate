@@ -21,6 +21,7 @@
   --border: #205a9c;
   --input: #82cfff;
   --ring: #023c7e;
+  --navbar: #82cfff;
 
   --chart-1: #45b1ff;
   --chart-2: #205a9c;
@@ -74,6 +75,8 @@
   --border: #82cfff;
   --input: #205a9c;
   --ring: #82cfff;
+  --navbar: #205a9c;
+
 
   --chart-1: #45b1ff;
   --chart-2: #205a9c;
@@ -128,6 +131,7 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
+  --color-navbar: var(--navbar);
 
   --animate-scroll: scroll var(--animation-duration, 40s) var(--animation-direction, forwards)
     linear infinite;
