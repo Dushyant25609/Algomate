@@ -50,7 +50,7 @@ const options = {
     colors: ['var(--muted-foreground)'],
     gradient: {
       shadeIntensity: 1,
-      inverseColors: true,
+      gradientToColors: ['var(--primary)'],
       opacityFrom: 0.6,
       opacityTo: 0,
       stops: [0, 90, 100],
