@@ -37,7 +37,7 @@ const options = {
     },
     background: 'transparent',
   },
-  colors: ['#45b1ff'],
+  colors: ['var(--primary)'],
   dataLabels: {
     enabled: false,
   },
@@ -47,6 +47,7 @@ const options = {
   },
   fill: {
     type: 'gradient',
+    colors: ['var(--muted-foreground)'],
     gradient: {
       shadeIntensity: 1,
       opacityFrom: 0.6,
