@@ -43,13 +43,13 @@ const options = {
   stroke: {
     curve: 'monotoneCubic',
     width: 3,
+    colors: ['var(--primary)'],
   },
   fill: {
     type: 'gradient',
-    colors: ['var(--primary)'],
+    colors: ['var(--border)'],
     gradient: {
       shadeIntensity: 1,
-      gradientToColors: ['var(--border)'],
       opacityFrom: 0.6,
       opacityTo: 0,
       stops: [0, 90, 100],
