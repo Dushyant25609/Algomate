@@ -40,7 +40,7 @@ const Dashboard: FC = () => {
     ) {
       dispatch(updateProfileRequest(username));
     }
-  });
+  }, []);
 
   // We use the username from props instead of trying to modify the URL params
   useEffect(() => {
