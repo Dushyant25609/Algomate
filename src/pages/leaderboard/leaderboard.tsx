@@ -19,7 +19,7 @@ import { cn } from '@/lib/utils';
 import UserAvatar from '@/components/ui/avatar/user-avatar';
 import { LeaderboardSortBy } from '@/interface/leaderboard';
 import { useNavigate } from 'react-router-dom';
-import { AppRoutes } from '@/lib/routes';
+import { AppRoutes, generatePath } from '@/lib/routes';
 import { toast } from 'sonner';
 
 const LeaderboardPage: FC = () => {
@@ -189,6 +189,13 @@ const LeaderboardPage: FC = () => {
                       'hover:bg-muted/50 transition-colors',
                       entry.username === 'current-user' && 'bg-primary/10'
                     )}
+                    onClick={() =>
+                      navigate(
+                        generatePath(AppRoutes.DASHBOARD_WITH_PARAM, {
+                          user: entry?.username || '',
+                        })
+                      )
+                    }
                   >
                     <td className="px-4 py-4 whitespace-nowrap">
                       <div className="flex items-center">
