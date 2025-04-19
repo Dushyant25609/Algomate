@@ -55,7 +55,7 @@ const Navbar: FC<NavbarProps> = ({ items = defaultNavItems }) => {
   return (
     <>
       <motion.nav
-        className="h-12 w-full bg-secondary border-b border-foreground/10"
+        className="h-12 w-full bg-border border-b border-foreground/10"
         {...navbarAnimationProps}
       >
         <div className="h-full flex gap-6 items-center justify-between md:gap-10 px-4">
