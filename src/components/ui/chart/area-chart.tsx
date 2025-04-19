@@ -49,7 +49,7 @@ const options = {
     colors: ['var(--primary)'],
     gradient: {
       shadeIntensity: 1,
-      gradientToColors: ['var(--muted-foreground)'],
+      gradientToColors: ['var(--border)'],
       opacityFrom: 0.6,
       opacityTo: 0,
       stops: [0, 90, 100],
