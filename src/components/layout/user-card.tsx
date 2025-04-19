@@ -51,7 +51,7 @@ const UserCard: FC<UserCardProps> = ({
       variants={containerVariants}
     >
       <Card className="md:max-w-fit h-full px-2 lg:px-4 py-0 pt-6 shadow-lg hover:shadow-xl transition-all duration-300">
-        <div className="flex flex-col divide-y">
+        <div className="flex flex-col divide-y divide-border/30 ">
           <div className="flex flex-col pb-3">
             <motion.div variants={itemVariants}>
               <CardHeader className="flex flex-row items-center justify-between pb-4 gap-10">
