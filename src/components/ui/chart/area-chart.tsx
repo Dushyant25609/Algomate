@@ -50,7 +50,7 @@ const options = {
     colors: ['#45b1ff'],
     gradient: {
       shadeIntensity: 1,
-      opacityFrom: 0.6,
+      opacityFrom: 0.4,
       opacityTo: 0,
       stops: [0, 90, 100],
     },
