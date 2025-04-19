@@ -2,7 +2,7 @@
 @plugin 'tailwindcss-animate';
 @custom-variant dark (&:is(.dark *));
 :root {
-  --background: #86cdff;
+  --background: #b2dfff;
   --foreground: #2b2b2b;
   --card: #45b1ff;
   --card-foreground: #2b2b2b;
@@ -75,8 +75,7 @@
   --border: #82cfff;
   --input: #205a9c;
   --ring: #82cfff;
-  --navbar: #205a9c;
-
+  --navbar: #4d4d4d;
 
   --chart-1: #45b1ff;
   --chart-2: #205a9c;
