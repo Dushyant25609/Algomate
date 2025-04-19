@@ -2,7 +2,7 @@
 @plugin 'tailwindcss-animate';
 @custom-variant dark (&:is(.dark *));
 :root {
-  --background: #D2DBE3;
+  --background: #86cdff;
   --foreground: #2b2b2b;
   --card: #45b1ff;
   --card-foreground: #2b2b2b;
@@ -18,7 +18,7 @@
   --accent-foreground: #2b2b2b;
   --destructive: #ff5252;
   --destructive-foreground: #ffffff;
-  --border: #82cfff;
+  --border: #205a9c;
   --input: #82cfff;
   --ring: #023c7e;
 
@@ -71,7 +71,7 @@
   --accent-foreground: #2b2b2b;
   --destructive: #ff1744;
   --destructive-foreground: #ffffff;
-  --border: #205a9c;
+  --border: #82cfff;
   --input: #205a9c;
   --ring: #82cfff;
 
