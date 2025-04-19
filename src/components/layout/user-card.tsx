@@ -119,7 +119,7 @@ const UserCard: FC<UserCardProps> = ({
               </CardContent>
             </motion.div>
           )}
-          {github && (
+          {github && github.name && (
             <motion.div variants={itemVariants}>
               <CardContent className="grow p-4 ">
                 <GithubUserCard github={github} />
