@@ -36,7 +36,7 @@ const GithubUserCard: FC<GithubUserCardProps> = ({ github }) => {
                   <img
                     src={github.avatar_url}
                     alt={`${github.name}'s avatar`}
-                    className="w-16 h-16 rounded-full object-cover border-2 border-secondary/50 shadow-md relative z-10 group-hover:scale-105 transition-all duration-300"
+                    className="w-10 h-10 rounded-full object-cover border-2 border-secondary/50 shadow-md relative z-10 group-hover:scale-105 transition-all duration-300"
                   />
                   <div className="absolute -bottom-1 -right-1 z-20 bg-background rounded-full p-1 shadow-sm border border-border">
                     <Github className="h-4 w-4 text-primary" />
