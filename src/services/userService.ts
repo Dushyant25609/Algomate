@@ -114,9 +114,9 @@ const userService = {
       throw error as UserServiceError;
     }
   },
-  updateProfile: async (): Promise<updateProfile> => {
+  updateProfile: async (username: string): Promise<updateProfile> => {
     try {
-      const response = await api.post<updateProfile>('/pvt/profile/update');
+      const response = await api.post<updateProfile>(`/pvt/profile/update/${username}`);
       return response.data;
     } catch (error) {
       throw error as UserServiceError;

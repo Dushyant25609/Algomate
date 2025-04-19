@@ -106,10 +106,6 @@ export const profileSlice = createSlice({
       state.loading = false;
       state.error = action.payload;
     },
-    updateProfileRequest: state => {
-      state.loading = false;
-      toast.info('Updating profile...');
-    },
     updateProfileSuccess: (state, action: PayloadAction<updateProfile>) => {
       if (state.code) {
         state.code.leetcode = action.payload.leetcode || state.code.leetcode;
@@ -127,6 +123,14 @@ export const GetPublicProfile = (username?: string) => ({
   payload: username,
 });
 
+export const updateProfileRequest = (username?: string) => {
+  toast.info('Updating profile...');
+  return {
+    type: 'update_profile',
+    payload: username,
+  };
+};
+
 // Export actions
 export const {
   setLoading,
@@ -134,7 +138,6 @@ export const {
   profileSuccess,
   profileFailure,
   publicProfileSuccess,
-  updateProfileRequest,
   updateProfileSuccess,
 } = profileSlice.actions;
 

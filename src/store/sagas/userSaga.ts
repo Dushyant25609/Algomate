@@ -168,9 +168,11 @@ function* sendRequestSaga(action: PayloadAction<string>) {
   }
 }
 
-function* updateUserProfileSaga(): Generator<UpdateProfileSagaEffect, void, updateProfile> {
+function* updateUserProfileSaga(
+  action: PayloadAction<string>
+): Generator<UpdateProfileSagaEffect, void, updateProfile> {
   try {
-    const response = yield call(userService.updateProfile);
+    const response = yield call(userService.updateProfile, action.payload);
     yield put(updateProfileSuccess(response));
   } catch (error) {
     let errorMessage = 'Failed to update user profile';
@@ -191,5 +193,5 @@ export function* userSaga() {
   yield takeLatest(UpdateUserAction().type, updateUserSaga);
   yield takeLatest(AcceptRequestAction().type, AcceptRequestSaga);
   yield takeLatest(SendRequestAction().type, sendRequestSaga);
-  yield takeLatest(updateProfileRequest.type, updateUserProfileSaga);
+  yield takeLatest(updateProfileRequest().type, updateUserProfileSaga);
 }

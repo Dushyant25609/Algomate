@@ -1,7 +1,7 @@
 import UserCard from '@/components/layout/user-card';
 import { FC, memo, useEffect, useMemo } from 'react';
 import { useAppDispatch, useAppSelector } from '@/store';
-import { GetPublicProfile } from '@/store/slices/profileSlices';
+import { GetPublicProfile, updateProfileRequest } from '@/store/slices/profileSlices';
 import QuestionPieChart from '@/components/layout/Pie';
 import { questionColors } from '@/constants/colors';
 import {
@@ -31,6 +31,17 @@ const Dashboard: FC = () => {
   const profile = useAppSelector(state => state.profile);
   const username = useParams().username;
   const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    if (
+      user.isAuthenticated &&
+      user &&
+      (user.githubToken || (user.platforms && user.platforms.leetcode))
+    ) {
+      dispatch(updateProfileRequest());
+    }
+  });
+
   // We use the username from props instead of trying to modify the URL params
   useEffect(() => {
     dispatch(GetPublicProfile(username));

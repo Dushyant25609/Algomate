@@ -6,27 +6,13 @@ import { AuthRoutes } from './Routes/authRoutes';
 import { PublicRoutes } from './Routes/publicRoutes';
 import { Toaster } from './components/ui/sonner';
 import LoopingIndex from './components/ui/loop';
-import { useAppDispatch, useAppSelector } from './store';
+import { useAppSelector } from './store';
 import { AppRoutes } from './lib/routes';
-import { useEffect } from 'react';
-import { updateProfileRequest } from './store/slices/profileSlices';
 import { SpeedInsights } from '@vercel/speed-insights/react';
 import { Analytics } from '@vercel/analytics/react';
-import { User } from './interface/user';
 
 function App() {
   const isAuthenticated = useAppSelector(state => state.user.isAuthenticated);
-  const user = useAppSelector(state => state.user) as User;
-  const dispatch = useAppDispatch();
-  useEffect(() => {
-    if (
-      isAuthenticated &&
-      user &&
-      (user.githubToken || (user.platforms && user.platforms.leetcode))
-    ) {
-      dispatch(updateProfileRequest());
-    }
-  });
   return (
     <LoadingProvider>
       <Navbar />
