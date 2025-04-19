@@ -47,10 +47,9 @@ const options = {
   },
   fill: {
     type: 'gradient',
-    colors: ['var(--muted-foreground)'],
     gradient: {
       shadeIntensity: 1,
-      gradientToColors: ['var(--primary)'],
+      gradientToColors: ['var(--muted-foreground)'],
       opacityFrom: 0.6,
       opacityTo: 0,
       stops: [0, 90, 100],
