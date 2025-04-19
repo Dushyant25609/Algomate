@@ -54,10 +54,7 @@ const Navbar: FC<NavbarProps> = ({ items = defaultNavItems }) => {
 
   return (
     <>
-      <motion.nav
-        className="h-12 w-full bg-navbar border-b border-foreground/10"
-        {...navbarAnimationProps}
-      >
+      <motion.nav className="h-12 w-full bg-navbar border-b border/10" {...navbarAnimationProps}>
         <div className="h-full flex gap-6 items-center justify-between md:gap-10 px-4">
           <div className="h-full flex gap-6 items-center md:gap-10">
             <NavLink to={AppRoutes.HOME}>
