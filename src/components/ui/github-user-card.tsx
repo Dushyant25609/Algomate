@@ -18,7 +18,7 @@ const GithubUserCard: FC<GithubUserCardProps> = ({ github }) => {
     : 0;
   return (
     <motion.div
-      className="flex flex-col gap-2 p-1"
+      className="flex flex-col gap-4 p-1"
       initial="hidden"
       animate="visible"
       variants={containerVariants}
