@@ -37,7 +37,7 @@ const options = {
     },
     background: 'transparent',
   },
-  colors: ['var(--primary)'],
+  colors: ['#45b1ff'],
   dataLabels: {
     enabled: false,
   },
