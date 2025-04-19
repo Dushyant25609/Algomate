@@ -47,7 +47,7 @@ const options = {
   },
   fill: {
     type: 'gradient',
-    colors: ['var(--border)'],
+    colors: ['#82cfff'],
     gradient: {
       shadeIntensity: 1,
       opacityFrom: 0.6,
