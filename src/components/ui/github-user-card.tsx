@@ -25,31 +25,27 @@ const GithubUserCard: FC<GithubUserCardProps> = ({ github }) => {
     >
       <motion.div variants={itemVariants} className="flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <div className="bg-gradient-to-br from-primary/20 to-secondary/20 p-1.5 rounded-md">
-            <Github className="h-5 w-5 text-primary" />
-          </div>
-          <h2 className="text-sm md:text-base font-semibold">GitHub Profile</h2>
-        </div>
-      </motion.div>
-
-      <motion.div
-        variants={itemVariants}
-        className="flex flex-col md:flex-row items-start md:items-center gap-4"
-      >
-        <div className="relative group">
-          {github.avatar_url && (
-            <div className="relative">
-              <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-secondary/20 rounded-full blur-sm group-hover:blur-md transition-all duration-300"></div>
-              <img
-                src={github.avatar_url}
-                alt={`${github.name}'s avatar`}
-                className="w-16 h-16 rounded-full object-cover border-2 border-secondary/50 shadow-md relative z-10 group-hover:scale-105 transition-all duration-300"
-              />
-              <div className="absolute -bottom-1 -right-1 z-20 bg-background rounded-full p-1 shadow-sm border border-border">
-                <Github className="h-4 w-4 text-primary" />
-              </div>
+          <motion.div
+            variants={itemVariants}
+            className="flex flex-col md:flex-row items-start md:items-center gap-4"
+          >
+            <div className="relative group">
+              {github.avatar_url && (
+                <div className="relative">
+                  <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-secondary/20 rounded-full blur-sm group-hover:blur-md transition-all duration-300"></div>
+                  <img
+                    src={github.avatar_url}
+                    alt={`${github.name}'s avatar`}
+                    className="w-16 h-16 rounded-full object-cover border-2 border-secondary/50 shadow-md relative z-10 group-hover:scale-105 transition-all duration-300"
+                  />
+                  <div className="absolute -bottom-1 -right-1 z-20 bg-background rounded-full p-1 shadow-sm border border-border">
+                    <Github className="h-4 w-4 text-primary" />
+                  </div>
+                </div>
+              )}
             </div>
-          )}
+          </motion.div>
+          <h2 className="text-sm md:text-base font-semibold">GitHub Profile</h2>
         </div>
       </motion.div>
 
