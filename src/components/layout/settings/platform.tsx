@@ -2,7 +2,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { User } from '@/interface/user';
-import { FC, useState, useEffect } from 'react';
+import { FC, useState, useEffect, useContext } from 'react';
 import leetcode from '@/assets/leetcode.svg';
 import { useAppDispatch, useAppSelector } from '@/store';
 import {
@@ -16,12 +16,15 @@ import { Loader } from '@/components/ui/loader';
 import { toast } from 'sonner';
 import VerificationDialog from '@/components/ui/verification-dialog';
 import ConfirmationDialog from '@/components/ui/confirmation-dialog';
+import leetcodeLight from '@/assets/leetcodeLight.svg';
+import { ThemeProviderContext } from '@/provider/theme-provider';
 
 interface PlatformTabProps {
   user: User;
 }
 
 export const PlatformTab: FC<PlatformTabProps> = ({ user }) => {
+  const { theme } = useContext(ThemeProviderContext);
   const dispatch = useAppDispatch();
   const { loading, verificationCode, message, instructions, error } = useAppSelector(
     state => state.platform.verification
@@ -190,7 +193,7 @@ export const PlatformTab: FC<PlatformTabProps> = ({ user }) => {
             {/* LeetCode Platform */}
             <div className="space-y-2">
               <label className="text-sm font-medium flex items-center gap-2">
-                <img src={leetcode} className="w-4 h-4" alt="" />
+                <img src={theme === 'dark' ? leetcode : leetcodeLight} className="w-4 h-4" alt="" />
                 LeetCode
               </label>
               <div className="flex gap-2">
