@@ -19,7 +19,6 @@ const PieChart: FC<Props> = ({ QuestionsChartValues, PlatformChartValues, COLORS
         <LightbulbIcon className="h-7 w-7 text-accent" />
         <h2>Problems Solved </h2>
       </div>
-      <span className="grow" />
       <div className="flex flex-col gap-3 md:gap-0 lg:flex-row lg:gap-4 lg:justify-around w-full">
         <Pie
           width={200}
