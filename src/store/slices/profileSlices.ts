@@ -114,6 +114,7 @@ export const profileSlice = createSlice({
       if (state.github) {
         state.github = action.payload.github || state.github;
       }
+      toast.success('Profile updated successfully');
     },
   },
 });
