@@ -1,13 +1,17 @@
 import { Platform } from '@/interface/platform';
-import { FC, memo } from 'react';
+import { FC, memo, useContext } from 'react'; // Import useContext
 import { HoverCard, HoverCardContent, HoverCardTrigger } from './hover-card';
 import leetcode from '@/assets/leetcode.svg';
+import leetcodeLight from '@/assets/leetcodeLight.svg';
+import { ThemeProviderContext } from '@/provider/theme-provider'; // Import ThemeProviderContext
 
 interface PlatformCardProps {
   platforms: Platform;
 }
 
 const PlatformCard: FC<PlatformCardProps> = ({ platforms }) => {
+  const { theme } = useContext(ThemeProviderContext); // Get theme from context
+
   return (
     <div>
       <div className="flex items-center justify-center gap-2">
@@ -16,7 +20,7 @@ const PlatformCard: FC<PlatformCardProps> = ({ platforms }) => {
             <HoverCardTrigger>
               <div className="relative">
                 <img
-                  src={leetcode}
+                  src={theme === 'dark' ? leetcode : leetcodeLight} // Conditional src based on theme
                   alt="leetcode"
                   className={`w-6 cursor-pointer transition-transform`}
                   onClick={() => {
