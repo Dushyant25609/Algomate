@@ -47,7 +47,7 @@ const Dashboard: FC = () => {
     dispatch(GetPublicProfile(username));
   }, [dispatch, username]);
   return (
-    <div className="max-w-11/12 md:max-w-full  xl:max-w-11/12 py-8 flex flex-col gap-3">
+    <div className="max-w-11/12 md:max-w-full  xl:max-w-11/12 py-3 flex flex-col gap-3">
       <div className="flex flex-col justify-center md:flex-row gap-3">
         <UserCard
           name={profile?.user?.name || user.name || ''}
