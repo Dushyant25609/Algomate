@@ -17,7 +17,7 @@ function App() {
     <LoadingProvider>
       <div className="max-w-11/12 md:max-w-full  xl:max-w-11/12 mx-auto flex flex-col items-center">
         <Navbar />
-        <div className="flex justify-center items-center w-svw">
+        <div className="flex justify-center items-center w-full">
           {isAuthenticated && <AuthRoutes />}
           <PublicRoutes />
           <Routes>
