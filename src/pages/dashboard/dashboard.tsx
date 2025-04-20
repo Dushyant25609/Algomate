@@ -47,7 +47,7 @@ const Dashboard: FC = () => {
     dispatch(GetPublicProfile(username));
   }, [dispatch, username]);
   return (
-    <div className="w-full py-8 flex flex-col items-center gap-3">
+    <div className="w-full py-8 flex flex-col gap-3">
       <div className="w-full flex flex-col justify-center md:flex-row gap-3">
         <UserCard
           name={profile?.user?.name || user.name || ''}
@@ -73,8 +73,8 @@ const Dashboard: FC = () => {
           company={profile?.user?.company || user?.company}
           college={profile?.user?.college || user?.college}
         />
-        <div className="w-full flex flex-col gap-2 items-center h-full">
-          <div className="flex gap-3 w-full flex-col justify-center lg:flex-row-reverse">
+        <div className="flex flex-col gap-2 items-center h-full">
+          <div className="flex gap-3 flex-col justify-center lg:flex-row-reverse">
             <PlatformContest platform={profile.code ? PlatformContestData(profile?.code) : []} />
             <div className="flex flex-col justify-stretch gap-3 w-full h-full">
               <Line
