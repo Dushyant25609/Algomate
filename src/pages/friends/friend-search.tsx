@@ -219,7 +219,7 @@ const FriendSearch: FC = () => {
 
   return (
     <motion.div
-      className="py-8 flex flex-col gap-6"
+      className="max-w-11/12 md:max-w-full xl:max-w-11/12 py-8flex flex-col gap-6"
       initial="hidden"
       animate="visible"
       variants={searchContainerVariants}

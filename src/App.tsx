@@ -15,9 +15,9 @@ function App() {
   const isAuthenticated = useAppSelector(state => state.user.isAuthenticated);
   return (
     <LoadingProvider>
-      <div className="max-w-11/12 md:max-w-full  xl:max-w-11/12 mx-auto flex flex-col items-center">
+      <div>
         <Navbar />
-        <div className="flex justify-center items-center w-full">
+        <div className="flex justify-center items-center w-svw">
           {isAuthenticated && <AuthRoutes />}
           <PublicRoutes />
           <Routes>

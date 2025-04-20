@@ -55,15 +55,15 @@ const Navbar: FC<NavbarProps> = ({ items = defaultNavItems }) => {
   return (
     <>
       <motion.nav
-        className="h-12 w-full flex justify-center items-center gap-4 my-3 rounded-lg"
+        className="h-12 max-w-11/12 md:max-w-full  xl:max-w-11/12 flex justify-center items-center gap-4 my-3 bg-navbar rounded-lg"
         {...navbarAnimationProps}
       >
-        <div className="bg-navbar p-2 rounded-lg">
+        <div>
           <NavLink to={AppRoutes.HOME} className="flex items-center gap-2">
             <img src={algomate} alt="Logo" className="h-8 w-8" />
           </NavLink>
         </div>
-        <div className="h-full flex w-full gap-6 items-center bg-navbar rounded-lg justify-between md:gap-10 px-4">
+        <div className="h-full flex gap-6 items-center justify-between md:gap-10 px-4">
           <div className="h-full flex gap-6 items-center md:gap-10">
             {/* Desktop Navigation */}
             <div className="hidden md:flex h-full gap-6 items-center">
