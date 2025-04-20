@@ -15,22 +15,24 @@ function App() {
   const isAuthenticated = useAppSelector(state => state.user.isAuthenticated);
   return (
     <LoadingProvider>
-      <Navbar />
-      <div className="flex justify-center items-center w-svw">
-        {isAuthenticated && <AuthRoutes />}
-        <PublicRoutes />
-        <Routes>
-          <Route
-            path={AppRoutes.HOME}
-            element={
-              <>
-                <LoopingIndex />
-              </>
-            }
-          />
-          <Route path={AppRoutes.AUTH_CONNECT} element={<AuthPage />} />
-          {!isAuthenticated && <Route path={AppRoutes.WILDCARD} element={<AuthPage />} />}
-        </Routes>
+      <div className="max-w-11/12 md:max-w-full  xl:max-w-11/12 mx-auto flex flex-col items-center">
+        <Navbar />
+        <div className="flex justify-center items-center w-svw">
+          {isAuthenticated && <AuthRoutes />}
+          <PublicRoutes />
+          <Routes>
+            <Route
+              path={AppRoutes.HOME}
+              element={
+                <>
+                  <LoopingIndex />
+                </>
+              }
+            />
+            <Route path={AppRoutes.AUTH_CONNECT} element={<AuthPage />} />
+            {!isAuthenticated && <Route path={AppRoutes.WILDCARD} element={<AuthPage />} />}
+          </Routes>
+        </div>
       </div>
       <Toaster />
       <SpeedInsights />
