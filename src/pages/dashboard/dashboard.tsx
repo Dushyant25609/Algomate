@@ -48,7 +48,7 @@ const Dashboard: FC = () => {
   }, [dispatch, username]);
   return (
     <div className="w-full py-8 flex flex-col gap-3">
-      <div className="flex flex-col justify-center md:flex-row gap-3">
+      <div className="w-full flex flex-col justify-center md:flex-row gap-3">
         <UserCard
           name={profile?.user?.name || user.name || ''}
           username={profile?.user?.username || user.username || ''}
