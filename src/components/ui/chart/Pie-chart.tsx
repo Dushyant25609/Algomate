@@ -126,7 +126,7 @@ export default function PieChartWithCenterLabel({
             },
           }}
         >
-          <PieCenterLabel>{totalQuestions}</PieCenterLabel>
+          <PieCenterLabel>{totalQuestions.toLocaleString()}</PieCenterLabel>
         </PieChart>
         <Legend data={safeChartValues} />
       </div>

@@ -1,4 +1,4 @@
-import { FC, useEffect, useState, useMemo } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '@/store';
 import {
   fetchLeaderboardRequest,
@@ -6,14 +6,7 @@ import {
 } from '@/store/slices/leaderboardSlice';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
-import { Trophy, Medal, Filter, Loader2 } from 'lucide-react';
+import { Medal, Loader2 } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
 import UserAvatar from '@/components/ui/avatar/user-avatar';
@@ -21,6 +14,8 @@ import { LeaderboardSortBy } from '@/interface/leaderboard';
 import { useNavigate } from 'react-router-dom';
 import { AppRoutes, generatePath } from '@/lib/routes';
 import { toast } from 'sonner';
+import { Sort } from '@/constants/leaderboard';
+import { PerformerCard } from '@/components/ui/performer-card';
 
 const LeaderboardPage: FC = () => {
   const dispatch = useAppDispatch();
@@ -28,6 +23,7 @@ const LeaderboardPage: FC = () => {
   const {
     data: leaderboardData,
     avatars,
+    topPerformers,
     pagination,
     loading,
     error,
@@ -43,26 +39,6 @@ const LeaderboardPage: FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
 
-  // Calculate current user rank and total users
-  const { currentUserRank, totalUsers } = useMemo(() => {
-    // Total users from pagination data
-    const total = pagination.totalRecords || 0;
-
-    // Find current user's rank in the leaderboard data
-    let userRank = null;
-    if (currentUser.username && leaderboardData.length > 0) {
-      // Find the index of the current user in the data
-      const userIndex = leaderboardData.findIndex(entry => entry.username === currentUser.username);
-      if (userIndex !== -1) {
-        // Use the index+1 as the rank
-        userRank = userIndex + 1;
-      }
-    }
-
-    return { currentUserRank: userRank, totalUsers: total };
-  }, [leaderboardData, pagination.totalRecords, currentUser.username]);
-
-  // Fetch leaderboard data on component mount
   useEffect(() => {
     dispatch(fetchLeaderboardRequest());
   }, [dispatch]);
@@ -102,43 +78,42 @@ const LeaderboardPage: FC = () => {
         staggerChildren: 0.1,
       }}
     >
-      {/* Page Header */}
-      <div className="w-full mb-6">
-        <div className="flex items-center gap-2 mb-2">
-          <Trophy className="h-5 w-5 text-primary" />
-          <h1 className="text-2xl font-bold">Leaderboard</h1>
-        </div>
-        <p className="text-muted-foreground text-sm">
-          See how you rank among other users in the community
-        </p>
-        {currentUserRank && (
-          <div className="mt-2 p-2 bg-accent/30 rounded-md inline-block">
-            <span className="text-sm font-medium">Your current rank: </span>
-            <span className="text-primary font-bold">{currentUserRank}</span>
-            <span className="text-sm text-muted-foreground"> out of {totalUsers} users</span>
-          </div>
-        )}
+      <div className="flex flex-col flex-wrap md:flex-row gap-3 md:items-center">
+        {topPerformers.map(performer => (
+          <PerformerCard
+            key={performer.score}
+            username={performer.profile.username}
+            rank={performer.type}
+            avatar={performer.avatar}
+            score={performer.score}
+            onClick={() =>
+              navigate(
+                generatePath(AppRoutes.DASHBOARD_WITH_PARAM, {
+                  user: performer?.profile.username || '',
+                })
+              )
+            }
+          />
+        ))}
       </div>
 
       {/* Filters and Search */}
       <div className="flex gap-2 w-full sm:w-auto">
-        <div className="flex-1 sm:flex-initial">
-          <Select value={sortBy} onValueChange={handleSortByChange}>
-            <SelectTrigger className="w-full">
-              <Filter className="mr-2 h-4 w-4" />
-              <SelectValue placeholder="Filter by" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="questions">Questions</SelectItem>
-              <SelectItem value="rating">Rating</SelectItem>
-              <SelectItem value="ranking">Ranking</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
+        {/* Sort By */}
+        {Sort.map(sort => (
+          <Button
+            key={sort.value}
+            variant={sortBy === sort.value ? 'selected' : 'secondary'}
+            onClick={() => handleSortByChange(sort.value)}
+            className="cursor-pointer"
+          >
+            {sort.label}
+          </Button>
+        ))}
       </div>
 
       {/* Leaderboard Table */}
-      <Card className="shadow-md overflow-hidden">
+      <Card className="shadow-md overflow-hidden py-0">
         <div className="overflow-x-auto">
           {loading ? (
             <div className="flex justify-center items-center p-8">
@@ -181,12 +156,12 @@ const LeaderboardPage: FC = () => {
                   </th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-border">
+              <tbody>
                 {leaderboardData.map((entry, index) => (
                   <tr
                     key={entry.username}
                     className={cn(
-                      'hover:bg-muted/50 transition-colors',
+                      'hover:bg-accent/30 odd:bg-card even:bg-background transition-colors cursor-pointer',
                       entry.username === 'current-user' && 'bg-primary/10'
                     )}
                     onClick={() =>
@@ -197,7 +172,7 @@ const LeaderboardPage: FC = () => {
                       )
                     }
                   >
-                    <td className="px-4 py-4 whitespace-nowrap">
+                    <td key={entry.username} className="px-4 py-4 whitespace-nowrap">
                       <div className="flex items-center">
                         {index + 1 <= 3 ? (
                           <Medal
@@ -229,15 +204,19 @@ const LeaderboardPage: FC = () => {
                     </td>
                     <td className="px-4 py-4 whitespace-nowrap hidden lg:table-cell">
                       <div className="text-sm font-bold text-primary">
-                        {Math.round(entry.leetcode?.contest.userContestRanking.rating || 0)}
+                        {Math.round(
+                          entry.leetcode?.contest.userContestRanking.rating || 0
+                        ).toLocaleString()}
                       </div>
                     </td>
                     <td className="px-4 py-4 whitespace-nowrap hidden lg:table-cell">
-                      <div className="text-sm">{entry.questions?.total || 'N/A'}</div>
+                      <div className="text-sm">
+                        {entry.questions?.total.toLocaleString() || 'N/A'}
+                      </div>
                     </td>
                     <td className="px-4 py-4 whitespace-nowrap hidden lg:table-cell">
                       <div className="text-sm">
-                        {entry.leetcode?.profile.profile.ranking || 'N/A'}
+                        {entry.leetcode?.profile.profile.ranking.toLocaleString() || 'N/A'}
                       </div>
                     </td>
                   </tr>

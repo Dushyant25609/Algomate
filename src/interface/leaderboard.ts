@@ -1,5 +1,5 @@
 import { AvatarConfig, AvatarConfig2 } from './avatar';
-import { LeetCodeUserData } from './leetcode';
+import { LeetCodeUserData, userProfile } from './leetcode';
 import { Questions } from './questions';
 
 export interface LeaderboardUserProfile {
@@ -16,12 +16,20 @@ export interface LeaderboardPagination {
   totalRecords: number;
 }
 
+export interface performer {
+  type: string;
+  profile: userProfile;
+  avatar: AvatarConfig | AvatarConfig2; // or replace with actual avatar type if you have it
+  score: number;
+}
+
 /**
  * Interface for the complete leaderboard response
  */
 export interface LeaderboardResponse {
   data: LeaderboardUserProfile[];
   avatars: AvatarConfig[] | AvatarConfig2[];
+  topPerformers: performer[];
   pagination: LeaderboardPagination;
 }
 

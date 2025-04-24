@@ -31,18 +31,18 @@ const LineChart: FC<Props> = ({
       <div className="flex justify-between md:justify-start md:gap-12 pt-4 md:px-3">
         <div className="flex flex-col text-card-foreground">
           <h2 className="text-xs font-light brightness-50">Contest Rating</h2>
-          <p className="text-3xl ">{rating}</p>
+          <p className="text-3xl ">{rating.toLocaleString()}</p>
         </div>
         <div className="flex flex-col gap-1 text-card-foreground">
           <h2 className="text-xs font-light brightness-50">Global Ranking</h2>
           <p className="text-xs">
-            {globalRanking}
-            <span className="brightness-50">/{totalParticipants}</span>
+            {globalRanking.toLocaleString()}
+            <span className="brightness-50">/{totalParticipants.toLocaleString()}</span>
           </p>
         </div>
         <div className="flex flex-col gap-1 text-card-foreground">
           <h2 className="text-xs font-light brightness-50">Attended</h2>
-          <p className="text-xs">{attended}</p>
+          <p className="text-xs">{attended.toLocaleString()}</p>
         </div>
       </div>
       <AreaChartComponent

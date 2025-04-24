@@ -18,6 +18,7 @@ export enum AppRoutes {
   FRIENDS = '/friends',
   SETTINGS = '/settings',
   SETTINGS_DETAIL = '/settings/',
+  PROFILE = "PROFILE",
 }
 
 /**

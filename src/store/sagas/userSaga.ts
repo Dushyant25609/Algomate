@@ -29,6 +29,7 @@ import {
 } from '../slices/profileSlices';
 import { Profile, PublicProfile, updateProfile } from '@/interface/profile';
 import { PayloadAction } from '@reduxjs/toolkit';
+import { toast } from 'sonner';
 
 type AuthSagaEffect =
   | CallEffect<Profile | User>
@@ -44,7 +45,9 @@ type PublicProfileSagaEffect =
 
 type UpdateProfileSagaEffect =
   | CallEffect<updateProfile | UserServiceError | void>
-  | PutEffect<{ type: string; payload: updateProfile | string | UserServiceError }>;
+  | PutEffect<{ type: string; payload: updateProfile | string | UserServiceError }>
+  | string
+  | number;
 
 type UpdateUserSagaEffect =
   | CallEffect<Partial<User> | UserServiceError | void>
@@ -173,6 +176,7 @@ function* updateUserProfileSaga(
 ): Generator<UpdateProfileSagaEffect, void, updateProfile> {
   try {
     const response = yield call(userService.updateProfile, action.payload);
+    yield toast.success('Profile updated successfully');
     yield put(updateProfileSuccess(response));
   } catch (error) {
     let errorMessage = 'Failed to update user profile';
@@ -185,7 +189,7 @@ function* updateUserProfileSaga(
 
 export function* userSaga() {
   yield takeLatest(loginRequest.type, getUserDataSaga);
-  yield takeLatest(loginRequest.type, getUserDataSaga);
+  // Removed duplicate line: yield takeLatest(loginRequest.type, getUserDataSaga);
   yield takeLatest(profileRequest.type, getProfileSaga);
   yield takeLatest(GetPublicProfile().type, PublicProfileSaga);
   yield debounce(300, SearchAction().type, SearchSaga);

@@ -6,7 +6,7 @@ import { toast } from 'sonner';
 
 // Define the interface for the user state
 interface ProfileState extends Partial<Profile> {
-  loading: boolean;
+  updated: boolean;
   error: string | null;
   avatar?: AvatarConfig | AvatarConfig2;
   user?: User;
@@ -15,7 +15,7 @@ interface ProfileState extends Partial<Profile> {
 
 // Define the initial state
 const initialState: ProfileState = {
-  loading: false,
+  updated: false,
   error: null,
   code: {
     leetcode: {
@@ -76,11 +76,7 @@ export const profileSlice = createSlice({
   initialState,
   reducers: {
     // Action to request login (will be handled by saga)
-    setLoading: state => {
-      state.loading = true;
-    },
     profileRequest: state => {
-      state.loading = true;
       state.error = null;
     },
     // Action when login is successful
@@ -103,10 +99,10 @@ export const profileSlice = createSlice({
     },
     // Action when login fails
     profileFailure: (state, action: PayloadAction<string>) => {
-      state.loading = false;
       state.error = action.payload;
     },
     updateProfileSuccess: (state, action: PayloadAction<updateProfile>) => {
+      state.updated = true;
       if (state.code) {
         state.code.leetcode = action.payload.leetcode || state.code.leetcode;
         state.code.questions = action.payload.questions || state.code.questions;
@@ -114,7 +110,6 @@ export const profileSlice = createSlice({
       if (state.github) {
         state.github = action.payload.github || state.github;
       }
-      toast.success('Profile updated successfully');
     },
   },
 });
@@ -134,7 +129,6 @@ export const updateProfileRequest = (username?: string) => {
 
 // Export actions
 export const {
-  setLoading,
   profileRequest,
   profileSuccess,
   profileFailure,

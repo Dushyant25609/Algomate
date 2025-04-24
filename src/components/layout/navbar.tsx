@@ -55,7 +55,7 @@ const Navbar: FC<NavbarProps> = ({ items = defaultNavItems }) => {
   return (
     <>
       <motion.nav
-        className="h-12 mx-auto max-w-11/12 md:max-w-full  xl:max-w-11/12 flex items-center gap-4 my-3 px-3 bg-navbar rounded-lg"
+        className="mx-auto h-12 flex items-center gap-4 my-3 px-3 bg-navbar transition-all rounded-lg shadow-lg max-w-11/12 md:max-w-full xl:max-w-11/12 w-full"
         {...navbarAnimationProps}
       >
         <NavLink to={AppRoutes.HOME} className="flex items-center gap-2">

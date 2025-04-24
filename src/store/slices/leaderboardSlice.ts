@@ -23,6 +23,7 @@ const initialState: LeaderboardState = {
   },
   loading: false,
   error: null,
+  topPerformers: [],
 };
 
 // Create the slice
@@ -40,6 +41,7 @@ export const leaderboardSlice = createSlice({
       state.loading = false;
       state.data = action.payload.data;
       state.avatars = action.payload.avatars;
+      state.topPerformers = action.payload.topPerformers;
       state.pagination = action.payload.pagination;
     },
     // Failure actions

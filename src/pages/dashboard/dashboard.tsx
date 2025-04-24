@@ -34,13 +34,14 @@ const Dashboard: FC = () => {
 
   useEffect(() => {
     if (
+      !profile.updated &&
       user.isAuthenticated &&
       user &&
       (user.githubToken || (user.platforms && user.platforms.leetcode))
     ) {
       dispatch(updateProfileRequest(username));
     }
-  }, [user.isAuthenticated]);
+  });
 
   // We use the username from props instead of trying to modify the URL params
   useEffect(() => {
