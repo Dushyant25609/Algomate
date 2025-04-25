@@ -15,7 +15,7 @@ export const AuthRoutes: FC = () => {
       <Route path={AppRoutes.SHEETS} element={<div>Sheets Page</div>} />
       <Route path={AppRoutes.AVATAR_CREATE} element={<CreateAvatar />} />
       <Route path={AppRoutes.FRIENDS} element={<FriendSearch />} />
-      <Route path={AppRoutes.SETTINGS} element={<Settings />} />
+      <Route path={AppRoutes.SETTINGS_DETAIL} element={<Settings />} />
     </Routes>
   );
 };

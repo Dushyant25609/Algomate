@@ -47,18 +47,8 @@ export const resultCardVariants = {
     scale: 1,
     opacity: 1,
     transition: {
-      type: 'spring',
       stiffness: 300,
       damping: 20,
-    },
-  },
-  hover: {
-    scale: 1.02,
-    boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
-    transition: {
-      type: 'spring',
-      stiffness: 400,
-      damping: 10,
     },
   },
 };
@@ -70,7 +60,6 @@ export const emptyStateVariants = {
     opacity: 1,
     y: 0,
     transition: {
-      type: 'spring',
       stiffness: 200,
       damping: 20,
       delay: 0.2,

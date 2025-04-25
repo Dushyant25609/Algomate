@@ -11,7 +11,7 @@ import {
   PlatformVerifyAction,
   clearVerification,
 } from '@/store/slices/platformSlice';
-import { Edit, CheckCircle, Trash2, X, PlusCircle, Github } from 'lucide-react';
+import { CheckCircle, Trash2, PlusCircle, Github } from 'lucide-react';
 import { Loader } from '@/components/ui/loader';
 import { toast } from 'sonner';
 import VerificationDialog from '@/components/ui/verification-dialog';
@@ -30,7 +30,6 @@ export const PlatformTab: FC<PlatformTabProps> = ({ user }) => {
     state => state.platform.verification
   );
   const [selectedPlatform, setSelectedPlatform] = useState<string | null>(null);
-  const [editMode, setEditMode] = useState<string | null>(null);
   const [platformUsernames, setPlatformUsernames] = useState({
     leetcode: user.platforms?.leetcode || '',
     codeforces: user.platforms?.codeforces || '',
@@ -56,6 +55,13 @@ export const PlatformTab: FC<PlatformTabProps> = ({ user }) => {
       ...prev,
       [platform]: value,
     }));
+    // Make sure we don't accidentally set verified status when typing
+    if (!verifiedPlatforms[platform as keyof typeof verifiedPlatforms]) {
+      setVerifiedPlatforms(prev => ({
+        ...prev,
+        [platform]: false,
+      }));
+    }
   };
 
   const handleGenerateVerification = (platform: string) => {
@@ -63,19 +69,13 @@ export const PlatformTab: FC<PlatformTabProps> = ({ user }) => {
       toast.error(`Please enter your ${platform} username first`);
       return;
     }
+    setSelectedPlatform(platform);
     setVerifyPlatform(platform);
     dispatch(PlatformGenerateAction(platformUsernames[platform as keyof typeof platformUsernames]));
   };
 
-  const handleEditClick = (platform: string) => {
-    setEditMode(platform);
-    setSelectedPlatform(null);
-    dispatch(clearVerification());
-  };
-
-  const handleCancelEdit = () => {
-    setEditMode(null);
-  };
+  // We no longer need the edit mode since we're showing the input directly
+  // when the user doesn't have a platform ID
 
   const handleDeletePlatform = (platform: string) => {
     setConfirmDialog({
@@ -115,7 +115,6 @@ export const PlatformTab: FC<PlatformTabProps> = ({ user }) => {
     if (verifyPlatform) {
       const username = platformUsernames[verifyPlatform as keyof typeof platformUsernames];
       dispatch(PlatformVerifyAction(username));
-      setEditMode(null);
     }
 
     // The platform will be marked as verified when the API response is successful
@@ -136,25 +135,18 @@ export const PlatformTab: FC<PlatformTabProps> = ({ user }) => {
         [selectedPlatform]: true,
       }));
       toast.success(`${selectedPlatform} has been verified successfully`);
-      setEditMode(null);
       setSelectedPlatform(null);
     }
   }, [loading, error, verificationCode, selectedPlatform]);
 
   const handleClearVerification = () => {
     setSelectedPlatform(null);
-    setEditMode(null);
     dispatch(clearVerification());
   };
   return (
     <Card className="shadow-md">
       <CardContent className="p-4 sm:p-6">
         <div className="space-y-6">
-          <div>
-            <h2 className="text-xl sm:text-2xl font-semibold mb-2">Platform</h2>
-            <p className="text-muted-foreground text-sm">Connect your coding platforms.</p>
-          </div>
-
           {error && (
             <div className="bg-destructive/10 text-destructive p-3 rounded-md text-sm">{error}</div>
           )}
@@ -181,15 +173,18 @@ export const PlatformTab: FC<PlatformTabProps> = ({ user }) => {
           />
 
           <div className="space-y-5">
-            <Button
-              variant="outline"
-              size="lg"
-              onClick={handleGithubAuth}
-              className="w-full md:w-fit flex items-center justify-center gap-3 hover:bg-accent/30 hover:border-primary/30 transition-all duration-200"
-            >
-              <Github className="w-5 h-5" />
-              GitHub
-            </Button>
+            <div className="flex items-center gap-2">
+              <Button
+                variant="outline"
+                size="lg"
+                onClick={handleGithubAuth}
+                className="w-full md:w-fit flex items-center justify-center gap-3 hover:bg-accent/30 hover:border-primary/30 transition-all duration-200"
+              >
+                <Github className="w-5 h-5" />
+                GitHub
+              </Button>
+              {user.githubToken && <CheckCircle className="h-4 w-4 text-green-500 flex-shrink-0" />}
+            </div>
             {/* LeetCode Platform */}
             <div className="space-y-2">
               <label className="text-sm font-medium flex items-center gap-2">
@@ -197,79 +192,59 @@ export const PlatformTab: FC<PlatformTabProps> = ({ user }) => {
                 LeetCode
               </label>
               <div className="flex gap-2">
-                {editMode === 'leetcode' ? (
-                  <Input
-                    value={platformUsernames['leetcode']}
-                    onChange={e => handleInputChange('leetcode', e.target.value)}
-                    placeholder="LeetCode username"
-                    className="transition-all focus:border-primary"
-                    disabled={loading && selectedPlatform === 'leetcode'}
-                  />
+                {/* If user has a verified platform ID, show it with a delete option */}
+                {verifiedPlatforms.leetcode ? (
+                  <div className="flex w-full gap-4">
+                    <div className="flex-1 flex items-center gap-2">
+                      <Input
+                        value={platformUsernames.leetcode}
+                        readOnly
+                        placeholder="LeetCode username"
+                        className="transition-all focus:border-primary"
+                        disabled={loading && selectedPlatform === 'leetcode'}
+                      />
+                      {verifiedPlatforms.leetcode && (
+                        <CheckCircle className="h-4 w-4 text-green-500 flex-shrink-0" />
+                      )}
+                    </div>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => handleDeletePlatform('leetcode')}
+                      className="h-full"
+                    >
+                      <Trash2 className="h-4 w-4" />
+                    </Button>
+                  </div>
                 ) : (
-                  <div className="flex-1 flex items-center gap-2">
+                  /* If user doesn't have a platform ID, show input field directly */
+                  <div className="flex w-full gap-4">
                     <Input
-                      value={user.platforms.leetcode}
-                      readOnly
+                      value={platformUsernames['leetcode']}
+                      onChange={e => handleInputChange('leetcode', e.target.value)}
+                      onKeyDown={e => {
+                        if (e.key === 'Enter') {
+                          e.preventDefault();
+                          handleGenerateVerification('leetcode');
+                        }
+                      }}
                       placeholder="LeetCode username"
                       className="transition-all focus:border-primary"
                       disabled={loading && selectedPlatform === 'leetcode'}
                     />
-                    {platformUsernames.leetcode && verifiedPlatforms.leetcode && (
-                      <CheckCircle className="h-4 w-4 text-green-500 flex-shrink-0" />
-                    )}
-                  </div>
-                )}
-                {editMode === 'leetcode' ? (
-                  <div className="flex gap-2">
                     {selectedPlatform === 'leetcode' && verificationCode ? (
                       <Button variant="outline" size="sm" onClick={handleVerify} disabled={loading}>
                         {loading ? <Loader size="sm" /> : 'Verify'}
                       </Button>
                     ) : (
-                      <>
-                        {!verificationCode ? (
-                          <Button
-                            variant="outline"
-                            size="sm"
-                            onClick={() => handleGenerateVerification('leetcode')}
-                            disabled={loading}
-                            className="h-full"
-                          >
-                            <PlusCircle className="h-4 w-4 mr-1" /> Add
-                          </Button>
-                        ) : (
-                          <Button
-                            variant="outline"
-                            size="sm"
-                            onClick={handleCancelEdit}
-                            disabled={loading}
-                            className="h-full"
-                          >
-                            <X className="h-4 w-4 mr-1" /> Cancel
-                          </Button>
-                        )}
-                      </>
-                    )}
-                  </div>
-                ) : (
-                  <div className="flex gap-2">
-                    {!platformUsernames.leetcode ? (
                       <Button
                         variant="outline"
                         size="sm"
-                        onClick={() => handleEditClick('leetcode')}
+                        onClick={() => handleGenerateVerification('leetcode')}
+                        disabled={loading || !platformUsernames.leetcode}
                         className="h-full"
                       >
-                        <Edit className="h-4 w-4 mr-1" /> Edit
-                      </Button>
-                    ) : (
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={() => handleDeletePlatform('leetcode')}
-                        className="h-full"
-                      >
-                        <Trash2 className="h-4 w-4" />
+                        <PlusCircle className="h-4 w-4 mr-1" /> Add
                       </Button>
                     )}
                   </div>

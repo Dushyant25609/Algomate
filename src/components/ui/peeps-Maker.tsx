@@ -158,9 +158,9 @@ const Showcase: React.FC<ShowcaseProps> = ({ avatarConfig, onAvatarChange }) => 
       : avatarConfig.background;
 
   return (
-    <div className="flex flex-col md:flex-row md:justify-around w-full items-center p-5">
+    <div className="flex flex-col md:flex-row md:justify-around w-full gap-6 items-center p-5">
       <div className="flex justify-center h-full">
-        <div className="relative w-[300px] h-[300px] flex justify-center items-center">
+        <div className="relative w-[300px] h-[300px] flex justify-center items-center ">
           <div
             className="w-[250px] h-[250px] md:w-[300px] md:h-[300px] flex-col items-center rounded-full overflow-hidden"
             style={{ background: backgroundStyle }}

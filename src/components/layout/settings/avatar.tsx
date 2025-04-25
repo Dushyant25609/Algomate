@@ -82,7 +82,7 @@ export const AvatarTab: FC = () => {
 
             <div className="self-end w-full md:w-1/2 flex flex-col md:flex-row gap-2 mt-4">
               <Button
-                variant="secondary"
+                variant="outline"
                 onClick={handleRandomize}
                 className="flex-1"
                 title="Generate Random Avatar"
@@ -91,7 +91,7 @@ export const AvatarTab: FC = () => {
                 <Shuffle className="mr-2 h-4 w-4" />
                 Random
               </Button>
-              <Button variant="default" onClick={handleSave} className="flex-1" disabled={loading}>
+              <Button variant="outline" onClick={handleSave} className="flex-1" disabled={loading}>
                 {loading ? 'Updating...' : 'Update Avatar'}
               </Button>
             </div>

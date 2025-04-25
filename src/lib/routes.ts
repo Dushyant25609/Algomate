@@ -16,9 +16,10 @@ export enum AppRoutes {
   SHEETS = '/sheets',
   AVATAR_CREATE = '/avatar/create',
   FRIENDS = '/friends',
-  SETTINGS = '/settings',
-  SETTINGS_DETAIL = '/settings/',
-  PROFILE = "PROFILE",
+  BASE_SETTINGS = '/settings/',
+  SETTINGS = '/settings/basic',
+  SETTINGS_DETAIL = '/settings/:tab',
+  PROFILE = 'PROFILE',
 }
 
 /**

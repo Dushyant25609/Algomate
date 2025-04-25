@@ -6,7 +6,7 @@ import userService from '@/services/userService';
 import UserAvatar from '@/components/ui/avatar/user-avatar';
 import { toast } from 'sonner';
 import { useAppDispatch, useAppSelector } from '@/store';
-import { SearchAction } from '@/store/slices/userSlice';
+import { SearchAction, searchSuccess } from '@/store/slices/userSlice';
 import { Input } from '@/components/ui/input';
 import { SearchUserResponse } from '@/interface/user';
 import { AvatarConfig, AvatarConfig2 } from '@/interface/avatar';
@@ -22,6 +22,7 @@ import {
 } from '@/motion/search-results-animations';
 import { motion, AnimatePresence } from 'framer-motion';
 import { fetchUserFriendRequest, fetchUserPendingRequest } from '@/store/slices/friendSlices';
+import { cn } from '@/lib/utils';
 
 interface UserCardProps {
   user: SearchUserResponse;
@@ -34,6 +35,8 @@ interface UserCardProps {
   onRejectRequest: (username: string) => void;
   onRemoveFriend: (username: string) => void;
   onUnsendRequest: (username: string) => void;
+  i: number;
+  len: number;
 }
 
 const UserSearchCard: FC<UserCardProps> = ({
@@ -47,6 +50,8 @@ const UserSearchCard: FC<UserCardProps> = ({
   onRejectRequest,
   onRemoveFriend,
   onUnsendRequest,
+  i,
+  len,
 }) => {
   const isPending = pendingFriends.some(friend => friend.username === user.username);
   const isAccepted = acceptedFriends.includes(user.username);
@@ -54,8 +59,19 @@ const UserSearchCard: FC<UserCardProps> = ({
   const index = pendingFriends.findIndex(friend => friend.username === user.username);
 
   return (
-    <motion.div variants={resultCardVariants} initial="hidden" animate="visible" whileHover="hover">
-      <Card className="w-full shadow-md py-0 hover:shadow-lg transition-all duration-300">
+    <motion.div
+      className={cn(
+        'odd:bg-background even:bg-card hover:bg-accent/30 transition-all duration-200 ease-linear',
+        i == len - 1 ? 'rounded-b-lg' : '',
+        i == len ? 'rounded-b-lg' : '',
+        i == 0 ? 'rounded-t-lg' : ''
+      )}
+      variants={resultCardVariants}
+      initial="hidden"
+      animate="visible"
+      whileHover="hover"
+    >
+      <div className="w-full">
         <CardContent className="p-4 flex items-center justify-between">
           <div className="flex items-center gap-4">
             <UserAvatar
@@ -117,7 +133,7 @@ const UserSearchCard: FC<UserCardProps> = ({
             )}
           </div>
         </CardContent>
-      </Card>
+      </div>
     </motion.div>
   );
 };
@@ -131,14 +147,15 @@ const FriendSearch: FC = () => {
   const { searchResults, searchError } = useAppSelector(state => state.user);
 
   const handleSearch = () => {
-    if (!searchQuery.trim()) return;
+    if (searchQuery == '') {
+      dispatch(searchSuccess({ user: [], avatar: [] }));
+      return;
+    }
     dispatch(SearchAction(searchQuery));
   };
 
   useEffect(() => {
-    if (searchQuery.trim()) {
-      handleSearch();
-    }
+    handleSearch();
   }, [searchQuery]);
 
   // Show error toast if search fails
@@ -219,178 +236,181 @@ const FriendSearch: FC = () => {
 
   return (
     <motion.div
-      className="max-w-11/12 md:max-w-full xl:max-w-11/12 py-8flex flex-col gap-6"
+      className="container max-w-4xl mx-auto px-4 py-8 flex flex-col md:flex-row-reverse gap-6"
       initial="hidden"
       animate="visible"
       variants={searchContainerVariants}
     >
-      <motion.div {...sectionAnimationProps}>
-        <Card className="w-full shadow-md">
-          <CardHeader>
-            <motion.div className="flex gap-2" variants={searchInputVariants}>
-              <div className="relative flex-1">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                <Input
-                  type="text"
-                  placeholder="Search users by username"
-                  value={searchQuery}
-                  onChange={e => setSearchQuery(e.target.value)}
-                  className="pl-9"
-                  onKeyDown={e => e.key === 'Enter' && handleSearch()}
-                />
-              </div>
-            </motion.div>
-          </CardHeader>
-          <CardContent className="flex flex-col gap-3">
-            <AnimatePresence>
-              {searchResults && searchResults.user && searchResults.user.length > 0 ? (
-                <motion.div className="flex flex-col gap-3" variants={resultsContainerVariants}>
-                  {searchResults.user
-                    .filter(friend => friend.username !== user.username)
-                    .map((result, index) => (
-                      <UserSearchCard
-                        key={result.username}
-                        user={result}
-                        avatar={searchResults.avatar[index]}
-                        currentUsername={user.username || ''}
-                        pendingFriends={requests.requests || []}
-                        acceptedFriends={friends.friends || []}
-                        onSendRequest={handleSendRequest}
-                        onAcceptRequest={handleAcceptRequest}
-                        onRejectRequest={handleRejectRequest}
-                        onRemoveFriend={handleRemoveFriend}
-                        onUnsendRequest={handleUnsendRequest}
-                      />
-                    ))}
-                </motion.div>
-              ) : searchQuery ? (
-                <motion.div
-                  className="p-6 text-center text-muted-foreground"
-                  variants={emptyStateVariants}
-                >
-                  No users found.
-                </motion.div>
-              ) : null}
-            </AnimatePresence>
-          </CardContent>
-        </Card>
-      </motion.div>
-
-      <motion.div {...sectionAnimationProps}>
-        <Card className="md:flex-row px-8 gap-3 w-full justify-around">
-          {requests && (
-            <motion.div variants={itemVariants} className="flex flex-col gap-3 w-full">
-              <h2 className="text-xl font-semibold flex items-center gap-2">
-                Friend Requests
-                {requests && requests.requests.length > 0 && (
-                  <span className="bg-primary/20 text-primary text-xs px-2 py-0.5 rounded-full">
-                    {requests && requests.requests.length}
-                  </span>
-                )}
-              </h2>
-              <Card className="shadow-md w-full">
-                <CardContent className="p-0">
-                  {requests && requests.requests.length > 0 ? (
-                    <div className="max-h-60 overflow-y-auto">
-                      {requests &&
-                        requests.requests.map((request, index) => (
-                          <div
-                            key={request.username}
-                            className={`flex items-center justify-between p-4 ${index % 2 === 0 ? 'bg-secondary/10' : 'bg-secondary/30'} hover:bg-secondary/50 transition-colors duration-200 ${index !== requests.requests.filter(req => req.type === 'received').length - 1 ? 'border-b border-border/30' : ''}`}
-                          >
-                            <div className="flex items-center gap-3">
-                              <UserAvatar publicAvatar={requests.avatars[index]} />
-                              <span className="font-medium">{request.username}</span>
-                            </div>
-                            <div className="flex gap-2">
-                              {requests.requests[index].type == 'received' ? (
-                                <>
-                                  <Button
-                                    variant="outline"
-                                    size="sm"
-                                    onClick={() => handleAcceptRequest(request.username)}
-                                  >
-                                    <Check className="h-4 w-4 mr-1" /> Accept
-                                  </Button>
-                                  <Button
-                                    variant="destructive"
-                                    size="sm"
-                                    onClick={() => handleRejectRequest(request.username)}
-                                  >
-                                    <X className="h-4 w-4 mr-1" /> Reject
-                                  </Button>
-                                </>
-                              ) : (
+      <div className="w-full flex flex-col gap-4">
+        <motion.div {...sectionAnimationProps}>
+          <Card className="w-full shadow-md">
+            <CardHeader>
+              <motion.div className="flex flex-col gap-2" variants={searchInputVariants}>
+                <h1 className="font-medium text-xl">Search your friend</h1>
+                <div className="relative flex-1">
+                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                  <Input
+                    type="text"
+                    placeholder="Search users by username"
+                    value={searchQuery}
+                    onChange={e => setSearchQuery(e.target.value)}
+                    className="pl-9"
+                    onKeyDown={e => e.key === 'Enter' && handleSearch()}
+                  />
+                </div>
+              </motion.div>
+            </CardHeader>
+            <CardContent className="flex flex-col gap-3">
+              <AnimatePresence>
+                {searchQuery &&
+                searchResults &&
+                searchResults.user &&
+                searchResults.user.length > 0 ? (
+                  <motion.div className="flex flex-col" variants={resultsContainerVariants}>
+                    {searchResults.user
+                      .filter(friend => friend.username !== user.username)
+                      .map((result, index) => (
+                        <UserSearchCard
+                          key={result.username}
+                          user={result}
+                          avatar={searchResults.avatar[index]}
+                          currentUsername={user.username || ''}
+                          pendingFriends={requests.requests || []}
+                          acceptedFriends={friends.friends || []}
+                          onSendRequest={handleSendRequest}
+                          onAcceptRequest={handleAcceptRequest}
+                          onRejectRequest={handleRejectRequest}
+                          onRemoveFriend={handleRemoveFriend}
+                          onUnsendRequest={handleUnsendRequest}
+                          i={index}
+                          len={searchResults.user.length - 1}
+                        />
+                      ))}
+                  </motion.div>
+                ) : searchQuery ? (
+                  <motion.div
+                    className="p-6 text-center text-muted-foreground"
+                    variants={emptyStateVariants}
+                  >
+                    No users found.
+                  </motion.div>
+                ) : null}
+              </AnimatePresence>
+            </CardContent>
+          </Card>
+        </motion.div>
+        {requests && (
+          <motion.div variants={itemVariants} className="flex flex-col gap-3 w-full">
+            <h2 className="text-xl font-semibold flex items-center gap-2">
+              Friend Requests
+              {requests && requests.requests.length > 0 && (
+                <span className="bg-primary/20 text-primary text-xs px-2 py-0.5 rounded-full">
+                  {requests && requests.requests.length}
+                </span>
+              )}
+            </h2>
+            <Card className="shadow-md w-full">
+              <CardContent className="p-0">
+                {requests && requests.requests.length > 0 ? (
+                  <div className="max-h-60 overflow-y-auto">
+                    {requests &&
+                      requests.requests.map((request, index) => (
+                        <div
+                          key={request.username}
+                          className={`flex items-center odd:bg-background even:bg-card hover:bg-accent/30 justify-between p-4 ${index % 2 === 0 ? 'bg-secondary/10' : 'bg-secondary/30'} hover:bg-secondary/50 transition-colors duration-200 ${index !== requests.requests.filter(req => req.type === 'received').length - 1 ? 'border-b border-border/30' : ''}`}
+                        >
+                          <div className="flex items-center gap-3">
+                            <UserAvatar publicAvatar={requests.avatars[index]} />
+                            <span className="font-medium">{request.username}</span>
+                          </div>
+                          <div className="flex gap-2">
+                            {requests.requests[index].type == 'received' ? (
+                              <>
                                 <Button
                                   variant="outline"
                                   size="sm"
-                                  onClick={() => handleUnsendRequest(request.username)}
+                                  onClick={() => handleAcceptRequest(request.username)}
                                 >
-                                  Sent
+                                  <Check className="h-4 w-4 mr-1" /> Accept
                                 </Button>
-                              )}
-                            </div>
-                          </div>
-                        ))}
-                    </div>
-                  ) : (
-                    <div className="p-6 text-center text-muted-foreground">
-                      No pending friend requests
-                    </div>
-                  )}
-                </CardContent>
-              </Card>
-            </motion.div>
-          )}{' '}
-          {friends && friends.friends && (
-            <motion.div variants={itemVariants} className="flex flex-col gap-3 w-full">
-              <h2 className="text-xl font-semibold flex items-center gap-2">
-                Your Friends
-                {friends && friends.friends.length > 0 && (
-                  <span className="bg-primary/20 text-primary text-xs px-2 py-0.5 rounded-full">
-                    {friends && friends.friends.length}
-                  </span>
-                )}
-              </h2>
-              <Card className="shadow-md w-full">
-                <CardContent className="p-0 w-full">
-                  {friends && friends.friends.length > 0 ? (
-                    <div className="max-h-80 overflow-y-auto w-full">
-                      <div className="flex flex-col divide-y divide-border/30 w-full">
-                        {friends &&
-                          friends.friends.map((friendUsername, index) => (
-                            <div
-                              key={friendUsername}
-                              className={`flex items-center justify-between p-4 ${index % 2 === 0 ? 'bg-secondary/10' : 'bg-secondary/30'} hover:bg-secondary/50 transition-colors duration-200`}
-                            >
-                              <div className="flex items-center gap-3">
-                                {friends.avatars && (
-                                  <UserAvatar publicAvatar={friends.avatars[index]} />
-                                )}
-                                <span className="font-medium">{friendUsername}</span>
-                              </div>
+                                <Button
+                                  variant="destructive"
+                                  size="sm"
+                                  onClick={() => handleRejectRequest(request.username)}
+                                >
+                                  <X className="h-4 w-4 mr-1" /> Reject
+                                </Button>
+                              </>
+                            ) : (
                               <Button
-                                variant="ghost"
-                                size="xs"
-                                onClick={() => handleRemoveFriend(friendUsername)}
+                                variant="outline"
+                                size="sm"
+                                onClick={() => handleUnsendRequest(request.username)}
                               >
-                                <X />
+                                Sent
                               </Button>
-                            </div>
-                          ))}
-                      </div>
-                    </div>
-                  ) : (
-                    <div className="p-6 text-center text-muted-foreground">
-                      You don't have any friends yet. Search for users to add them as friends.
-                    </div>
-                  )}
-                </CardContent>
-              </Card>
-            </motion.div>
-          )}
-        </Card>
-      </motion.div>
+                            )}
+                          </div>
+                        </div>
+                      ))}
+                  </div>
+                ) : (
+                  <div className="p-6 text-center text-muted-foreground">
+                    No pending friend requests
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+          </motion.div>
+        )}
+      </div>
+      {friends && friends.friends && (
+        <motion.div variants={itemVariants} className="flex flex-col gap-3 w-1/2">
+          <Card className="shadow-md w-full">
+            <CardHeader className="text-xl flex-row font-semibold items-center gap-2">
+              Your Friends
+              {friends && friends.friends.length > 0 && (
+                <span className="bg-primary/20 text-primary text-xs px-2 py-0.5 rounded-full">
+                  {friends && friends.friends.length}
+                </span>
+              )}
+            </CardHeader>
+            <CardContent className="p-0 w-full">
+              {friends && friends.friends.length > 0 ? (
+                <div className="max-h-80 overflow-y-auto w-full">
+                  <div className="flex flex-col w-full">
+                    {friends &&
+                      friends.friends.map((friendUsername, index) => (
+                        <div
+                          key={friendUsername}
+                          className={`flex items-center justify-between p-4 even:bg-card odd:bg-background hover:bg-accent/30 transition-colors duration-200`}
+                        >
+                          <div className="flex items-center gap-3">
+                            {friends.avatars && (
+                              <UserAvatar publicAvatar={friends.avatars[index]} />
+                            )}
+                            <span className="font-medium">{friendUsername}</span>
+                          </div>
+                          <Button
+                            variant="ghost"
+                            size="xs"
+                            onClick={() => handleRemoveFriend(friendUsername)}
+                          >
+                            <X />
+                          </Button>
+                        </div>
+                      ))}
+                  </div>
+                </div>
+              ) : (
+                <div className="p-6 text-center text-muted-foreground">
+                  You don't have any friends yet. Search for users to add them as friends.
+                </div>
+              )}
+            </CardContent>
+          </Card>
+        </motion.div>
+      )}
     </motion.div>
   );
 };

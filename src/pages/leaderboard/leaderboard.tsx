@@ -161,7 +161,7 @@ const LeaderboardPage: FC = () => {
                   <tr
                     key={entry.username}
                     className={cn(
-                      'hover:bg-accent/30 odd:bg-card even:bg-background transition-colors cursor-pointer',
+                      'hover:bg-accent/30 even:bg-card odd:bg-background transition-colors cursor-pointer',
                       entry.username === 'current-user' && 'bg-primary/10'
                     )}
                     onClick={() =>

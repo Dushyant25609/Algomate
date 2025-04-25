@@ -36,15 +36,8 @@ const BasicInfoTab: FC<BasicInfoTabProps & FormikProps<User>> = ({
     <Card className="shadow-md">
       <CardContent className="p-4 sm:p-6">
         <div className="space-y-6">
-          <div>
-            <h2 className="text-xl sm:text-2xl font-semibold mb-2">Basic Info</h2>
-            <p className="text-muted-foreground text-sm">You can manage your details here.</p>
-          </div>
-
           <div className="space-y-6">
             <div>
-              <h3 className="text-lg font-medium mb-4">Basic Details</h3>
-
               <div className="flex flex-col sm:flex-row items-center gap-4 mb-6">
                 <div className="relative">
                   <UserAvatar classname="w-20 h-20 sm:w-28 sm:h-28" />
@@ -54,7 +47,7 @@ const BasicInfoTab: FC<BasicInfoTabProps & FormikProps<User>> = ({
                 </div>
 
                 <div className="space-y-1 text-center sm:text-left">
-                  <p className="text-sm font-medium">
+                  <p className="text-sm font-medium flex flex-col">
                     Algomate Id: <span className="text-primary">{user.username || 'username'}</span>
                   </p>
                 </div>
