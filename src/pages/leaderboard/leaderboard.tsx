@@ -32,7 +32,7 @@ const LeaderboardPage: FC = () => {
   useEffect(() => {
     if (currentUser && !currentUser.platforms?.leetcode) {
       toast.info('Please connect your LeetCode account to view the leaderboard.');
-      navigate(AppRoutes.SETTINGS);
+      navigate(AppRoutes.BASE_SETTINGS + 'platform');
     }
   }, [currentUser, navigate]);
   const [sortBy, setSortBy] = useState<LeaderboardSortBy>('questions');
