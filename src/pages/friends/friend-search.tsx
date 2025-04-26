@@ -65,7 +65,7 @@ const UserSearchCard: FC<UserCardProps> = ({
   return (
     <motion.div
       className={cn(
-        'odd:bg-background even:bg-card hover:bg-accent/30 transition-all duration-200 ease-linear',
+        'odd:bg-background cursor-pointer even:bg-card hover:bg-accent/30 transition-all duration-200 ease-linear',
         i == len - 1 ? 'rounded-b-lg' : '',
         i == len ? 'rounded-b-lg' : '',
         i == 0 ? 'rounded-t-lg' : ''
@@ -337,7 +337,7 @@ const FriendSearch: FC = () => {
                               })
                             )
                           }
-                          className={`flex items-center odd:bg-background even:bg-card hover:bg-accent/30 justify-between p-4 ${index % 2 === 0 ? 'bg-secondary/10' : 'bg-secondary/30'} hover:bg-secondary/50 transition-colors duration-200 ${index !== requests.requests.filter(req => req.type === 'received').length - 1 ? 'border-b border-border/30' : ''}`}
+                          className={`flex cursor-pointer items-center odd:bg-background even:bg-card hover:bg-accent/30 justify-between p-4 ${index % 2 === 0 ? 'bg-secondary/10' : 'bg-secondary/30'} hover:bg-secondary/50 transition-colors duration-200 ${index !== requests.requests.filter(req => req.type === 'received').length - 1 ? 'border-b border-border/30' : ''}`}
                         >
                           <div className="flex items-center gap-3">
                             <UserAvatar publicAvatar={requests.avatars[index]} />
@@ -410,7 +410,7 @@ const FriendSearch: FC = () => {
                               })
                             )
                           }
-                          className={`flex items-center justify-between p-4 even:bg-card odd:bg-background hover:bg-accent/30 transition-colors duration-200`}
+                          className={`flex cursor-pointer items-center justify-between p-4 even:bg-card odd:bg-background hover:bg-accent/30 transition-colors duration-200`}
                         >
                           <div className="flex items-center gap-3">
                             {friends.avatars && (
