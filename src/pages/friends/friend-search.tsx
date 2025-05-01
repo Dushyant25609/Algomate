@@ -39,7 +39,6 @@ interface UserCardProps {
   onUnsendRequest: (username: string) => void;
   i: number;
   len: number;
-  onClick: () => void;
 }
 
 const UserSearchCard: FC<UserCardProps> = ({
@@ -55,7 +54,6 @@ const UserSearchCard: FC<UserCardProps> = ({
   onUnsendRequest,
   i,
   len,
-  onClick,
 }) => {
   const isPending = pendingFriends.some(friend => friend.username === user.username);
   const isAccepted = acceptedFriends.includes(user.username);
@@ -74,7 +72,6 @@ const UserSearchCard: FC<UserCardProps> = ({
       initial="hidden"
       animate="visible"
       whileHover="hover"
-      onClick={onClick}
     >
       <div className="w-full">
         <CardContent className="p-4 flex items-center justify-between">
@@ -290,13 +287,6 @@ const FriendSearch: FC = () => {
                           onUnsendRequest={handleUnsendRequest}
                           i={index}
                           len={searchResults.user.length - 1}
-                          onClick={() =>
-                            navigate(
-                              generatePath(AppRoutes.DASHBOARD_WITH_PARAM, {
-                                username: result.username,
-                              })
-                            )
-                          }
                         />
                       ))}
                   </motion.div>
@@ -330,13 +320,6 @@ const FriendSearch: FC = () => {
                       requests.requests.map((request, index) => (
                         <div
                           key={request.username}
-                          onClick={() =>
-                            navigate(
-                              generatePath(AppRoutes.DASHBOARD_WITH_PARAM, {
-                                username: request.username,
-                              })
-                            )
-                          }
                           className={`flex cursor-pointer items-center odd:bg-background even:bg-card hover:bg-accent/30 justify-between p-4 ${index % 2 === 0 ? 'bg-secondary/10' : 'bg-secondary/30'} hover:bg-secondary/50 transition-colors duration-200 ${index !== requests.requests.filter(req => req.type === 'received').length - 1 ? 'border-b border-border/30' : ''}`}
                         >
                           <div className="flex items-center gap-3">
