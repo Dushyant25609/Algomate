@@ -23,8 +23,6 @@ import {
 import { motion, AnimatePresence } from 'framer-motion';
 import { fetchUserFriendRequest, fetchUserPendingRequest } from '@/store/slices/friendSlices';
 import { cn } from '@/lib/utils';
-import { useNavigate } from 'react-router-dom';
-import { AppRoutes, generatePath } from '@/lib/routes';
 
 interface UserCardProps {
   user: SearchUserResponse;
@@ -146,7 +144,6 @@ const FriendSearch: FC = () => {
   const requests = useAppSelector(state => state.friend.requests);
   const friends = useAppSelector(state => state.friend.friends);
   const dispatch = useAppDispatch();
-  const navigate = useNavigate();
   const { searchResults, searchError } = useAppSelector(state => state.user);
 
   const handleSearch = () => {
@@ -386,13 +383,6 @@ const FriendSearch: FC = () => {
                       friends.friends.map((friendUsername, index) => (
                         <div
                           key={friendUsername}
-                          onClick={() =>
-                            navigate(
-                              generatePath(AppRoutes.DASHBOARD_WITH_PARAM, {
-                                username: friendUsername,
-                              })
-                            )
-                          }
                           className={`flex cursor-pointer items-center justify-between p-4 even:bg-card odd:bg-background hover:bg-accent/30 transition-colors duration-200`}
                         >
                           <div className="flex items-center gap-3">
