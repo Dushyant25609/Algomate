@@ -34,7 +34,9 @@ const Navbar: FC<NavbarProps> = ({ items = defaultNavItems }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
   const user = useAppSelector(state => state.user);
-  const pendingRequests = useAppSelector(state => state.friend.requests.requests);
+  const pendingRequests = useAppSelector(state => state.friend.requests.requests).filter(
+    request => request.type === 'received'
+  );
   const pendingCount = pendingRequests.length;
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
