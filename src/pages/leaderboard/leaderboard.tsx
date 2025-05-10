@@ -43,7 +43,7 @@ const LeaderboardPage: FC = () => {
     if (leaderboardData.length == 0) {
       dispatch(fetchLeaderboardRequest());
     }
-  }, [dispatch]);
+  }, [dispatch, leaderboardData]);
 
   // Handle platform filter change
   const handleSortByChange = (value: LeaderboardSortBy) => {
