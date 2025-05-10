@@ -9,6 +9,7 @@ import platformReducer from './slices/platformSlice';
 import countryReducer from './slices/countrySlice';
 import leaderboardReducer from './slices/leaderboardSlice';
 import friendReducer from './slices/friendSlices';
+import loadingReducer from './slices/loadingSlice';
 // Create the saga middleware
 const sagaMiddleware = createSagaMiddleware();
 
@@ -22,6 +23,7 @@ export const store = configureStore({
     country: countryReducer,
     leaderboard: leaderboardReducer,
     friend: friendReducer,
+    loading: loadingReducer,
   },
   middleware: getDefaultMiddleware => getDefaultMiddleware().concat(sagaMiddleware),
 });

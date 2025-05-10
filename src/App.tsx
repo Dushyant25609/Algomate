@@ -24,11 +24,12 @@ function App() {
       !updated &&
       isAuthenticated &&
       user &&
+      user.username &&
       (user.githubToken || (user.platforms && user.platforms.leetcode))
     ) {
-      dispatch(updateProfileRequest());
+      dispatch(updateProfileRequest(user.username));
     }
-  }, [updated]);
+  });
   return (
     <LoadingProvider>
       <Navbar />

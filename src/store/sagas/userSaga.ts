@@ -30,32 +30,36 @@ import {
 import { Profile, PublicProfile, updateProfile } from '@/interface/profile';
 import { PayloadAction } from '@reduxjs/toolkit';
 import { toast } from 'sonner';
+import { setLoading } from '../slices/loadingSlice';
 
 type AuthSagaEffect =
   | CallEffect<Profile | User>
-  | PutEffect<{ type: string; payload: User | Profile | string }>;
+  | PutEffect<{ type: string; payload: User | Profile | string | boolean }>;
 
 type SearchUserSagaEffect =
   | CallEffect<SearchResponse>
-  | PutEffect<{ type: string; payload: SearchResponse | string }>;
+  | PutEffect<{ type: string; payload: SearchResponse | string | boolean }>;
 
 type PublicProfileSagaEffect =
   | CallEffect<PublicProfile | UserServiceError>
-  | PutEffect<{ type: string; payload: PublicProfile | string | UserServiceError }>;
+  | PutEffect<{ type: string; payload: PublicProfile | string | UserServiceError | boolean }>;
 
 type UpdateProfileSagaEffect =
   | CallEffect<updateProfile | UserServiceError | void>
-  | PutEffect<{ type: string; payload: updateProfile | string | UserServiceError }>
+  | PutEffect<{ type: string; payload: updateProfile | string | UserServiceError | boolean }>
   | string
   | number;
 
 type UpdateUserSagaEffect =
   | CallEffect<Partial<User> | UserServiceError | void>
-  | PutEffect<{ type: string; payload: void | string | UserServiceError }>;
+  | PutEffect<{ type: string; payload: void | string | UserServiceError | boolean }>;
 
-type UnsendRequestSagaEffect = CallEffect<void> | PutEffect<{ type: string; payload: string }>;
+type UnsendRequestSagaEffect =
+  | CallEffect<void>
+  | PutEffect<{ type: string; payload: string | boolean }>;
 
 export function* getUserDataSaga(): Generator<AuthSagaEffect, void, User> {
+  yield put(setLoading(true));
   try {
     const userData: User = yield call(userService.getUserData);
     yield put(loginSuccess(userData));
@@ -68,9 +72,11 @@ export function* getUserDataSaga(): Generator<AuthSagaEffect, void, User> {
 
     yield put(loginFailure(errorMessage));
   }
+  yield put(setLoading(false));
 }
 
 export function* getProfileSaga(): Generator<AuthSagaEffect, void, Profile> {
+  yield put(setLoading(true));
   try {
     const profileData: Profile = yield call(userService.getUserProfile);
     yield put(profileSuccess(profileData));
@@ -81,11 +87,13 @@ export function* getProfileSaga(): Generator<AuthSagaEffect, void, Profile> {
     }
     yield put(profileFailure(errorMessage));
   }
+  yield put(setLoading(false));
 }
 
 function* PublicProfileSaga(
   action: PayloadAction<string>
 ): Generator<PublicProfileSagaEffect, void, PublicProfile | string> {
+  yield put(setLoading(true));
   try {
     const userData = yield call(userService.getPublicUserProfile, action.payload);
     yield put(publicProfileSuccess(userData as PublicProfile));
@@ -96,6 +104,7 @@ function* PublicProfileSaga(
     }
     yield put(profileFailure(errorMessage));
   }
+  yield put(setLoading(false));
 }
 
 export function* SearchSaga(
@@ -116,6 +125,7 @@ export function* SearchSaga(
 export function* unsendRequestSaga(
   action: PayloadAction<string>
 ): Generator<UnsendRequestSagaEffect, void, void> {
+  yield put(setLoading(true));
   try {
     yield call(userService.unsendFriendRequest, action.payload);
     // Removed window.location.reload() as we're handling refresh in the component
@@ -126,11 +136,13 @@ export function* unsendRequestSaga(
     }
     yield put(searchFailure(errorMessage));
   }
+  yield put(setLoading(false));
 }
 
 function* updateUserSaga(
   action: PayloadAction<UserUpdate>
 ): Generator<UpdateUserSagaEffect, void, void> {
+  yield put(setLoading(true));
   try {
     yield call(userService.updateUser, action.payload);
     yield put(updateUserSuccess());
@@ -142,10 +154,12 @@ function* updateUserSaga(
     }
     yield put(searchFailure(errorMessage));
   }
+  yield put(setLoading(false));
 }
 
 function* AcceptRequestSaga(action: PayloadAction<string>) {
   // TODO: Implement AcceptRequestSaga
+  yield put(setLoading(true));
   try {
     yield call(userService.acceptFriendRequest, action.payload);
   } catch (error) {
@@ -155,9 +169,11 @@ function* AcceptRequestSaga(action: PayloadAction<string>) {
     }
     yield put(searchFailure(errorMessage));
   }
+  yield put(setLoading(false));
 }
 
 function* sendRequestSaga(action: PayloadAction<string>) {
+  yield put(setLoading(true));
   try {
     yield call(userService.sendFriendRequest, action.payload);
     // Refresh user data after sending request
@@ -169,11 +185,13 @@ function* sendRequestSaga(action: PayloadAction<string>) {
     }
     yield put(searchFailure(errorMessage));
   }
+  yield put(setLoading(false));
 }
 
 function* updateUserProfileSaga(
   action: PayloadAction<string>
 ): Generator<UpdateProfileSagaEffect, void, updateProfile> {
+  yield put(setLoading(true));
   try {
     const response = yield call(userService.updateProfile, action.payload);
     yield toast.success('Profile updated successfully');
@@ -185,6 +203,7 @@ function* updateUserProfileSaga(
     }
     yield put(updateUserFailure(errorMessage));
   }
+  yield put(setLoading(false));
 }
 
 export function* userSaga() {

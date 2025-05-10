@@ -12,21 +12,26 @@ import {
 import { PayloadAction } from '@reduxjs/toolkit';
 import { SaveVerificationRequest, VerificationResponse } from '@/interface/verify';
 import { Platform } from '@/interface/platform';
+import { setLoading } from '../slices/loadingSlice';
 
 type VerificationSagaEffect =
   | CallEffect<VerificationResponse | string | PlatformServiceError>
-  | PutEffect<{ type: string; payload: VerificationResponse | string | PlatformServiceError }>;
+  | PutEffect<{
+      type: string;
+      payload: VerificationResponse | string | PlatformServiceError | boolean;
+    }>;
 
 type VerifiedSagaEffect =
   | CallEffect<void | string | PlatformServiceError>
   | PutEffect<{
       type: string;
-      payload: SaveVerificationRequest | string | PlatformServiceError | void;
+      payload: SaveVerificationRequest | string | PlatformServiceError | void | boolean;
     }>;
 
 function* generateVerificationSaga(
   action: PayloadAction<string>
 ): Generator<VerificationSagaEffect, void, VerificationResponse | PlatformServiceError> {
+  yield put(setLoading(true));
   try {
     const response = yield call(platformService.generateVerificationCode, action.payload);
     if ('status' in response) {
@@ -43,14 +48,17 @@ function* generateVerificationSaga(
     }
     yield put(generateVerificationFailure(errorMessage));
   }
+  yield put(setLoading(false));
 }
 
 function* saveVerificationSaga(
   action: PayloadAction<string>
 ): Generator<VerifiedSagaEffect, void, SaveVerificationRequest | PlatformServiceError | void> {
+  yield put(setLoading(true));
   try {
     yield call(platformService.saveVerificationCode, action.payload);
     yield put(saveVerificationSuccess());
+    window.location.reload();
   } catch (error) {
     let errorMessage = 'Failed to save verification code';
     if (error instanceof Error) {
@@ -58,9 +66,11 @@ function* saveVerificationSaga(
     }
     yield put(saveVerificationFailure(errorMessage));
   }
+  yield put(setLoading(false));
 }
 
 function* deletePlatformSaga(action: PayloadAction<Platform>) {
+  yield put(setLoading(true));
   try {
     yield call(platformService.deleteUserPlatformData, action.payload);
   } catch (error) {
@@ -70,6 +80,7 @@ function* deletePlatformSaga(action: PayloadAction<Platform>) {
     }
     yield put(saveVerificationFailure(errorMessage));
   }
+  yield put(setLoading(false));
 }
 
 export function* platformSaga() {

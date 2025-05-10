@@ -170,7 +170,7 @@ const BasicInfoTab: FC<BasicInfoTabProps & FormikProps<User>> = ({
                 </div>
               </div>
               <div className="flex justify-end mt-6">
-                <Button type="submit" disabled={isSubmitting}>
+                <Button variant={'outline'} type="submit" disabled={isSubmitting}>
                   Update
                 </Button>
               </div>

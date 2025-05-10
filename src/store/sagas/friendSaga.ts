@@ -10,14 +10,16 @@ import {
   fetchUserFriendFailure,
 } from '../slices/friendSlices';
 import { PendingRequests, UserFriends } from '@/interface/friend';
+import { setLoading } from '../slices/loadingSlice';
 
 // Define saga effect types
 type FriendSagaEffect =
   | CallEffect<PendingRequests | UserFriends | void>
-  | PutEffect<{ type: string; payload: PendingRequests | UserFriends | string }>;
+  | PutEffect<{ type: string; payload: PendingRequests | UserFriends | string | boolean }>;
 
 // Saga for fetching pending friend requests
 function* fetchPendingRequestsSaga(): Generator<FriendSagaEffect, void, PendingRequests> {
+  yield put(setLoading(true));
   try {
     const pendingRequests = yield call(userService.getPendingFriendRequests);
     yield put(fetchUserPendingSuccess(pendingRequests));
@@ -28,10 +30,12 @@ function* fetchPendingRequestsSaga(): Generator<FriendSagaEffect, void, PendingR
     }
     yield put(fetchUserPendingsFailure(errorMessage));
   }
+  yield put(setLoading(false));
 }
 
 // Saga for fetching all friend requests
 function* fetchFriendRequestsSaga(): Generator<FriendSagaEffect, void, UserFriends> {
+  yield put(setLoading(true));
   try {
     const friendRequests = yield call(userService.getUserFriendRequests);
     yield put(fetchUserFriendSuccess(friendRequests));
@@ -42,6 +46,7 @@ function* fetchFriendRequestsSaga(): Generator<FriendSagaEffect, void, UserFrien
     }
     yield put(fetchUserFriendFailure(errorMessage));
   }
+  yield put(setLoading(false));
 }
 
 // Watcher Saga

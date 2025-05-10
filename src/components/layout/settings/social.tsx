@@ -125,8 +125,8 @@ const SocialsTab: FC<SocialTabProps & FormikProps<Social>> = ({
               </div>
             </div>
 
-            <div className="flex justify-end">
-              <Button type="submit" disabled={isSubmitting}>
+            <div className="flex justify-end mt-4">
+              <Button variant={'outline'} type="submit" disabled={isSubmitting}>
                 Update
               </Button>
             </div>

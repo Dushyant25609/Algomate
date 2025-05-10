@@ -33,11 +33,11 @@ const ConfirmationDialog: FC<ConfirmationDialogProps> = ({
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
           <DialogTitle className="text-xl">{title}</DialogTitle>
-          <DialogDescription className="text-sm mt-2">{description}</DialogDescription>
+          <DialogDescription className="text-sm text-red-500 mt-2">{description}</DialogDescription>
         </DialogHeader>
 
         <DialogFooter className="flex flex-row gap-2 sm:justify-end">
-          <Button onClick={onConfirm} className="flex-1 sm:flex-none">
+          <Button variant={'destructive'} onClick={onConfirm} className="flex-1 sm:flex-none">
             {confirmText}
           </Button>
           <Button variant="outline" onClick={onClose} className="flex-1 sm:flex-none">

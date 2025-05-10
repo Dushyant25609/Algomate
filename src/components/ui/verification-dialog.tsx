@@ -4,7 +4,6 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
-  DialogDescription,
   DialogFooter,
 } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
@@ -16,7 +15,6 @@ interface VerificationDialogProps {
   onClose: () => void;
   onVerify: () => void;
   verificationCode: string;
-  message: string | null;
   instructions: string | null;
   loading: boolean;
   platform: string | null;
@@ -27,7 +25,6 @@ const VerificationDialog: FC<VerificationDialogProps> = ({
   onClose,
   onVerify,
   verificationCode,
-  message,
   instructions,
   loading,
   platform,
@@ -36,22 +33,26 @@ const VerificationDialog: FC<VerificationDialogProps> = ({
     <Dialog open={isOpen} onOpenChange={open => !open && onClose()}>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
-          <DialogTitle className="text-xl">Verification Required for {platform}</DialogTitle>
-          <DialogDescription className="text-sm mt-2">{message}</DialogDescription>
+          <DialogTitle className="text-xl">Verification Required {platform}</DialogTitle>
         </DialogHeader>
 
         <div className="space-y-4 py-4">
+          <p className="text-sm text-red-500 ">{instructions}</p>
           <div
             onClick={() => copyToClipboard(verificationCode)}
             className="bg-background p-3 rounded border text-sm font-mono overflow-x-auto cursor-copy"
           >
             {verificationCode}
           </div>
-          <p className="text-sm text-muted-foreground">{instructions}</p>
         </div>
 
         <DialogFooter className="flex flex-row gap-2 sm:justify-end">
-          <Button onClick={onVerify} disabled={loading} className="flex-1 sm:flex-none">
+          <Button
+            variant={'backdrop'}
+            onClick={onVerify}
+            disabled={loading}
+            className="flex-1 sm:flex-none"
+          >
             {loading ? <Loader size="sm" className="mr-2" /> : null}
             Verify
           </Button>

@@ -26,7 +26,7 @@ interface PlatformTabProps {
 export const PlatformTab: FC<PlatformTabProps> = ({ user }) => {
   const { theme } = useContext(ThemeProviderContext);
   const dispatch = useAppDispatch();
-  const { loading, verificationCode, message, instructions, error } = useAppSelector(
+  const { loading, verificationCode, instructions, error } = useAppSelector(
     state => state.platform.verification
   );
   const [selectedPlatform, setSelectedPlatform] = useState<string | null>(null);
@@ -130,14 +130,10 @@ export const PlatformTab: FC<PlatformTabProps> = ({ user }) => {
     // When loading becomes false after a verification attempt and there's no error
     if (!loading && selectedPlatform && !error && !verificationCode) {
       // Mark the platform as verified
-      setVerifiedPlatforms(prev => ({
-        ...prev,
-        [selectedPlatform]: true,
-      }));
       toast.success(`${selectedPlatform} has been verified successfully`);
       setSelectedPlatform(null);
     }
-  }, [loading, error, verificationCode, selectedPlatform]);
+  }, [error, loading, selectedPlatform, verificationCode]);
 
   const handleClearVerification = () => {
     setSelectedPlatform(null);
@@ -156,7 +152,6 @@ export const PlatformTab: FC<PlatformTabProps> = ({ user }) => {
             onClose={handleClearVerification}
             onVerify={handleVerify}
             verificationCode={verificationCode || ''}
-            message={message}
             instructions={instructions}
             loading={loading}
             platform={selectedPlatform}

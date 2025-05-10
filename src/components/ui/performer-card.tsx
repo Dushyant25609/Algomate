@@ -21,14 +21,14 @@ export function PerformerCard({
   ...props
 }: PerformerCardProps) {
   return (
-    <div className="cursor-pointer" onClick={onClick}>
-      <div className="flex flex-col">
+    <div className="cursor-pointer w-full" onClick={onClick}>
+      <div className="flex flex-col w-full">
         <h3 className="text-lg font-medium text-foreground mb-2 brightness-50">
           {rank[0].toUpperCase()}
           {rank.slice(1)}
         </h3>
         <CardContainer
-          className={cn('bg-card relative p-0 flex items-center rounded-xl', className)}
+          className={cn('bg-card relative p-0 flex items-center rounded-xl w-full', className)}
           {...props}
         >
           <CardBody className="flex items-center w-full">

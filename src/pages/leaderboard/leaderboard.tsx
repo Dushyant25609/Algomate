@@ -40,22 +40,20 @@ const LeaderboardPage: FC = () => {
   const itemsPerPage = 10;
 
   useEffect(() => {
-    dispatch(fetchLeaderboardRequest());
+    if (leaderboardData.length == 0) {
+      dispatch(fetchLeaderboardRequest());
+    }
   }, [dispatch]);
 
   // Handle platform filter change
   const handleSortByChange = (value: LeaderboardSortBy) => {
     setSortBy(value);
     setCurrentPage(1);
-    if (value === 'questions') {
-      dispatch(fetchLeaderboardRequest());
-    } else {
-      dispatch(
-        fetchFilteredLeaderboardRequest({
-          sortBy: value,
-        })
-      );
-    }
+    dispatch(
+      fetchFilteredLeaderboardRequest({
+        sortBy: value,
+      })
+    );
   };
 
   // Pagination - using the pagination data from the API response
@@ -78,10 +76,10 @@ const LeaderboardPage: FC = () => {
         staggerChildren: 0.1,
       }}
     >
-      <div className="flex flex-col flex-wrap md:flex-row gap-3 md:items-center">
-        {topPerformers.map(performer => (
+      <div className="grid md:grid-cols-3 md:gap-3">
+        {topPerformers.map((performer, index) => (
           <PerformerCard
-            key={performer.score}
+            key={index}
             username={performer.profile.username}
             rank={performer.type}
             avatar={performer.avatar}

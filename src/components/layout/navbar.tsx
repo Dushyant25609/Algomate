@@ -40,11 +40,14 @@ const Navbar: FC<NavbarProps> = ({ items = defaultNavItems }) => {
   const pendingCount = pendingRequests.length;
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const friends = useAppSelector(state => state.friend);
 
   useEffect(() => {
-    dispatch(fetchUserPendingRequest());
-    dispatch(fetchUserFriendRequest());
-  }, [dispatch]);
+    if (!friends.friends || !friends.requests) {
+      dispatch(fetchUserFriendRequest());
+      dispatch(fetchUserPendingRequest());
+    }
+  }, [friends.friends, friends.requests]);
 
   const handleLogout = () => {
     // First dispatch the logout action
