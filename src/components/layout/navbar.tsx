@@ -6,7 +6,7 @@ import { NavItem } from '@/interface/navbar';
 import { NavLink } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { navbarAnimationProps, navItemUnderlineProps } from '@/motion/navbar-animations';
-import { FC, memo, useState } from 'react';
+import { FC, memo, useEffect, useState } from 'react';
 import { Menu, X, User, Settings, LogOut, Bell } from 'lucide-react';
 import UserAvatar from '../ui/avatar/user-avatar';
 import { useAppSelector, useAppDispatch } from '@/store';
@@ -22,6 +22,7 @@ import { useNavigate } from 'react-router-dom';
 import { AppRoutes, generatePath } from '@/lib/routes';
 import NotificationDropdown from '../ui/notification-dropdown';
 import algomate from '@/assets/logo.svg';
+import { fetchUserFriendRequest, fetchUserPendingRequest } from '@/store/slices/friendSlices';
 
 interface NavbarProps {
   items?: NavItem[];
@@ -33,10 +34,15 @@ const Navbar: FC<NavbarProps> = ({ items = defaultNavItems }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
   const user = useAppSelector(state => state.user);
-  const pendingRequests = user?.friends?.pending?.filter(req => req.type === 'received') || [];
+  const pendingRequests = useAppSelector(state => state.friend.requests.requests);
   const pendingCount = pendingRequests.length;
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    dispatch(fetchUserPendingRequest());
+    dispatch(fetchUserFriendRequest());
+  }, [dispatch]);
 
   const handleLogout = () => {
     // First dispatch the logout action

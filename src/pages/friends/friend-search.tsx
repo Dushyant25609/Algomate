@@ -165,11 +165,6 @@ const FriendSearch: FC = () => {
     }
   }, [searchError]);
 
-  useEffect(() => {
-    dispatch(fetchUserPendingRequest());
-    dispatch(fetchUserFriendRequest());
-  }, [dispatch]);
-
   const handleSendRequest = async (username: string) => {
     try {
       await userService.sendFriendRequest(username);
