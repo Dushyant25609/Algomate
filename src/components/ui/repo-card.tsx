@@ -87,50 +87,55 @@ const GitHubRepoCards: FC<ReposProps> = ({ repositories }) => {
                 transition={{ delay: index * 0.05 }}
                 layout
               >
-                <Card className="h-full cursor-pointer" onClick={() => handleRepoClick(repo)}>
-                  <CardHeader>
-                    <motion.div variants={titleVariants}>
-                      <CardTitle className="flex items-center justify-between">
-                        <p className="w-full">{repo.name}</p>
-                        <span className="text-sm text-gray-500">
-                          {repo.private ? 'Private' : 'Public'}
-                        </span>
-                      </CardTitle>
-                    </motion.div>
-                  </CardHeader>
-                  <CardContent className="space-y-2">
-                    <motion.div
-                      className="flex items-center space-x-4 text-gray-600 text-sm"
-                      variants={statsVariants}
-                    >
-                      <div className="flex items-center">
-                        <Code className="w-4 h-4 mr-1" /> {repo.language}
-                      </div>
-                      <div className="flex items-center">
-                        <Star className="w-4 h-4 mr-1" /> {repo.stargazers_count}
-                      </div>
-                      <div className="flex items-center">
-                        <GitBranch className="w-4 h-4 mr-1" /> {repo.forks_count}
-                      </div>
-                    </motion.div>
-                    <motion.div variants={buttonVariants} whileHover="hover">
-                      <Button className="w-full" asChild size="sm" variant="secondary">
-                        <a
-                          href={repo.html_url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          onClick={e => e.stopPropagation()} // Prevent card click when clicking the button
-                          className="flex items-center justify-center"
-                        >
-                          <div className="flex items-center justify-center">
-                            <ExternalLink className="w-4 h-4 mr-1" />
-                            <span>View Repo</span>
-                          </div>
-                        </a>
-                      </Button>
-                    </motion.div>
-                  </CardContent>
-                </Card>
+                <div className="p-[1px] rounded-2xl bg-gradient-to-t from-transparent via-accent to-accent">
+                  <Card
+                    className="h-full cursor-pointer rounded-2xl bg-card"
+                    onClick={() => handleRepoClick(repo)}
+                  >
+                    <CardHeader>
+                      <motion.div variants={titleVariants}>
+                        <CardTitle className="flex items-center justify-between">
+                          <p className="w-full">{repo.name}</p>
+                          <span className="text-sm text-gray-500">
+                            {repo.private ? 'Private' : 'Public'}
+                          </span>
+                        </CardTitle>
+                      </motion.div>
+                    </CardHeader>
+                    <CardContent className="space-y-2">
+                      <motion.div
+                        className="flex items-center space-x-4 text-gray-600 text-sm"
+                        variants={statsVariants}
+                      >
+                        <div className="flex items-center">
+                          <Code className="w-4 h-4 mr-1" /> {repo.language}
+                        </div>
+                        <div className="flex items-center">
+                          <Star className="w-4 h-4 mr-1" /> {repo.stargazers_count}
+                        </div>
+                        <div className="flex items-center">
+                          <GitBranch className="w-4 h-4 mr-1" /> {repo.forks_count}
+                        </div>
+                      </motion.div>
+                      <motion.div variants={buttonVariants} whileHover="hover">
+                        <Button className="w-full" asChild size="sm" variant="outline">
+                          <a
+                            href={repo.html_url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            onClick={e => e.stopPropagation()}
+                            className="flex items-center justify-center"
+                          >
+                            <div className="flex items-center justify-center">
+                              <ExternalLink className="w-4 h-4 mr-1" />
+                              <span>View Repo</span>
+                            </div>
+                          </a>
+                        </Button>
+                      </motion.div>
+                    </CardContent>
+                  </Card>
+                </div>
               </motion.div>
             ))}
           </AnimatePresence>
@@ -158,7 +163,7 @@ const GitHubRepoCards: FC<ReposProps> = ({ repositories }) => {
               {Array.from({ length: totalPages }, (_, i) => i + 1).map(pageNumber => (
                 <motion.div key={pageNumber} whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }}>
                   <Button
-                    variant={currentPage === pageNumber ? 'default' : 'ghost'}
+                    variant={currentPage === pageNumber ? 'backdrop' : 'ghost'}
                     size="sm"
                     onClick={() => goToPage(pageNumber)}
                     className="h-8 w-8 p-0"
