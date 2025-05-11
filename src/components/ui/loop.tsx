@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { Footer } from '../layout/footer';
 
 export default function LoopingIndex() {
   const arr = [1, 3, 2, 4];
@@ -15,12 +16,15 @@ export default function LoopingIndex() {
   }, [arr.length, paused]);
 
   return (
-    <div
-      className="flex items-center justify-center h-screen text-2xl font-bold"
-      onMouseEnter={() => setPaused(true)}
-      onMouseLeave={() => setPaused(false)}
-    >
-      Index: {index}
-    </div>
+    <>
+      <div
+        className="flex items-center justify-center h-screen text-2xl font-bold"
+        onMouseEnter={() => setPaused(true)}
+        onMouseLeave={() => setPaused(false)}
+      >
+        Index: {index}
+      </div>
+      <Footer />
+    </>
   );
 }

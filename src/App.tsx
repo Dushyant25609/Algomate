@@ -13,7 +13,6 @@ import { updateProfileRequest } from './store/slices/profileSlices';
 import { SpeedInsights } from '@vercel/speed-insights/react';
 import { Analytics } from '@vercel/analytics/react';
 import { User } from './interface/user';
-import { Footer } from './components/layout/footer';
 
 function App() {
   const isAuthenticated = useAppSelector(state => state.user.isAuthenticated);
@@ -53,7 +52,6 @@ function App() {
       <Toaster />
       <SpeedInsights />
       <Analytics />
-      <Footer />
     </LoadingProvider>
   );
 }
