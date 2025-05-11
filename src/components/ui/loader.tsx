@@ -63,7 +63,7 @@ export const Loader: FC<LoaderProps> = ({
   return (
     <Wrapper
       className={cn(
-        'flex items-center justify-center',
+        'fixed z-50 h-screen w-screen inset-0 flex items-center justify-center',
         fullScreen && 'fixed inset-0 z-50',
         className
       )}
