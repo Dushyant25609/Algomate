@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Bruno+Ace+SC&family=PT+Sans+Narrow&display=swap');
 @import 'tailwindcss';
 @plugin 'tailwindcss-animate';
 @custom-variant dark (&:is(.dark *));
@@ -15,7 +16,8 @@
   --secondary-foreground: #e0e0e0;
   --muted: #e0e0e0;
   --muted-foreground: #205a9c;
-  --accent: #45b1ff;
+  --accent: #0095ff;
+  --bright-accent: #297ebb;
   --accent-foreground: #2c2c2c;
   --destructive: #ff5252;
   --destructive-foreground: #ffffff;
@@ -69,7 +71,8 @@
   --secondary-foreground: #e0e0e0;
   --muted: #2c2c2c;
   --muted-foreground: #45b1ff;
-  --accent: #45b1ff;
+  --accent: #0095ff;
+  --bright-accent: #86cdff;
   --accent-foreground: #2c2c2c;
   --destructive: #ff1744;
   --destructive-foreground: #ffffff;
@@ -95,6 +98,7 @@
 }
 
 @theme inline {
+  --font-long: "Bebas Neue", sans-serif;
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -108,6 +112,7 @@
   --color-muted: var(--muted);
   --color-muted-foreground: var(--muted-foreground);
   --color-accent: var(--accent);
+  --color-bright-accent: var(--bright-accent);
   --color-accent-foreground: var(--accent-foreground);
   --color-destructive: var(--destructive);
   --color-destructive-foreground: var(--destructive-foreground);
