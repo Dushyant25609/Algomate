@@ -16,7 +16,7 @@ export default function LoopingIndex() {
   }, [arr.length, paused]);
 
   return (
-    <>
+    <div className="flex flex-col">
       <div
         className="flex items-center justify-center h-screen text-2xl font-bold"
         onMouseEnter={() => setPaused(true)}
@@ -25,6 +25,6 @@ export default function LoopingIndex() {
         Index: {index}
       </div>
       <Footer />
-    </>
+    </div>
   );
 }
