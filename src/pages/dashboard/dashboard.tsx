@@ -45,10 +45,8 @@ const Dashboard: FC = () => {
 
   // We use the username from props instead of trying to modify the URL params
   useEffect(() => {
-    if (!profile) {
-      dispatch(GetPublicProfile(username));
-    }
-  }, [username, dispatch, profile]);
+    dispatch(GetPublicProfile(username));
+  }, []);
   return (
     <div className="max-w-11/12 md:max-w-full  xl:max-w-11/12 py-3 flex flex-col gap-3">
       <div className="flex flex-col justify-center md:flex-row gap-3">

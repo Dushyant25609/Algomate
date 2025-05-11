@@ -19,7 +19,10 @@ export function Footer({ className }: FooterProps) {
               <h3 className="mb-3 text-sm font-semibold text-card-foreground">Quick Links</h3>
               <ul className="space-y-2">
                 <li>
-                  <Link to="/" className="text-xs text-card-foreground/80 hover:text-card-foreground hover:underline">
+                  <Link
+                    to="/"
+                    className="text-xs text-card-foreground/80 hover:text-card-foreground hover:underline"
+                  >
                     Home
                   </Link>
                 </li>

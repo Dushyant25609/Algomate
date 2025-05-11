@@ -98,7 +98,7 @@
 }
 
 @theme inline {
-  --font-long: "Bebas Neue", sans-serif;
+  --font-long: 'Bebas Neue', sans-serif;
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
