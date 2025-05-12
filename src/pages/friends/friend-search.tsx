@@ -142,7 +142,11 @@ const FriendSearch: FC = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const user = useAppSelector(state => state.user);
   const requests = useAppSelector(state => state.friend.requests);
-  const friends = useAppSelector(state => state.friend.friends);
+  const friend = useAppSelector(state => state.friend.friends);
+  const friends = {
+    friends: friend.friends.filter(frnd => frnd !== 'null'),
+    avatars: friend.avatars,
+  };
   const dispatch = useAppDispatch();
   const { searchResults, searchError } = useAppSelector(state => state.user);
 
@@ -312,7 +316,7 @@ const FriendSearch: FC = () => {
                       requests.requests.map((request, index) => (
                         <div
                           key={request.username}
-                          className={`flex cursor-pointer items-center odd:bg-background even:bg-card hover:bg-accent/30 justify-between p-4 ${index % 2 === 0 ? 'bg-secondary/10' : 'bg-secondary/30'} hover:bg-secondary/50 transition-colors duration-200 ${index !== requests.requests.filter(req => req.type === 'received').length - 1 ? 'border-b border-border/30' : ''}`}
+                          className={`flex cursor-pointer items-center odd:bg-background even:bg-card hover:bg-accent/30 justify-between p-4 ${index % 2 === 0 ? 'bg-secondary/10' : 'bg-secondary/30'} hover:bg-secondary/50 transition-colors duration-200 ${index !== requests.requests.filter(req => req.type === 'received').length - 1 ? 'border-b border-border-/30' : ''}`}
                         >
                           <div className="flex items-center gap-3">
                             <UserAvatar publicAvatar={requests.avatars[index]} />
@@ -362,7 +366,7 @@ const FriendSearch: FC = () => {
       {friends && friends.friends && (
         <motion.div variants={itemVariants} className="flex flex-col gap-3 w-1/2">
           <Card className="shadow-md w-full">
-            <CardHeader className="text-xl flex-row font-semibold items-center gap-2">
+            <CardHeader className="text-xl flex flex-row font-semibold items-center gap-2">
               Your Friends
               {friends && friends.friends.length > 0 && (
                 <span className="bg-primary/20 text-primary text-xs px-2 py-0.5 rounded-full">

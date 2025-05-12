@@ -111,7 +111,6 @@ function* PublicProfileSaga(
 export function* SearchSaga(
   action: PayloadAction<string>
 ): Generator<SearchUserSagaEffect, void, SearchResponse> {
-  yield put(setLoading(true));
   try {
     const searchResponse: SearchResponse = yield call(userService.searchUsers, action.payload);
     yield put(searchSuccess(searchResponse));
@@ -121,8 +120,6 @@ export function* SearchSaga(
       errorMessage = error.response?.data?.message || error.message || errorMessage;
     }
     yield put(searchFailure(errorMessage));
-  } finally {
-    yield put(setLoading(false));
   }
 }
 

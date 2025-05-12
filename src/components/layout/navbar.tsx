@@ -37,16 +37,20 @@ const Navbar: FC<NavbarProps> = ({ items = defaultNavItems }) => {
   const pendingRequests = useAppSelector(state => state.friend.requests.requests).filter(
     request => request.type === 'received'
   );
+  const sent = useAppSelector(state => state.friend.sent);
+  const friend = useAppSelector(state => state.friend);
   const pendingCount = pendingRequests.length;
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (pendingRequests.length) {
+    if (!sent && !friend.friends.friends.length) {
       dispatch(fetchUserFriendRequest());
+    }
+    if (!sent && !friend.requests.requests.length) {
       dispatch(fetchUserPendingRequest());
     }
-  }, [pendingRequests.length]);
+  }, [dispatch, friend, sent]);
 
   const handleLogout = () => {
     // First dispatch the logout action
