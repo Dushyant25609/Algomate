@@ -97,19 +97,21 @@ function* PublicProfileSaga(
   try {
     const userData = yield call(userService.getPublicUserProfile, action.payload);
     yield put(publicProfileSuccess(userData as PublicProfile));
+    yield put(setLoading(false));
   } catch (error) {
     let errorMessage = 'Failed to fetch user data';
     if (error instanceof AxiosError) {
       errorMessage = error.response?.data?.message || error.message || errorMessage;
     }
     yield put(profileFailure(errorMessage));
+    yield put(setLoading(false));
   }
-  yield put(setLoading(false));
 }
 
 export function* SearchSaga(
   action: PayloadAction<string>
 ): Generator<SearchUserSagaEffect, void, SearchResponse> {
+  yield put(setLoading(true));
   try {
     const searchResponse: SearchResponse = yield call(userService.searchUsers, action.payload);
     yield put(searchSuccess(searchResponse));
@@ -119,6 +121,8 @@ export function* SearchSaga(
       errorMessage = error.response?.data?.message || error.message || errorMessage;
     }
     yield put(searchFailure(errorMessage));
+  } finally {
+    yield put(setLoading(false));
   }
 }
 

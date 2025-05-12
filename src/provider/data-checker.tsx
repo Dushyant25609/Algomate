@@ -33,7 +33,7 @@ const DataProvider = ({ children }: DataProviderProps) => {
       return;
     }
     dispatch(loginRequest());
-  }, [dispatch, hasSessionCookie, navigate, user.isAuthenticated, user.username]);
+  }, [dispatch, hasSessionCookie, user.isAuthenticated, user.username]);
 
   useEffect(() => {
     if (avatar.avatarConfig != null) {

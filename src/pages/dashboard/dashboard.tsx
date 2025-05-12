@@ -33,19 +33,26 @@ const Dashboard: FC = () => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
+    // Only update profile if authenticated, has required tokens, and hasn't been updated yet
     if (
       !profile.updated &&
       user.isAuthenticated &&
       user &&
-      (user.githubToken || (user.platforms && user.platforms.leetcode))
+      (user.githubToken || (user.platforms && user.platforms.leetcode)) &&
+      username
     ) {
       dispatch(updateProfileRequest(username));
+      console.log('Updated profile');
     }
   });
 
   // We use the username from props instead of trying to modify the URL params
   useEffect(() => {
-    dispatch(GetPublicProfile(username));
+    // Only fetch profile if it doesn't exist or if we have a new username
+    if (!profile || !profile.user || profile.user.username !== username) {
+      dispatch(GetPublicProfile(username));
+      console.log('Fetching profile');
+    }
   });
   return (
     <div className="max-w-11/12 md:max-w-full  xl:max-w-11/12 py-3 flex flex-col gap-3">

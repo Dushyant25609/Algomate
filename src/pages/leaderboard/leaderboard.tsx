@@ -40,10 +40,10 @@ const LeaderboardPage: FC = () => {
   const itemsPerPage = 10;
 
   useEffect(() => {
-    if (leaderboardData.length == 0) {
+    if (leaderboardData.length === 0 && !loading) {
       dispatch(fetchLeaderboardRequest());
     }
-  }, [dispatch, leaderboardData]);
+  }, [dispatch, leaderboardData, loading]);
 
   // Handle platform filter change
   const handleSortByChange = (value: LeaderboardSortBy) => {

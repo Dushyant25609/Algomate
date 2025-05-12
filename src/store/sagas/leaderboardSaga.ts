@@ -40,6 +40,7 @@ function* fetchLeaderboardSaga(): Generator<
 function* fetchFilteredLeaderboardSaga(
   action: PayloadAction<LeaderboardRequest>
 ): Generator<LeaderboardSagaEffect, void, LeaderboardResponse> {
+  yield put(setLoading(true));
   try {
     const response: LeaderboardResponse = yield call(
       leaderboardService.getFilteredLeaderboard,
@@ -50,6 +51,8 @@ function* fetchFilteredLeaderboardSaga(
     const errorMessage =
       error instanceof Error ? error.message : 'Failed to fetch filtered leaderboard data';
     yield put(fetchLeaderboardFailure(errorMessage));
+  } finally {
+    yield put(setLoading(false));
   }
 }
 
