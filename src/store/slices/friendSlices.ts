@@ -57,6 +57,7 @@ export const FriendSlice = createSlice({
     fetchUserFriendFailure: (state, action: PayloadAction<string>) => {
       state.sent = false;
       state.error = action.payload;
+      state.friends = { friends: ['null'], avatars: [] };
     },
     clearFriend: () => {
       return initialState;
