@@ -4,29 +4,24 @@ import { AuthPage } from '@/pages/auth/auth-page';
 import { AuthRoutes } from './Routes/authRoutes';
 import { PublicRoutes } from './Routes/publicRoutes';
 import { Toaster } from './components/ui/sonner';
-import LoopingIndex from './components/ui/loop';
 import { useAppSelector } from './store';
 import { AppRoutes } from './lib/routes';
 import { SpeedInsights } from '@vercel/speed-insights/react';
 import { Analytics } from '@vercel/analytics/react';
+import Home from './pages/home/home';
 
 function App() {
   const isAuthenticated = useAppSelector(state => state.user.isAuthenticated);
   return (
     <>
       <Navbar />
+      <Routes>
+        <Route path={AppRoutes.HOME} element={<Home />} />
+      </Routes>
       <div className="flex mx-auto justify-center items-center max-w-11/12 md:max-w-full  xl:max-w-11/12 ">
         {isAuthenticated && <AuthRoutes />}
         <PublicRoutes />
         <Routes>
-          <Route
-            path={AppRoutes.HOME}
-            element={
-              <>
-                <LoopingIndex />
-              </>
-            }
-          />
           <Route path={AppRoutes.AUTH_CONNECT} element={<AuthPage />} />
           {!isAuthenticated && <Route path={AppRoutes.WILDCARD} element={<AuthPage />} />}
         </Routes>

@@ -4,9 +4,9 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  --background: #f0f7ff;
+  --background: #F3F4F6;
   --foreground: #2c2c2c;
-  --card: #ffffff;
+  --card: ##FFFFFF;
   --card-foreground: #2c2c2c;
   --popover: #45b1ff;
   --popover-foreground: #2c2c2c;
@@ -24,7 +24,7 @@
   --border: #205a9c;
   --input: #82cfff;
   --ring: #023c7e;
-  --navbar: #ffffff;
+  --navbar: ##FFFFFF;
 
   --chart-1: #45b1ff;
   --chart-2: #205a9c;
@@ -146,7 +146,17 @@
       transform: translate(calc(-50% - 0.5rem));
     }
   }
-}
+
+  --animate-ripple: ripple var(--duration,2s) ease calc(var(--i, 0)*.2s) infinite
+;
+  @keyframes ripple {
+  0%, 100% {
+    transform: translate(-50%, -50%) scale(1);
+    }
+  50% {
+    transform: translate(-50%, -50%) scale(0.9);
+    }
+  }}
 
 @layer base {
   * {
@@ -165,5 +175,14 @@
   * {
     -ms-overflow-style: none; /* IE and Edge */
     scrollbar-width: none; /* Firefox */
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
   }
 }

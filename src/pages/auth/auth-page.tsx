@@ -9,10 +9,15 @@ import { useNavigate, useLocation } from 'react-router-dom';
 
 export const AuthPage: FC = () => {
   const dispatch = useAppDispatch();
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
   const isAuthenticated = useAppSelector(state => state.user.isAuthenticated);
   const navigate = useNavigate();
   const location = useLocation();
+  useEffect(() => {
+    if (location.pathname === '/auth/connect' || (!isAuthenticated && location.pathname !== '/')) {
+      setIsOpen(true);
+    }
+  }, [isAuthenticated, location.pathname]);
 
   // Get the previous location from state or default to home
   const from = location.state?.from?.pathname || '/';
