@@ -202,9 +202,11 @@ const LeaderboardPage: FC = () => {
                     </td>
                     <td className="px-4 py-4 whitespace-nowrap hidden lg:table-cell">
                       <div className="text-sm font-bold text-primary">
-                        {Math.round(
-                          entry.leetcode?.contest.userContestRanking.rating || 0
-                        ).toLocaleString()}
+                        {entry.leetcode?.contest.userContestRanking.rating
+                          ? Math.round(
+                              entry.leetcode?.contest?.userContestRanking?.rating
+                            ).toLocaleString()
+                          : 'N/A'}
                       </div>
                     </td>
                     <td className="px-4 py-4 whitespace-nowrap hidden lg:table-cell">
@@ -214,7 +216,7 @@ const LeaderboardPage: FC = () => {
                     </td>
                     <td className="px-4 py-4 whitespace-nowrap hidden lg:table-cell">
                       <div className="text-sm">
-                        {entry.leetcode?.profile.profile.ranking.toLocaleString() || 'N/A'}
+                        {entry.leetcode?.profile?.profile?.ranking?.toLocaleString() || 'N/A'}
                       </div>
                     </td>
                   </tr>
