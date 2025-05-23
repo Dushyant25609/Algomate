@@ -21,7 +21,7 @@ import { logout } from '@/store/slices/userSlice';
 import { useNavigate } from 'react-router-dom';
 import { AppRoutes, generatePath } from '@/lib/routes';
 import NotificationDropdown from '../ui/notification-dropdown';
-import algomate from '@/assets/logo2.svg';
+import algomate from '@/assets/Logo2.svg';
 import { fetchUserFriendRequest, fetchUserPendingRequest } from '@/store/slices/friendSlices';
 
 interface NavbarProps {
