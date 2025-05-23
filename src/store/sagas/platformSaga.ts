@@ -31,7 +31,6 @@ type VerifiedSagaEffect =
 function* generateVerificationSaga(
   action: PayloadAction<string>
 ): Generator<VerificationSagaEffect, void, VerificationResponse | PlatformServiceError> {
-  yield put(setLoading(true));
   try {
     const response = yield call(platformService.generateVerificationCode, action.payload);
     if ('status' in response) {
@@ -48,7 +47,6 @@ function* generateVerificationSaga(
     }
     yield put(generateVerificationFailure(errorMessage));
   }
-  yield put(setLoading(false));
 }
 
 function* saveVerificationSaga(

@@ -8,7 +8,7 @@ interface FooterProps {
 
 export function Footer({ className }: FooterProps) {
   return (
-    <footer className={cn('relative w-full overflow-hidden self-end', className)}>
+    <footer className={cn('relative bottom-0 w-screen overflow-hidden', className)}>
       {/* Gradient Background with KROWW text */}
       <div className="w-full overflow-hidden bg-gradient-to-b from-background dark:via-accent dark:to-bright-accent via-accent to-bright-accent">
         {/* Footer Content */}

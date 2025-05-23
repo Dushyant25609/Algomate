@@ -4,9 +4,9 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  --background: #F3F4F6;
+  --background: #f3f4f6;
   --foreground: #2c2c2c;
-  --card: ##FFFFFF;
+  --card: ##ffffff;
   --card-foreground: #2c2c2c;
   --popover: #45b1ff;
   --popover-foreground: #2c2c2c;
@@ -24,7 +24,7 @@
   --border: #205a9c;
   --input: #82cfff;
   --ring: #023c7e;
-  --navbar: ##FFFFFF;
+  --navbar: ##ffffff;
 
   --chart-1: #45b1ff;
   --chart-2: #205a9c;
@@ -147,16 +147,17 @@
     }
   }
 
-  --animate-ripple: ripple var(--duration,2s) ease calc(var(--i, 0)*.2s) infinite
-;
+  --animate-ripple: ripple var(--duration, 2s) ease calc(var(--i, 0) * 0.2s) infinite;
   @keyframes ripple {
-  0%, 100% {
-    transform: translate(-50%, -50%) scale(1);
+    0%,
+    100% {
+      transform: translate(-50%, -50%) scale(1);
     }
-  50% {
-    transform: translate(-50%, -50%) scale(0.9);
+    50% {
+      transform: translate(-50%, -50%) scale(0.9);
     }
-  }}
+  }
+}
 
 @layer base {
   * {
