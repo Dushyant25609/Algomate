@@ -202,7 +202,7 @@ const LeaderboardPage: FC = () => {
                     </td>
                     <td className="px-4 py-4 whitespace-nowrap hidden lg:table-cell">
                       <div className="text-sm font-bold text-primary">
-                        {entry.leetcode?.contest.userContestRanking.rating
+                        {entry.leetcode?.contest.userContestRanking
                           ? Math.round(
                               entry.leetcode?.contest?.userContestRanking?.rating
                             ).toLocaleString()
