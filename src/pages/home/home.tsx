@@ -3,6 +3,7 @@ import { BackgroundBeamsWithCollision } from '@/components/ui/background-beams-w
 import PlatformFeatures from '@/components/ui/platform_features';
 import { memo } from 'react';
 import { motion } from 'framer-motion';
+import AvatarJourney from '@/components/ui/avatar-journey';
 
 const home = () => {
   return (
@@ -15,10 +16,10 @@ const home = () => {
         <HeroSection />
 
         <motion.div
-          className="w-full max-w-6xl mx-auto px-4 md:px-6 lg:px-8 py-16"
-          initial={{ opacity: 0, y: 30 }}
+          className="w-full my-64 px-4 sm:px-6 lg:px-8 "
+          initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.5 }}
+          transition={{ type: 'spring', stiffness: 100, damping: 15, delay: 0.5 }}
         >
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent inline-block mb-4">
@@ -28,8 +29,9 @@ const home = () => {
               Combine your coding stats from multiple platforms into one unified profile
             </p>
           </div>
-          <PlatformFeatures className="max-w-4xl mx-auto" />
+          <PlatformFeatures />
         </motion.div>
+        <AvatarJourney />
       </div>
     </div>
   );
