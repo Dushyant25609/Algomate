@@ -15,7 +15,6 @@ const HeroSection = () => {
   const navigate = useNavigate();
   const [isVisible, setIsVisible] = useState(false);
   const isAuthenticated = useAppSelector(state => state.user.isAuthenticated);
-
   useEffect(() => {
     setIsVisible(true);
   }, []);
