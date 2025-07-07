@@ -8,11 +8,13 @@ import { useNavigate } from 'react-router-dom';
 import { AppRoutes } from '@/lib/routes';
 import { motion } from 'framer-motion';
 import logo from '@/assets/Logo2.svg';
+import { useAppSelector } from '@/store';
 
 const HeroSection = () => {
   const { theme } = useContext(ThemeProviderContext);
   const navigate = useNavigate();
   const [isVisible, setIsVisible] = useState(false);
+  const isAuthenticated = useAppSelector(state => state.user.isAuthenticated);
 
   useEffect(() => {
     setIsVisible(true);
@@ -51,15 +53,22 @@ const HeroSection = () => {
             Compete with friends. Track your growth. Customize your developer identity.
           </p>
           <div className="flex w-full flex-col lg:flex-row items-center gap-3 md:gap-4  md:max-w-md mt-4 md:mt-6">
+            {!isAuthenticated && (
+              <Button
+                className="w-full py-6 text-base"
+                onClick={() => navigate(AppRoutes.AUTH_CONNECT)}
+                variant={'backdrop'}
+                size="lg"
+              >
+                Get Started
+              </Button>
+            )}
             <Button
               className="w-full py-6 text-base"
-              onClick={() => navigate(AppRoutes.AUTH_CONNECT)}
-              variant={'backdrop'}
+              onClick={() => window.open('https://discord.gg/yF2S87QwQS', '_blank')}
+              variant={'outline'}
               size="lg"
             >
-              Get Started
-            </Button>
-            <Button className="w-full py-6 text-base" variant={'outline'} size="lg">
               Connect with Us
             </Button>
           </div>
